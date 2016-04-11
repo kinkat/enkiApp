@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function MainController($timeout, webDevTec, memoCards,  toastr) {
     var vm = this;
 
     vm.awesomeThings = [];
@@ -14,9 +14,14 @@
     vm.creationDate = 1460369567036;
     vm.showToastr = showToastr;
 
+    vm.allCards = [];
+
     activate();
 
+
+
     function activate() {
+      showCards();
       getWebDevTec();
       $timeout(function() {
         vm.classAnimation = 'rubberBand';
@@ -35,5 +40,14 @@
         awesomeThing.rank = Math.random();
       });
     }
+
+    function showCards() {
+      vm.allCards = memoCards.showCards();
+
+      angular.forEach(vm.allCards, function(card) {
+        card.rank = Math.random();
+      });
+    }
+
   }
 })();
