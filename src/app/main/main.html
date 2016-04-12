@@ -10,12 +10,12 @@
     </div>
 
     <p class="lead">
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="card in main.allCards">
-        <img ng-src="assets/images/{{ card.logo }}" alt="{{ card.title }}">
+  <!-- <ul class="list-group"> -->
+    <div class="container">
+        <img width="100px" ng-src="assets/images/{{ card.logo }}" alt="{{ card.title }}" ng-repeat="card in main.allCards" ng-click="main.clickCard(card)">
 
-    </li>
-  </ul>
+    </div>
+ <!--  </ul> -->
     </p>
 
   </div>

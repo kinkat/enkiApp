@@ -15,9 +15,9 @@
     vm.showToastr = showToastr;
 
     vm.allCards = [];
+    vm.clickCard = clickCard;
 
     activate();
-
 
 
     function activate() {
@@ -43,10 +43,11 @@
 
     function showCards() {
       vm.allCards = memoCards.showCards();
+      console.log(vm.allCards);
+    }
 
-      angular.forEach(vm.allCards, function(card) {
-        card.rank = Math.random();
-      });
+    function clickCard(card) {
+        console.log("Klikniety");
     }
 
   }

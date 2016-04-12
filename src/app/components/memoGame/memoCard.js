@@ -11,22 +11,42 @@
       {
         'title': 'czeresnia',
         'logo': 'czeresnia.jpg',
-        'front': 'false'
+        'frontside': 'false'
       },
       {
         'title': 'pomarancz',
         'logo': 'pomarancz.jpg',
-        'front': 'false'
+        'frontside': 'false'
       },
       {
         'title': 'truskawka',
         'logo': 'truskawka.jpg',
-        'front': 'false'
+        'frontside': 'false'
       },
       {
         'title': 'winogrona',
         'logo': 'winogrona.jpg',
-        'front': 'false'
+        'frontside': 'false'
+      },
+      {
+        'title': 'czeresnia',
+        'logo': 'czeresnia.jpg',
+        'frontside': 'false'
+      },
+      {
+        'title': 'pomarancz',
+        'logo': 'pomarancz.jpg',
+        'frontside': 'false'
+      },
+      {
+        'title': 'truskawka',
+        'logo': 'truskawka.jpg',
+        'frontside': 'false'
+      },
+      {
+        'title': 'winogrona',
+        'logo': 'winogrona.jpg',
+        'frontside': 'false'
       }
     ];
 
