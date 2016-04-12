@@ -10,43 +10,51 @@
     var deck = [
       {
         'title': 'czeresnia',
-        'logo': 'czeresnia.jpg',
-        'frontside': 'false'
+        'frontPic': 'czeresnia.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'pomarancz',
-        'logo': 'pomarancz.jpg',
-        'frontside': 'false'
+        'frontPic': 'pomarancz.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'truskawka',
-        'logo': 'truskawka.jpg',
-        'frontside': 'false'
+        'frontPic': 'truskawka.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'winogrona',
-        'logo': 'winogrona.jpg',
-        'frontside': 'false'
+        'frontPic': 'winogrona.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'czeresnia',
-        'logo': 'czeresnia.jpg',
-        'frontside': 'false'
+        'frontPic': 'czeresnia.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'pomarancz',
-        'logo': 'pomarancz.jpg',
-        'frontside': 'false'
+        'frontPic': 'pomarancz.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'truskawka',
-        'logo': 'truskawka.jpg',
-        'frontside': 'false'
+        'frontPic': 'truskawka.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       },
       {
         'title': 'winogrona',
-        'logo': 'winogrona.jpg',
-        'frontside': 'false'
+        'frontPic': 'winogrona.jpg',
+        'backPic': 'yeoman.png',
+        'class': 'card-size'
       }
     ];
 

@@ -12,3 +12,9 @@
 .thumbnail img.pull-right {
   width: 50px;
 }
+
+.card-size {
+    width: 100px;
+   height: 100px;
+}
+

@@ -16,6 +16,9 @@
 
     vm.allCards = [];
     vm.clickCard = clickCard;
+    vm.cardClickedFirst;
+    vm.cardClickedSecond;
+
 
     activate();
 
@@ -47,7 +50,13 @@
     }
 
     function clickCard(card) {
-        console.log("Klikniety");
+
+        card.backPic = card.frontPic;
+
+
+
+
+
     }
 
   }
