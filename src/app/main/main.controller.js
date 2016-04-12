@@ -16,9 +16,8 @@
 
     vm.allCards = [];
     vm.clickCard = clickCard;
-    vm.cardClickedFirst;
-    vm.cardClickedSecond;
 
+    vm.selectedCards = [];
 
     activate();
 
@@ -46,18 +45,36 @@
 
     function showCards() {
       vm.allCards = memoCards.showCards();
-      console.log(vm.allCards);
     }
+
 
     function clickCard(card) {
 
+        if (card.blocked) {
+            return;
+        }
+        var selectedCards = [];
         card.backPic = card.frontPic;
-
-
-
-
+        card.selected = true;
+        checkCards(card);
 
     }
+
+    function checkCards(cardget){
+
+            if (!vm.selectedCards.length) {
+                 vm.selectedCards.push(cardget);
+
+            } else if (cardget.title === vm.selectedCards[0].title)  {
+                console.log('pasuje');
+                vm.selectedCards = [];
+                console.log(vm.selectedCards);
+            } else {
+                console.log("nie pasuje, dokoncze jutro, milego dnia");
+                vm.selectedCards = [];
+            }
+
+    };
 
   }
 })();
