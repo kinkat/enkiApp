@@ -18,6 +18,10 @@
     vm.clickCard = clickCard;
 
     vm.selectedCards = [];
+    vm.firstCard;
+    vm.secondCard;
+    vm.oldCards = [];
+    vm.doneCards = [];
 
     activate();
 
@@ -63,15 +67,26 @@
     function checkCards(cardget){
 
             if (!vm.selectedCards.length) {
-                 vm.selectedCards.push(cardget);
+                if (vm.oldCards.length > 0) {
+                        vm.oldCards.forEach(function(item){
+                            item.backPic = 'yeoman.png';
+                        })
+
+                }
+                vm.oldCards.length = 0;
+                vm.selectedCards.push(cardget);
 
             } else if (cardget.title === vm.selectedCards[0].title)  {
-                console.log('pasuje');
+
                 vm.selectedCards = [];
-                console.log(vm.selectedCards);
+
             } else {
-                console.log("nie pasuje, dokoncze jutro, milego dnia");
+                vm.firstCard = vm.selectedCards[0];
+                vm.secondCard = cardget;
+
                 vm.selectedCards = [];
+                vm.oldCards.push(vm.firstCard);
+                vm.oldCards.push(vm.secondCard);
             }
 
     };
