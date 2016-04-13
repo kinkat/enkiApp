@@ -5,17 +5,22 @@
   </div>
 
   <div class="jumbotron text-center">
-    <div class = "container">
+<!--     <div class = "container">
 
-    </div>
+    </div> -->
 
     <p class="lead">
-  <!-- <ul class="list-group"> -->
-    <div class="container">
-        <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCards"  ng-click="main.clickCard(card)">
+    <table>
+        <tr>
+            <td>
+                <div class="container">
+                    <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCardsShuffle"  ng-click="main.clickCard(card)" ng-disabled="blocked">
 
-    </div>
- <!--  </ul> -->
+                </div>
+            </td>
+        </tr>
+    </table>
+
     </p>
 
   </div>

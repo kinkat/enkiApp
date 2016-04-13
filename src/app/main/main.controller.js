@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, memoCards,  toastr) {
+  function MainController($timeout, webDevTec, memoCards, toastr) {
     var vm = this;
 
     vm.awesomeThings = [];
@@ -15,6 +15,7 @@
     vm.showToastr = showToastr;
 
     vm.allCards = [];
+    vm.allCardsShuffle = [];
     vm.clickCard = clickCard;
 
     vm.selectedCards = [];
@@ -22,6 +23,7 @@
     vm.secondCard;
     vm.oldCards = [];
     vm.doneCards = [];
+
 
     activate();
 
@@ -47,8 +49,26 @@
       });
     }
 
+
     function showCards() {
       vm.allCards = memoCards.showCards();
+      vm.allCardsShuffle = shuffle(vm.allCards);
+    }
+
+    function shuffle(array) {
+      var currentIndex = array.length, tempValue, randomIndex;
+
+      while (0 !== currentIndex) {
+
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+
+        tempValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = tempValue;
+      }
+      return array;
     }
 
 
@@ -71,14 +91,22 @@
                         vm.oldCards.forEach(function(item){
                             item.backPic = 'yeoman.png';
                         })
-
                 }
                 vm.oldCards.length = 0;
                 vm.selectedCards.push(cardget);
 
             } else if (cardget.title === vm.selectedCards[0].title)  {
+                if(vm.doneCards.length === vm.allCards.length - 2) {
+                    toastr.info("wygrana");
 
+                }
+                vm.doneCards.push(cardget);
+                vm.doneCards.push(vm.selectedCards[0]);
                 vm.selectedCards = [];
+
+                vm.doneCards.forEach(function(item){
+                            item.blocked = true;
+                        })
 
             } else {
                 vm.firstCard = vm.selectedCards[0];
