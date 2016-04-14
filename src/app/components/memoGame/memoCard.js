@@ -12,49 +12,57 @@
         'title': 'czeresnia',
         'frontPic': 'czeresnia.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'pomarancz',
         'frontPic': 'pomarancz.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'truskawka',
         'frontPic': 'truskawka.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'winogrona',
         'frontPic': 'winogrona.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'czeresnia',
         'frontPic': 'czeresnia.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'pomarancz',
         'frontPic': 'pomarancz.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'truskawka',
         'frontPic': 'truskawka.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       },
       {
         'title': 'winogrona',
         'frontPic': 'winogrona.jpg',
         'backPic': 'yeoman.png',
-        'class': 'card-size'
+        'class': 'card-size',
+        'blocked': 'true'
       }
     ];
 

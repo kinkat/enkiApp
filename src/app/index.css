@@ -14,7 +14,39 @@
 }
 
 .card-size {
-    width: 100px;
+  width: 100px;
    height: 100px;
 }
 
+.play-position {
+    position:absolute;
+    bottom:0px;
+    right: 30px;
+    margin: 10px;
+    border: none;
+    /* float: right; */
+}
+.jumbotron {
+    position: relative;
+}
+
+.jumbotron .container p {
+    position: absolute;
+    bottom: 0px;
+    color: red;
+    left:60px;
+    font-size: 20px;
+    float:left;
+    margin-top:6px;
+}
+
+#press-button-p {
+    color: red;
+    font-size: 1.5em;
+}
+
+img {
+    outline: none;
+    border:1px solid black;
+    margin: 5px;
+}

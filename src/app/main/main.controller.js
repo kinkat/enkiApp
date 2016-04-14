@@ -14,6 +14,9 @@
     vm.creationDate = 1460369567036;
     vm.showToastr = showToastr;
 
+    vm.showRegisterVal = false;
+    vm.showRegisterForm = showRegisterForm;
+
     //GAME
 
     vm.allCards = [];
@@ -25,22 +28,37 @@
     vm.secondCard;
     vm.oldCards = [];
     vm.doneCards = [];
+    vm.playGame = playGame;
+    vm.counter = 0;
 
 
     //USER
     vm.users = [];
-    vm.newUser ={};
+    vm.newUser = {};
     vm.name = "";
-    vm.email="";
-    vm.password="";
+    vm.email ="";
+    vm.password = "";
     vm.addUser = addUser;
     vm.submitForm = submitForm;
+    vm.loginName = "";
+    vm.loginEmail ="";
+    vm.loginPassword ="";
+    vm.logUser = logUser;
+    vm.submitLoginForm = submitLoginForm;
+
+    // var usersRef = myDataRef.child("users");
 
     activate();
+    showCards();
+
+    //MAIN FUNCTIONS
+
+    function showRegisterForm(){
+        vm.showRegisterVal = true;
+    }
 
     function activate() {
-      showCards();
-      getWebDevTec();
+          getWebDevTec();
       $timeout(function() {
         vm.classAnimation = 'rubberBand';
       }, 4000);
@@ -65,7 +83,16 @@
     function showCards() {
       vm.allCards = memoCards.showCards();
       vm.allCardsShuffle = shuffle(vm.allCards);
+    }
 
+    function playGame(){
+        vm.allCards.forEach(function(card){
+            card.blocked = false;
+            card.backPic = 'yeoman.png';
+            toastr.info("Get ready and play!");
+            vm.counter = 0;
+
+        });
     }
 
     function shuffle(array) {
@@ -84,13 +111,14 @@
       return array;
     }
 
-
     function clickCard(card) {
 
         if (card.blocked) {
             return;
         }
         var selectedCards = [];
+        vm.counter ++;
+        vm.turns = vm.counter/2;
         card.backPic = card.frontPic;
         card.selected = true;
         checkCards(card);
@@ -109,16 +137,17 @@
 
             } else if (cardget.title === vm.selectedCards[0].title)  {
                 if(vm.doneCards.length === vm.allCards.length - 2) {
-                    toastr.info("wygrana");
+                    toastr.info("Congrats! You're the guy!");
 
                 }
                 vm.doneCards.push(cardget);
                 vm.doneCards.push(vm.selectedCards[0]);
+
                 vm.selectedCards = [];
 
                 vm.doneCards.forEach(function(item){
                             item.blocked = true;
-                        })
+                })
 
             } else {
                 vm.firstCard = vm.selectedCards[0];
@@ -139,13 +168,62 @@
     }
 
     function addUser() {
-        vm.newUser = {
+        myDataRef.createUser({
             name: vm.name,
-            email:vm.email,
-            password:vm.password
-        }
-        console.log(vm.newUser);
+            email    : vm.email,
+            password : vm.password
+            }, function(error, userData) {
+                if (error) {
+
+                    console.log("Error creating user:", error);
+                } else {
+
+                console.log("Successfully created user account with uid:", userData.uid);
+                myDataRef.child("users").child(userData.uid).set({
+
+                    name: vm.name,
+                    email: vm.email
+
+                });
+
+            }
+
+        });
+
+        myDataRef.onAuth(function(userData){
+            console.log(userData.uid);
+            if (userData) {
+
+            }
+
+        })
+
     }
+
+    function submitLoginForm(isValid) {
+        if (isValid) {
+            alert("jest valid");
+            logUser();
+        }
+    }
+
+    function logUser(){
+
+        myDataRef.authWithPassword({
+        email    : "bobtony@firebase.com",
+        password : "correcthorsebatterystaple"
+        }, function(error, authData) {
+            if (error) {
+        console.log("Login Failed!", error);
+            } else {
+            console.log("Authenticated successfully with payload:", authData);
+            }
+        },{
+          remember: "sessionOnly"
+        });
+
+    }
+
 
   }
 })();

@@ -1,7 +1,11 @@
 <div class="jumbotron">
 
+        <p id = "press-button-p"> Press button to start the game. Good luck! </p>
+
         <div class="container">
             <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCardsShuffle"  ng-click="main.clickCard(card)">
-        </div>
 
+            <p>{{main.counter}} clicks</p>
+            <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="main.playGame()">
+        </div>
 </div>
