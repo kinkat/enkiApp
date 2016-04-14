@@ -1,29 +1,17 @@
 <div class="container">
 
-  <div>
-    <acme-navbar creation-date="main.creationDate"></acme-navbar>
-  </div>
+    <div>
+        <acme-navbar creation-date="main.creationDate"></acme-navbar>
+    </div>
 
-  <div class="jumbotron text-center">
-<!--     <div class = "container">
+    <div>
+        <enki-register></enki-register>
+    </div>
 
-    </div> -->
+    <div>
+        <memory-game></memory-game>
+    </div>
 
-    <p class="lead">
-    <table>
-        <tr>
-            <td>
-                <div class="container">
-                    <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCardsShuffle"  ng-click="main.clickCard(card)" ng-disabled="blocked">
-
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    </p>
-
-  </div>
 
   <!-- <div class="row">
     <div class="col-sm-6 col-md-4" ng-repeat="awesomeThing in main.awesomeThings | orderBy:'rank'">

@@ -1,0 +1,48 @@
+
+<div class="container">
+    <div class="col-sm-1 middle-border"></div>
+        <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                <div class="form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>Sign up now</h3>
+
+                        </div>
+
+                    </div>
+    <div class="form-bottom">
+
+        <form name="userForm" ng-submit="main.submitForm(userForm.$valid)" novalidate>
+
+            <div class="form-group" ng-class="{'has-error': userForm.name.$invalid && !userForm.name.$pristine }">
+                <label class="sr-only">Name</label>
+                    <input type="text" name="name" placeholder="Nickname..." class="form-first-name form-control"
+                    ng-model="main.name" required>
+                    <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block"> Enter your name</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': userForm.email.$invalid && !userForm.email.$pristine }">
+                <label class="sr-only">Email</label>
+                    <input type="email" name="email" placeholder="Email..." class="form-email form-control"
+                    ng-model="main.email" required>
+                    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block"> Enter your email</p>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': userForm.password.$invalid && !userForm.password.$pristine }">
+                <label class="sr-only">Password</label>
+                    <input type="text" name="password" placeholder="Password..." class="form-last-name form-control"
+                    ng-model="main.password" ng-minlength="5" required>
+                    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block"> Enter your password (min. 5 letters)</p>
+            </div>
+
+            <button type="submit" class="btn"  ng-disabled="userForm.$invalid">Sign me up!</button>
+
+        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+</div>

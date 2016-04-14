@@ -14,6 +14,8 @@
     vm.creationDate = 1460369567036;
     vm.showToastr = showToastr;
 
+    //GAME
+
     vm.allCards = [];
     vm.allCardsShuffle = [];
     vm.clickCard = clickCard;
@@ -25,8 +27,16 @@
     vm.doneCards = [];
 
 
-    activate();
+    //USER
+    vm.users = [];
+    vm.newUser ={};
+    vm.name = "";
+    vm.email="";
+    vm.password="";
+    vm.addUser = addUser;
+    vm.submitForm = submitForm;
 
+    activate();
 
     function activate() {
       showCards();
@@ -50,9 +60,12 @@
     }
 
 
+//GAME FUNCTIONS
+
     function showCards() {
       vm.allCards = memoCards.showCards();
       vm.allCardsShuffle = shuffle(vm.allCards);
+
     }
 
     function shuffle(array) {
@@ -81,7 +94,6 @@
         card.backPic = card.frontPic;
         card.selected = true;
         checkCards(card);
-
     }
 
     function checkCards(cardget){
@@ -116,8 +128,24 @@
                 vm.oldCards.push(vm.firstCard);
                 vm.oldCards.push(vm.secondCard);
             }
+    }
+//FORM FUNCTIONS
 
-    };
+    function submitForm(isValid) {
+        if (isValid) {
+            alert("jest valid");
+            addUser();
+        }
+    }
+
+    function addUser() {
+        vm.newUser = {
+            name: vm.name,
+            email:vm.email,
+            password:vm.password
+        }
+        console.log(vm.newUser);
+    }
 
   }
 })();
