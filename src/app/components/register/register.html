@@ -24,7 +24,8 @@
                                             ng-model="main.loginEmail" required>
                                             <p ng-show="userFormLogin.email.$invalid && !userFormLogin.email.$pristine" class="help-block"> Enter your email</p>
                                         </div>
-                                        <div class="form-group" ng-class="{'has-error': userFormLogin.password.$invalid && !userFormLoginrm.password.$pristine }">
+
+                                        <div class="form-group" ng-class="{'has-error': userFormLogin.password.$invalid && !userFormLogin.password.$pristine }">
                                             <label class="sr-only">Password</label>
                                             <input type="text" name="password" placeholder="Password..." class="form-last-name form-control"
                                             ng-model="main.loginPassword" ng-minlength="5" required>

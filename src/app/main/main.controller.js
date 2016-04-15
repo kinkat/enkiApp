@@ -86,12 +86,13 @@
     }
 
     function playGame(){
+        vm.doneCards = [];
         vm.allCards.forEach(function(card){
             card.blocked = false;
+            card.selected = false;
             card.backPic = 'yeoman.png';
             toastr.info("Get ready and play!");
             vm.counter = 0;
-
         });
     }
 
@@ -112,11 +113,15 @@
     }
 
     function clickCard(card) {
-
-        if (card.blocked) {
+        console.log(card.blocked);
+        console.log(card.selected);
+        console.log(vm.doneCards);
+        console.log(vm.oldCards);
+        if (card.blocked || card.selected) {
             return;
+            console.log(vm.doneCards.length);
         }
-        var selectedCards = [];
+        // var selectedCards = [];
         vm.counter ++;
         vm.turns = vm.counter/2;
         card.backPic = card.frontPic;
@@ -126,10 +131,16 @@
 
     function checkCards(cardget){
 
+        //cardget - aktualnie kliknieta karta
+        //doneCards - wszystkie dobrane w pray
+        //selectedCards - tablica 1 lub 2 odwrconych kart, nie wiadomo czy pasuja, czy nie
+        //oldcards to selectedcards ktore przechodza do kolejnej tury i znikaja po klieknieciu karty nr 3
+
             if (!vm.selectedCards.length) {
                 if (vm.oldCards.length > 0) {
                         vm.oldCards.forEach(function(item){
                             item.backPic = 'yeoman.png';
+                            item.selected = false;
                         })
                 }
                 vm.oldCards.length = 0;
@@ -193,7 +204,7 @@
         myDataRef.onAuth(function(userData){
             console.log(userData.uid);
             if (userData) {
-
+                console.log("yestem zalogowany");
             }
 
         })
