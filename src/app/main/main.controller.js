@@ -45,8 +45,12 @@
     vm.loginPassword ="";
     vm.logUser = logUser;
     vm.submitLoginForm = submitLoginForm;
+    vm.points = "";
+    vm.showPoints = showPoints;
+    vm.checkStatus = checkStatus;
 
-    // var usersRef = myDataRef.child("users");
+    myDataRef.onAuth(checkStatus);
+    var currentRef = "";
 
     activate();
     showCards();
@@ -58,10 +62,10 @@
     }
 
     function activate() {
-          getWebDevTec();
-      $timeout(function() {
+        getWebDevTec();
+        $timeout(function() {
         vm.classAnimation = 'rubberBand';
-      }, 4000);
+        }, 4000);
     }
 
     function showToastr() {
@@ -93,7 +97,9 @@
             card.backPic = 'yeoman.png';
             toastr.info("Get ready and play!");
             vm.counter = 0;
+
         });
+        showCards();
     }
 
     function shuffle(array) {
@@ -113,15 +119,10 @@
     }
 
     function clickCard(card) {
-        console.log(card.blocked);
-        console.log(card.selected);
-        console.log(vm.doneCards);
-        console.log(vm.oldCards);
         if (card.blocked || card.selected) {
             return;
             console.log(vm.doneCards.length);
         }
-        // var selectedCards = [];
         vm.counter ++;
         vm.turns = vm.counter/2;
         card.backPic = card.frontPic;
@@ -157,7 +158,7 @@
                 vm.selectedCards = [];
 
                 vm.doneCards.forEach(function(item){
-                            item.blocked = true;
+                    item.blocked = true;
                 })
 
             } else {
@@ -182,18 +183,22 @@
         myDataRef.createUser({
             name: vm.name,
             email    : vm.email,
-            password : vm.password
+            password : vm.password,
+
             }, function(error, userData) {
                 if (error) {
 
                     console.log("Error creating user:", error);
+
                 } else {
 
                 console.log("Successfully created user account with uid:", userData.uid);
+
                 myDataRef.child("users").child(userData.uid).set({
 
                     name: vm.name,
-                    email: vm.email
+                    email: vm.email,
+                    points: vm.points
 
                 });
 
@@ -201,15 +206,37 @@
 
         });
 
-        myDataRef.onAuth(function(userData){
-            console.log(userData.uid);
-            if (userData) {
-                console.log("yestem zalogowany");
-            }
+    }
 
-        })
+    function showPoints(){
+        // checkStatus();
+
+        fredRef.once("value", function(snapshot) {
+            var data = snapshot.val();
+
+            alert("Congrats. You have " + data.points + " points");
+
+        });
 
     }
+        // myDataRef.onAuth(function(userData){
+        //     console.log(userData.uid);
+        //     if (userData) {
+        //         alert("yestem zalogowany");
+        //     }
+
+        // })
+
+    function checkStatus(authData) {
+        if (authData) {
+            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+
+            return authData.uid;
+        } else {
+            console.log("User is logged out");
+        }
+    }
+
 
     function submitLoginForm(isValid) {
         if (isValid) {
@@ -218,23 +245,26 @@
         }
     }
 
+
+
     function logUser(){
 
         myDataRef.authWithPassword({
-        email    : "bobtony@firebase.com",
-        password : "correcthorsebatterystaple"
+        email    : "alamakota@onet.pl",
+        password : "alamakota"
         }, function(error, authData) {
             if (error) {
-        console.log("Login Failed!", error);
+                alert("Login Failed!", error);
+
             } else {
-            console.log("Authenticated successfully with payload:", authData);
+                // alert("Authenticated successfully with payload:", authData);
+
             }
-        },{
+
+        }, {
           remember: "sessionOnly"
         });
 
     }
-
-
   }
 })();
