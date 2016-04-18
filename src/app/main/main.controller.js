@@ -38,7 +38,7 @@
     vm.name = "";
     vm.email ="";
     vm.password = "";
-    vm.addUserFromFactory = authFactory.addUser;
+    vm.signUp = signUp;
 
     vm.submitForm = submitForm;
     vm.loginName = "";
@@ -50,12 +50,16 @@
     vm.showPoints = showPoints;
     vm.checkStatus = checkStatus;
 
-    // myDataRef.onAuth(checkStatus);
+    var firebaseRef = new Firebase(FBMSG);
 
     var currentRef = "";
 
     activate();
     showCards();
+
+    firebaseRef.onAuth(checkStatus);
+    var x = firebaseRef.getAuth();
+
 
     //MAIN FUNCTIONS
 
@@ -176,35 +180,9 @@
 
     function submitForm(isValid) {
         if (isValid) {
-
-            vm.addUserFromFactory(vm.name, vm.email, vm.password, vm.points);
+            signUp();
         }
     }
-
-
-    function showPoints(){
-        // checkStatus();
-
-        fredRef.once("value", function(snapshot) {
-            var data = snapshot.val();
-
-            alert("Congrats. You have " + data.points + " points");
-
-        });
-
-    }
-
-
-    function checkStatus(authData) {
-        if (authData) {
-            console.log("User " + authData.uid + " is logged in with " + authData.provider);
-
-            return authData.uid;
-        } else {
-            console.log("User is logged out");
-        }
-    }
-
 
     function submitLoginForm(isValid) {
         if (isValid) {
@@ -213,26 +191,55 @@
         }
     }
 
+    function signUp(){
+        var result = authFactory.addUser(vm.email, vm.password);
+        result.then(function(userData){
 
+            console.log("Successfully created user account with uid:", userData.uid);
+            firebaseRef.child(userData.uid).set({
+                email:vm.email,
+                name: vm.name,
+                points: vm.points
+            });
+            console.log(vm.databaseLink);
+
+        }, function(error) {
+            console.log("Error creating user:", error);
+        })
+    }
 
     function logUser(){
+        var result = authFactory.authUser(vm.loginEmail, vm.loginPassword);
+        result.then(function(authData){console.log(authData);
+            console.log("Authenticated successfully with payload:", authData.uid);
 
-        myDataRef.authWithPassword({
-        email    : "alamakota@onet.pl",
-        password : "alamakota"
-        }, function(error, authData) {
-            if (error) {
-                alert("Login Failed!", error);
+        }, function(error) {
+            console.log("Login failed:", error);
+        })
+    }
 
-            } else {
-                alert("Authenticated successfully with payload:", authData);
 
-            }
+    function showPoints(){
 
-        }, {
-          remember: "sessionOnly"
+        firebaseRef.on("value", function(snapshot)  {
+            console.log(snapshot.val());
+            }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
         });
 
     }
+
+    function checkStatus(authData) {
+        if (authData) {
+            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+
+            return authData.uid;
+
+        } else {
+            console.log("User is logged out");
+        }
+    }
+
   }
+
 })();

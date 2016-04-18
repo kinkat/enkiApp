@@ -6,6 +6,7 @@
             <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCardsShuffle"  ng-click="main.clickCard(card)">
 
             <p>{{main.counter}} clicks</p>
+
             <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="main.playGame()">
         </div>
 </div>

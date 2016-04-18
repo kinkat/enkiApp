@@ -6,47 +6,46 @@
     .factory('authFactory', authFactory);
 
     /** @ngInject */
-    authFactory.$inject = ['FBMSG'];
+    authFactory.$inject = ['FBMSG', '$firebaseAuth'];
 
-    function authFactory(FBMSG) {
+    function authFactory(FBMSG, $firebaseAuth) {
 
-      var authFactory = {addUser: addUser};
+
+    //Initialize FirebaseAuth
+      var authFactory = {addUser: addUser, authUser: authUser, auth: auth};
 
       var myDataRef = new Firebase(FBMSG);
 
-
+      var auth = $firebaseAuth(myDataRef);
         return authFactory;
 
-        function addUser(name, email, password, points) {
+    // Create user account
 
-            myDataRef.createUser({
+        function addUser(email, password) {
+
+            return auth.$createUser({
                 email    : email,
                 password : password
 
-            }, function(error, userData) {
-                if (error) {
+            });
+        };
 
-                    console.log("Error creating user:", error);
+    //User authentication
 
-                } else {
+        function authUser(email, password) {
 
-                console.log("Successfully created user account with uid:", userData.uid);
-
-                    myDataRef.child(userData.uid).set({
-
-                        name: name,
-                        email: email,
-                        points: points
-
-                    });
-
-                }
+            return auth.$authWithPassword({
+                email    : email,
+                password : password
 
             });
+        };
 
-        }
 
     };
 
 
 })();
+
+
+
