@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, memoCards, toastr) {
+  function MainController($timeout, webDevTec, memoCards, toastr, FBMSG, authFactory) {
     var vm = this;
 
     vm.awesomeThings = [];
@@ -38,7 +38,8 @@
     vm.name = "";
     vm.email ="";
     vm.password = "";
-    vm.addUser = addUser;
+    vm.addUserFromFactory = authFactory.addUser;
+
     vm.submitForm = submitForm;
     vm.loginName = "";
     vm.loginEmail ="";
@@ -49,7 +50,8 @@
     vm.showPoints = showPoints;
     vm.checkStatus = checkStatus;
 
-    myDataRef.onAuth(checkStatus);
+    // myDataRef.onAuth(checkStatus);
+
     var currentRef = "";
 
     activate();
@@ -174,39 +176,11 @@
 
     function submitForm(isValid) {
         if (isValid) {
-            alert("jest valid");
-            addUser();
+
+            vm.addUserFromFactory(vm.name, vm.email, vm.password, vm.points);
         }
     }
 
-    function addUser() {
-        myDataRef.createUser({
-            name: vm.name,
-            email    : vm.email,
-            password : vm.password,
-
-            }, function(error, userData) {
-                if (error) {
-
-                    console.log("Error creating user:", error);
-
-                } else {
-
-                console.log("Successfully created user account with uid:", userData.uid);
-
-                myDataRef.child("users").child(userData.uid).set({
-
-                    name: vm.name,
-                    email: vm.email,
-                    points: vm.points
-
-                });
-
-            }
-
-        });
-
-    }
 
     function showPoints(){
         // checkStatus();
@@ -219,13 +193,7 @@
         });
 
     }
-        // myDataRef.onAuth(function(userData){
-        //     console.log(userData.uid);
-        //     if (userData) {
-        //         alert("yestem zalogowany");
-        //     }
 
-        // })
 
     function checkStatus(authData) {
         if (authData) {
@@ -257,7 +225,7 @@
                 alert("Login Failed!", error);
 
             } else {
-                // alert("Authenticated successfully with payload:", authData);
+                alert("Authenticated successfully with payload:", authData);
 
             }
 
