@@ -12,11 +12,17 @@
 
 
     //Initialize FirebaseAuth
-      var authFactory = {addUser: addUser, authUser: authUser, auth: auth};
+      var authFactory = {
+        addUser: addUser,
+        authUser: authUser,
+        auth: auth
+    };
 
       var myDataRef = new Firebase(FBMSG);
 
       var auth = $firebaseAuth(myDataRef);
+
+      console.log(auth);
         return authFactory;
 
     // Create user account
@@ -26,7 +32,6 @@
             return auth.$createUser({
                 email    : email,
                 password : password
-
             });
         };
 
@@ -37,8 +42,11 @@
             return auth.$authWithPassword({
                 email    : email,
                 password : password
-
             });
+        };
+
+        function auth() {
+            return auth;
         };
 
 
