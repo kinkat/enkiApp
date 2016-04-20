@@ -20,7 +20,6 @@
     //GAME
 
     vm.allCards = [];
-    vm.allCardsShuffle = [];
     vm.clickCard = clickCard;
 
     vm.selectedCards = [];
@@ -30,6 +29,7 @@
     vm.doneCards = [];
     vm.playGame = playGame;
     vm.counter = 0;
+    vm.playing = false;
 
 
     //USER
@@ -50,6 +50,13 @@
     vm.showPoints = showPoints;
     vm.checkStatus = checkStatus;
 
+    vm.isLogged = isLogged;
+
+    vm.userNameFromDataBase;
+    vm.pointsFromDataBase;
+    vm.emailFromDataBase;
+    vm.authData;
+
     var firebaseRef = new Firebase(FBMSG);
 
     var currentRef = "";
@@ -58,8 +65,8 @@
     showCards();
 
     firebaseRef.onAuth(checkStatus);
-    var x = firebaseRef.getAuth();
 
+    // var x = firebaseRef.getAuth();
 
     //MAIN FUNCTIONS
 
@@ -87,47 +94,57 @@
       });
     }
 
+    function isLogged() {
+        console.log("is logged");
+        return !!vm.authData.uid;
+    }
+
 
 //GAME FUNCTIONS
 
-    function showCards() {
+   function showCards() {
       vm.allCards = memoCards.showCards();
-      vm.allCardsShuffle = shuffle(vm.allCards);
+      shuffle(vm.allCards);
     }
 
     function playGame(){
         vm.doneCards = [];
-        vm.allCards.forEach(function(card){
-            card.blocked = false;
-            card.selected = false;
-            card.backPic = 'yeoman.png';
-            toastr.info("Get ready and play!");
-            vm.counter = 0;
-
-        });
+        vm.counter = 0;
         showCards();
+        vm.playing = true;
+    }
+
+
+    function isPlaying() {
+        return vm.playing;
+    }
+
+    function gameOver () {
+        console.log("game over");
+        toastr.info("Congrats! You're the guy!");
+        vm.playing = false;
     }
 
     function shuffle(array) {
-      var currentIndex = array.length, tempValue, randomIndex;
+        var currentIndex = array.length, tempValue, randomIndex;
 
-      while (0 !== currentIndex) {
+        while (0 !== currentIndex) {
 
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
 
 
-        tempValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = tempValue;
-      }
-      return array;
+            tempValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = tempValue;
+        }
+        return array;
     }
 
     function clickCard(card) {
-        if (card.blocked || card.selected) {
+        if (!isPlaying() || card.blocked) {
+            console.log("game blocked!");
             return;
-            console.log(vm.doneCards.length);
         }
         vm.counter ++;
         vm.turns = vm.counter/2;
@@ -143,17 +160,17 @@
         //selectedCards - tablica 1 lub 2 odwrconych kart, nie wiadomo czy pasuja, czy nie
         //oldcards to selectedcards ktore przechodza do kolejnej tury i znikaja po klieknieciu karty nr 3
 
-            if (!vm.selectedCards.length) {
-                if (vm.oldCards.length > 0) {
-                        vm.oldCards.forEach(function(item){
-                            item.backPic = 'yeoman.png';
-                            item.selected = false;
-                        })
-                }
-                vm.oldCards.length = 0;
-                vm.selectedCards.push(cardget);
+        if (!vm.selectedCards.length) {
+            if (vm.oldCards.length > 0) {
+                vm.oldCards.forEach(function(item){
+                    item.backPic = 'yeoman.png';
+                    item.selected = false;
+                })
+            }
+            vm.oldCards.length = 0;
+            vm.selectedCards.push(cardget);
 
-            } else if (cardget.title === vm.selectedCards[0].title)  {
+        } else if (cardget.title === vm.selectedCards[0].title)  {
                 if(vm.doneCards.length === vm.allCards.length - 2) {
                     toastr.info("Congrats! You're the guy!");
 
@@ -201,7 +218,7 @@
                 name: vm.name,
                 points: vm.points
             });
-            console.log(vm.databaseLink);
+
 
         }, function(error) {
             console.log("Error creating user:", error);
@@ -210,14 +227,15 @@
 
     function logUser(){
         var result = authFactory.authUser(vm.loginEmail, vm.loginPassword);
-        result.then(function(authData){console.log(authData);
+        result.then(function(authData){
+            vm.authData = authData;
+            //getUserData(authData.uid);
             console.log("Authenticated successfully with payload:", authData.uid);
 
         }, function(error) {
             console.log("Login failed:", error);
         })
     }
-
 
     function showPoints(){
 
@@ -229,10 +247,30 @@
 
     }
 
+        function getUserData(id) {
+
+            vm.userURL = new Firebase("https://enkibot.firebaseio.com/users/" + id);
+
+            vm.userURL.once("value", function(snapshot){
+                var nameSnapshot = snapshot.child("name");
+                vm.userNameFromDataBase = nameSnapshot.val();
+
+                var pointsSnapshot = snapshot.child("points");
+                vm.pointsFromDataBase = pointsSnapshot.val();
+
+                var emailSnapshot = snapshot.child("email");
+                vm.emailFromDataBase = emailSnapshot.val();
+
+            });
+
+    }
+
     function checkStatus(authData) {
+
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
-
+            vm.authData = authData;
+            getUserData(authData.uid);
             return authData.uid;
 
         } else {

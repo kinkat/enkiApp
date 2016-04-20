@@ -1,12 +1,37 @@
-<div class="jumbotron">
+<div class="container">
 
-        <p id = "press-button-p"> Press button to start the game. Good luck! </p>
+    <div class="row">
 
-        <div class="container">
-            <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCardsShuffle"  ng-click="main.clickCard(card)">
+        <div class="col-md-3" ng-show = "main.isLogged()">
+            <p class = "user-greeting-text"> Witaj {{main.userNameFromDataBase}} </p>
+            <p class = "user-greeting-text">Twój email to {{main.emailFromDataBase}} </p>
+            <p class = "user-greeting-text">Masz {{main.pointsFromDataBase}} punktów </p> <br>
 
+            <p class="lead">Wybierz kategorię gry</p>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">Warzywa</a>
+                    <a href="#" class="list-group-item">Owoce</a>
+                    <a href="#" class="list-group-item">Zwierzęta</a>
+                </div>
             <p>{{main.counter}} clicks</p>
 
-            <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="main.playGame()">
         </div>
+
+        <div class="col-md-9">
+
+            <div class="jumbotron">
+
+                <p id = "press-button-p"> Press the button to start the game. Good luck! </p>
+
+                <div class="container">
+                <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCards"  ng-click="main.clickCard(card)">
+
+
+
+                <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="main.playGame()">
+            </div>
+        </div>
+
+    </div>
+
 </div>

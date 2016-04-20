@@ -10,66 +10,52 @@
     var deck = [
       {
         'title': 'czeresnia',
-        'frontPic': 'czeresnia.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'czeresnia.jpg'
       },
       {
         'title': 'pomarancz',
-        'frontPic': 'pomarancz.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'pomarancz.jpg'
       },
       {
         'title': 'truskawka',
-        'frontPic': 'truskawka.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'truskawka.jpg'
       },
       {
         'title': 'winogrona',
-        'frontPic': 'winogrona.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'winogrona.jpg'
       },
       {
         'title': 'czeresnia',
-        'frontPic': 'czeresnia.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'czeresnia.jpg'
       },
       {
         'title': 'pomarancz',
-        'frontPic': 'pomarancz.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'pomarancz.jpg'
       },
       {
         'title': 'truskawka',
-        'frontPic': 'truskawka.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'truskawka.jpg'
+
       },
       {
         'title': 'winogrona',
-        'frontPic': 'winogrona.jpg',
-        'backPic': 'yeoman.png',
-        'class': 'card-size',
-        'blocked': 'true'
+        'frontPic': 'winogrona.jpg'
       }
     ];
 
     this.showCards = showCards;
 
     function showCards() {
-      return deck;
+      return deck.map(function (item) {
+        return {
+          title: item.title,
+          frontPic: item.frontPic,
+          backPic: "yeoman.png",
+          class: "card-size",
+          blocked: false,
+          selected: false
+        }
+      });
     }
   }
 

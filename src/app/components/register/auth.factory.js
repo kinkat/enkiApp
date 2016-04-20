@@ -15,14 +15,16 @@
       var authFactory = {
         addUser: addUser,
         authUser: authUser,
-        auth: auth
+        auth: auth,
+        newDatabase: newDatabase
+
+
     };
 
-      var myDataRef = new Firebase(FBMSG);
 
-      var auth = $firebaseAuth(myDataRef);
 
-      console.log(auth);
+      var auth = $firebaseAuth(newDatabase());
+
         return authFactory;
 
     // Create user account
@@ -45,13 +47,16 @@
             });
         };
 
+        function newDatabase () {
+            var myDataRef = new Firebase(FBMSG);
+            return myDataRef;
+        }
+
         function auth() {
             return auth;
         };
 
-
     };
-
 
 })();
 
