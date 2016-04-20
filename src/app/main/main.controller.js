@@ -47,26 +47,27 @@
     vm.logUser = logUser;
     vm.submitLoginForm = submitLoginForm;
     vm.points = "";
-    vm.showPoints = showPoints;
     vm.checkStatus = checkStatus;
 
     vm.isLogged = isLogged;
-
+    vm.updatePoints = updatePoints;
     vm.userNameFromDataBase;
     vm.pointsFromDataBase;
     vm.emailFromDataBase;
     vm.authData;
+    vm.leaderName = [];
+    vm.leaderPoints = [];
+
+    vm.showLeaderBoard = showLeaderBoard;
 
     var firebaseRef = new Firebase(FBMSG);
-
-    var currentRef = "";
 
     activate();
     showCards();
 
     firebaseRef.onAuth(checkStatus);
+    vm.x = authFactory.newDatabase();
 
-    // var x = firebaseRef.getAuth();
 
     //MAIN FUNCTIONS
 
@@ -99,10 +100,21 @@
         return !!vm.authData.uid;
     }
 
+    function showLeaderBoard() {
+        vm.userURL = new Firebase(FBMSG);
+        vm.userURL.orderByChild("points").on("child_added", function(snapshot) {
+            vm.leaderName = snapshot.val().name;
+
+            vm.leaderPoints = snapshot.val().points;
+
+        console.log(snapshot.val().name + " has " + snapshot.val().points + " points");
+        });
+    }
+
 
 //GAME FUNCTIONS
 
-   function showCards() {
+   function showCards(){
       vm.allCards = memoCards.showCards();
       shuffle(vm.allCards);
     }
@@ -112,6 +124,7 @@
         vm.counter = 0;
         showCards();
         vm.playing = true;
+        showLeaderBoard();
     }
 
 
@@ -123,6 +136,8 @@
         console.log("game over");
         toastr.info("Congrats! You're the guy!");
         vm.playing = false;
+        console.log(vm.counter);
+        updatePoints();
     }
 
     function shuffle(array) {
@@ -132,7 +147,6 @@
 
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex -= 1;
-
 
             tempValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
@@ -147,7 +161,6 @@
             return;
         }
         vm.counter ++;
-        vm.turns = vm.counter/2;
         card.backPic = card.frontPic;
         card.selected = true;
         checkCards(card);
@@ -172,7 +185,7 @@
 
         } else if (cardget.title === vm.selectedCards[0].title)  {
                 if(vm.doneCards.length === vm.allCards.length - 2) {
-                    toastr.info("Congrats! You're the guy!");
+                    gameOver();
 
                 }
                 vm.doneCards.push(cardget);
@@ -237,31 +250,30 @@
         })
     }
 
-    function showPoints(){
 
-        firebaseRef.on("value", function(snapshot)  {
-            console.log(snapshot.val());
-            }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
+    function getUserData(id) {
+
+        vm.userURL = new Firebase(FBMSG + id);
+
+        vm.userURL.once("value", function(snapshot){
+            var nameSnapshot = snapshot.child("name");
+            vm.userNameFromDataBase = nameSnapshot.val();
+
+            var pointsSnapshot = snapshot.child("points");
+            vm.pointsFromDataBase = pointsSnapshot.val();
+
+            var emailSnapshot = snapshot.child("email");
+            vm.emailFromDataBase = emailSnapshot.val();
+
         });
 
     }
 
-        function getUserData(id) {
-
-            vm.userURL = new Firebase("https://enkibot.firebaseio.com/users/" + id);
-
-            vm.userURL.once("value", function(snapshot){
-                var nameSnapshot = snapshot.child("name");
-                vm.userNameFromDataBase = nameSnapshot.val();
-
-                var pointsSnapshot = snapshot.child("points");
-                vm.pointsFromDataBase = pointsSnapshot.val();
-
-                var emailSnapshot = snapshot.child("email");
-                vm.emailFromDataBase = emailSnapshot.val();
-
-            });
+    function updatePoints() {
+        vm.userURL = new Firebase(FBMSG + vm.authData.uid);
+        vm.userURL.update({
+            "points" : vm.pointsFromDataBase + vm.counter
+        });
 
     }
 
@@ -271,6 +283,7 @@
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             vm.authData = authData;
             getUserData(authData.uid);
+
             return authData.uid;
 
         } else {

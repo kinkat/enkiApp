@@ -18,12 +18,9 @@
         auth: auth,
         newDatabase: newDatabase
 
-
     };
 
-
-
-      var auth = $firebaseAuth(newDatabase());
+    var auth = $firebaseAuth(newDatabase());
 
         return authFactory;
 

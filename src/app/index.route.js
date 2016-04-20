@@ -5,7 +5,7 @@
     .module('enkiApp')
     .config(routeConfig);
 
-  function routeConfig($routeProvider) {
+  function routeConfig($routeProvider, $locationProvider) {
 
     $routeProvider
       .when('/', {
@@ -21,9 +21,7 @@
         resolve: {
 
             "currentAuth": ["authFactory", function(authFactory) {
-                console.log(authFactory.auth());
                 var auth = authFactory.auth();
-                console.log(auth);
                 return auth.$requireAuth();
             }]
         }
