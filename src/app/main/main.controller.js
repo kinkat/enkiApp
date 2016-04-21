@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, memoCards, toastr, FBMSG, authFactory, $firebaseArray) {
+  function MainController($timeout, webDevTec, memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory) {
     var vm = this;
 
 
@@ -41,6 +41,7 @@
     vm.email ="";
     vm.password = "";
     vm.signUp = signUp;
+    vm.showUserInfo = cacheUserFactory.readCacheFlag();
 
     vm.submitForm = submitForm;
     vm.loginName = "";
@@ -51,7 +52,6 @@
     vm.points = "";
     vm.checkStatus = checkStatus;
 
-    vm.isLogged = isLogged;
     vm.updatePoints = updatePoints;
     vm.userNameFromDataBase;
     vm.pointsFromDataBase;
@@ -60,6 +60,7 @@
     vm.leaderName = [];
     vm.leaderPoints = [];
     vm.getUserData = getUserData;
+
 
     vm.showLeaderBoard = showLeaderBoard;
 
@@ -70,6 +71,7 @@
 
     activate();
     showCards();
+
     // getUserData();
 
     firebaseRef.onAuth(checkStatus);
@@ -77,7 +79,7 @@
     //MAIN FUNCTIONS
 
     function showRegisterForm(){
-        vm.showRegisterVal = true;
+        vm.showRegisterVal = !vm.showRegisterVal;
     }
 
     function activate() {
@@ -100,21 +102,18 @@
       });
     }
 
-    function isLogged() {
-        console.log("is logged");
-        return !!vm.authData.uid;
-    }
+    // function isLogged() {
+    //     console.log("is logged");
+    //     return vm.authData.uid;
+    //     console.log(vm.authData.ui);
+    // }
 
     function showLeaderBoard() {
         vm.userURL = new Firebase(FBMSG);
         vm.userURL.orderByChild("points").on("child_added", function(snapshot) {
             vm.leaderName = snapshot.val().name;
-            // console.log(vm.leaderName);
-
             vm.leaderPoints = snapshot.val().points;
-            // console.log(vm.leaderPoints);
-
-        console.log(snapshot.val().name + " has " + snapshot.val().points + " points");
+            console.log(snapshot.val().name + " has " + snapshot.val().points + " points");
         });
     }
 
@@ -258,23 +257,22 @@
 
 
     function getUserData(id) {
-        if (isLogged) {
-            vm.userURL = new Firebase(FBMSG + id);
-            vm.userURL.once("value", function(snapshot){
 
-                var nameSnapshot = snapshot.child("name");
-                vm.userNameFromDataBase = nameSnapshot.val();
+        vm.userURL = new Firebase(FBMSG + id);
+        vm.userURL.once("value", function(snapshot){
 
-                var pointsSnapshot = snapshot.child("points");
-                vm.pointsFromDataBase = pointsSnapshot.val();
+            var nameSnapshot = snapshot.child("name");
+            vm.userNameFromDataBase = nameSnapshot.val();
 
-                var emailSnapshot = snapshot.child("email");
-                vm.emailFromDataBase = emailSnapshot.val();
+            var pointsSnapshot = snapshot.child("points");
+            vm.pointsFromDataBase = pointsSnapshot.val();
 
-            });
-        }
+            var emailSnapshot = snapshot.child("email");
+            vm.emailFromDataBase = emailSnapshot.val();
 
+        });
     }
+
 
     function updatePoints() {
         vm.userURL = new Firebase(FBMSG + vm.authData.uid);
@@ -285,14 +283,12 @@
     }
 
     function checkStatus(authData) {
-
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             vm.authData = authData;
+            vm.showUserInfo = true;
+            cacheUserFactory.cachingUserFlag(vm.showUserInfo);
             getUserData(authData.uid);
-
-            return authData.uid;
-
         } else {
             console.log("User is logged out");
         }
