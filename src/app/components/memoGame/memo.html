@@ -3,23 +3,36 @@
     <div class="row">
 
         <div class="col-md-3" ng-show= "main.isLogged">
-            <p class = "user-greeting-text"> Witaj {{main.userNameFromDataBase}} </p>
-            <p class = "user-greeting-text">Twój email to {{main.emailFromDataBase}} </p>
-            <p class = "user-greeting-text">Masz {{main.pointsFromDataBase}} punktów </p> <br>
 
-            <br><p class="lead">Wybierz kategorię gry</p>
-                <div class="list-group">
-                    <a href="#" class="list-group-item">Warzywa</a>
-                    <a href="#" class="list-group-item">Owoce</a>
-                    <a href="#" class="list-group-item">Zwierzęta</a>
+        <div class = "box-shadow">
+            <p class = " list-group-item user-greeting-text"> Witaj <span class="italic"> {{main.userNameFromDataBase}}</span>  </p>
+            <p class = " list-group-item user-greeting-text">Twój email to <span class="italic">{{main.emailFromDataBase}} </span></p>
+            <p class = " list-group-item user-greeting-text">Masz <span class="italic"> {{main.pointsFromDataBase}} </span> punktów </p>
+
+        </div>
+        <div class = "leaderbord-shadow">
+            <a href="#/test" class="list-group-item user-greeting-text">Leaderboard</a>
+        </div>
+
+        <div class = "category-shadow">
+            <p class="category-text">Wybierz kategorię gry</p>
+
+                <div class="category-shadow">
+                    <a href="#" class="list-group-item user-greeting-text">Warzywa</a>
+                    <a href="#" class="list-group-item user-greeting-text">Owoce</a>
+                    <a href="#" class="list-group-item user-greeting-text">Zwierzęta</a>
                 </div>
-            <p>{{main.counter}} clicks</p>
 
+        </div>
+
+        <div class="clicks-shadow">
+            <p class="list-group-item user-greeting-text">{{main.counter}} clicks</p>
+        </div>
         </div>
 
         <div class="col-md-9">
 
-            <div class="jumbotron">
+            <div class="jumbotron my-jumbotron">
 
                 <p id = "press-button-p"> Press the button to start the game. Good luck! </p>
 

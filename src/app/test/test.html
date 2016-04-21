@@ -1,50 +1,23 @@
 <!DOCTYPE html>
-    <html>
+    <html ng-app="enkiApp">
         <body>
+            <table class = "table table-striped my-table-size">
+                <tr>
+                    <th>Name</th>
+                    <th>Points</th>
+                </tr>
 
-        <table class="table table-condensed"> <!-- class table-condensed -->
-        <thead><!-- table head-->
-            <tr>
-               <th>Rank</th>
-                <th>Name</th>
-              <th>Points</th>
+                <tr ng-repeat="user in main.filteredUsers">
+                    <td> {{ user.name }}</td>
+                    <td> {{user.points}}</td>
 
-            </tr>
-        </thead>
+                </tr>
 
-        <tbody>
-            <tr class="success"><!-- Row 1 , success class-->
-                <td>1</td>
-                <td>Asia</td>
-                <td>30</td>
+            </table>
 
-            </tr>
-            <tr class="danger"><!-- Row 2 , danger class-->
-                <td>2</td>
-                <td>Kasia</td>
-                <td>25</td>
-
-            </tr>
-            <tr class="warning"><!-- Row 3 , warning class-->
-                <td>3</td>
-                <td>Basia</td>
-                <td>20</td>
-
-            </tr>
-      <tr class="info"><!-- Row 4 , information class -->
-                <td>4</td>
-                <td>Maciek</td>
-                <td>115</td>
-
-            </tr>
-      <tr class="active"><!-- Row 5 , active class-->
-                <td>5</td>
-                <td>Tomek</td>
-                <td>10</td>
-
-            </tr>
-        </tbody>
-    </table>
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
 
     </body>
 </html>

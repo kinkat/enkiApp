@@ -6,8 +6,9 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, memoCards, toastr, FBMSG, authFactory) {
+  function MainController($timeout, webDevTec, memoCards, toastr, FBMSG, authFactory, $firebaseArray) {
     var vm = this;
+
 
     vm.awesomeThings = [];
     vm.classAnimation = '';
@@ -30,6 +31,7 @@
     vm.playGame = playGame;
     vm.counter = 0;
     vm.playing = false;
+
 
 
     //USER
@@ -57,17 +59,20 @@
     vm.authData;
     vm.leaderName = [];
     vm.leaderPoints = [];
+    vm.getUserData = getUserData;
 
     vm.showLeaderBoard = showLeaderBoard;
 
-    var firebaseRef = new Firebase(FBMSG);
+    var firebaseRef  = new Firebase(FBMSG);
+    vm.users = $firebaseArray(firebaseRef);
+    var query = firebaseRef.orderByChild("points");
+    vm.filteredUsers = $firebaseArray(query);
 
     activate();
     showCards();
+    // getUserData();
 
     firebaseRef.onAuth(checkStatus);
-    vm.x = authFactory.newDatabase();
-
 
     //MAIN FUNCTIONS
 
@@ -104,8 +109,10 @@
         vm.userURL = new Firebase(FBMSG);
         vm.userURL.orderByChild("points").on("child_added", function(snapshot) {
             vm.leaderName = snapshot.val().name;
+            // console.log(vm.leaderName);
 
             vm.leaderPoints = snapshot.val().points;
+            // console.log(vm.leaderPoints);
 
         console.log(snapshot.val().name + " has " + snapshot.val().points + " points");
         });
@@ -124,7 +131,6 @@
         vm.counter = 0;
         showCards();
         vm.playing = true;
-        showLeaderBoard();
     }
 
 
@@ -224,7 +230,7 @@
     function signUp(){
         var result = authFactory.addUser(vm.email, vm.password);
         result.then(function(userData){
-
+            console.log(userData);
             console.log("Successfully created user account with uid:", userData.uid);
             firebaseRef.child(userData.uid).set({
                 email:vm.email,
@@ -242,7 +248,7 @@
         var result = authFactory.authUser(vm.loginEmail, vm.loginPassword);
         result.then(function(authData){
             vm.authData = authData;
-            //getUserData(authData.uid);
+            getUserData(authData.uid);
             console.log("Authenticated successfully with payload:", authData.uid);
 
         }, function(error) {
@@ -252,20 +258,21 @@
 
 
     function getUserData(id) {
+        if (isLogged) {
+            vm.userURL = new Firebase(FBMSG + id);
+            vm.userURL.once("value", function(snapshot){
 
-        vm.userURL = new Firebase(FBMSG + id);
+                var nameSnapshot = snapshot.child("name");
+                vm.userNameFromDataBase = nameSnapshot.val();
 
-        vm.userURL.once("value", function(snapshot){
-            var nameSnapshot = snapshot.child("name");
-            vm.userNameFromDataBase = nameSnapshot.val();
+                var pointsSnapshot = snapshot.child("points");
+                vm.pointsFromDataBase = pointsSnapshot.val();
 
-            var pointsSnapshot = snapshot.child("points");
-            vm.pointsFromDataBase = pointsSnapshot.val();
+                var emailSnapshot = snapshot.child("email");
+                vm.emailFromDataBase = emailSnapshot.val();
 
-            var emailSnapshot = snapshot.child("email");
-            vm.emailFromDataBase = emailSnapshot.val();
-
-        });
+            });
+        }
 
     }
 

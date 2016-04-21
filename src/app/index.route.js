@@ -18,6 +18,9 @@
     $routeProvider
       .when('/test', {
         templateUrl: 'app/test/test.html',
+        controller: 'MainController',
+        controllerAs: 'main',
+
         resolve: {
 
             "currentAuth": ["authFactory", function(authFactory) {

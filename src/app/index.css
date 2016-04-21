@@ -15,13 +15,13 @@
 
 .card-size {
   width: 100px;
-   height: 100px;
+  height: 100px;
 }
 
 .play-position {
     position:absolute;
     bottom:0px;
-    right: 30px;
+    right: 20px;
     margin: 10px;
     border: none;
     /* float: right; */
@@ -41,8 +41,8 @@
 }
 
 #press-button-p {
-    color: red;
-    font-size: 1.5em;
+    color: #C70039;
+    font-size: 20px;
 }
 
 img {
