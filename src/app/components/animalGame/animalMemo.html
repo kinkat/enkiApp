@@ -1,0 +1,46 @@
+
+<div class="row">
+
+    <div class="col-md-3" ng-if="main.showUserInfo">
+
+        <div class = "box-shadow">
+            <p class = " list-group-item user-greeting-text"> Hello<span class="italic"> {{main.userNameFromDataBase}}</span>  </p>
+            <p class = " list-group-item user-greeting-text">Your email: <span class="italic">{{main.emailFromDataBase}} </span></p>
+            <p class = " list-group-item user-greeting-text">Your points: <span class="italic"> {{main.pointsFromDataBase}} </span> </p>
+
+        </div>
+        <div class = "leaderbord-shadow">
+            <a href="#/test" class="list-group-item user-greeting-text">Leaderboard</a>
+        </div>
+
+        <div class = "category-shadow">
+            <p class="category-text">Games</p>
+
+                <div class="category-shadow">
+                    <button class="list-group-item user-greeting-text" ng-click ="main.showCards()">Fruits</button>
+                    <button class="list-group-item user-greeting-text" ng-click="main.showAnimalCards()">Hello kitty</button>
+                </div>
+        </div>
+
+        <div class="clicks-shadow">
+            <p class="list-group-item user-greeting-text">{{main.counter}} clicks</p>
+        </div>
+
+    </div>
+
+    <div class="col-md-9">
+
+        <div class="jumbotron my-jumbotron">
+
+            <p id = "press-button-p"> Catch them all! Good luck! </p>
+
+            <div class="container">
+            <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allAnimalCards"  ng-click="main.clickCard(card)">
+
+
+            <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="main.playAnimalGame()">
+        </div>
+    </div>
+
+</div>
+

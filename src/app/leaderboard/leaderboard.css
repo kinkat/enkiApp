@@ -1,0 +1,40 @@
+.table {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.table-style{
+  margin: 0 auto;
+}
+
+.user-greeting-text {
+  color: black;
+  font-size: 18px;
+  margin: 5px 5px 5px 5px;
+}
+
+.category-text {
+  color: white;
+  font-size: 18px;
+  margin: 5px 5px 5px 20px;
+}
+
+.leaderboard {
+  color: red;
+  font-size: 18px;
+}
+
+.leaderbord-shadow {
+
+border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 1px solid #000000;
+background-color: #C70039;
+box-sizing: border-box;
+margin: 15px 5px 5px 5px;
+}
+
+
+
+

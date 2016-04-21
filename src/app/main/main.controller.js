@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory) {
+  function MainController($timeout, webDevTec, memoCards, memoAnimalCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory) {
     var vm = this;
 
 
@@ -21,6 +21,8 @@
     //GAME
 
     vm.allCards = [];
+    vm.allAnimalCards = [];
+
     vm.clickCard = clickCard;
 
     vm.selectedCards = [];
@@ -29,8 +31,12 @@
     vm.oldCards = [];
     vm.doneCards = [];
     vm.playGame = playGame;
+    vm.playAnimalGame = playAnimalGame;
     vm.counter = 0;
     vm.playing = false;
+    vm.logOut = logOut;
+    // vm.rankPoints = rankPoints;
+    // vm.rank = 0;
 
 
 
@@ -49,7 +55,7 @@
     vm.loginPassword ="";
     vm.logUser = logUser;
     vm.submitLoginForm = submitLoginForm;
-    vm.points = "";
+    vm.points = 0;
     vm.checkStatus = checkStatus;
 
     vm.updatePoints = updatePoints;
@@ -61,6 +67,11 @@
     vm.leaderPoints = [];
     vm.getUserData = getUserData;
 
+    vm.toggleGameValue = true;
+    vm.toggleAnimalGameValue = false;
+
+    vm.showAnimalCards = showAnimalCards;
+    vm.showCards = showCards;
 
     vm.showLeaderBoard = showLeaderBoard;
 
@@ -71,8 +82,6 @@
 
     activate();
     showCards();
-
-    // getUserData();
 
     firebaseRef.onAuth(checkStatus);
 
@@ -102,12 +111,6 @@
       });
     }
 
-    // function isLogged() {
-    //     console.log("is logged");
-    //     return vm.authData.uid;
-    //     console.log(vm.authData.ui);
-    // }
-
     function showLeaderBoard() {
         vm.userURL = new Firebase(FBMSG);
         vm.userURL.orderByChild("points").on("child_added", function(snapshot) {
@@ -117,12 +120,22 @@
         });
     }
 
-
 //GAME FUNCTIONS
 
    function showCards(){
-      vm.allCards = memoCards.showCards();
-      shuffle(vm.allCards);
+        vm.playing = false;
+        vm.toggleGameValue = true;
+        vm.toggleAnimalGameValue = false;
+        vm.allCards = memoCards.showCards();
+        shuffle(vm.allCards);
+    }
+
+    function showAnimalCards(){
+        vm.playing = false;
+        vm.toggleGameValue = false;
+        vm.toggleAnimalGameValue = true;
+        vm.allAnimalCards = memoAnimalCards.showAnimalCards();
+        shuffle(vm.allAnimalCards);
     }
 
     function playGame(){
@@ -132,6 +145,12 @@
         vm.playing = true;
     }
 
+    function playAnimalGame(){
+        vm.doneCards = [];
+        vm.counter = 0;
+        showAnimalCards();
+        vm.playing = true;
+    }
 
     function isPlaying() {
         return vm.playing;
@@ -255,6 +274,10 @@
         })
     }
 
+    function logOut(){
+
+        firebaseRef.unauth();
+    }
 
     function getUserData(id) {
 

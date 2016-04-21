@@ -17,7 +17,23 @@
 
     $routeProvider
       .when('/test', {
-        templateUrl: 'app/test/test.html',
+        templateUrl: 'app/leaderboard/leaderboard.html',
+        controller: 'MainController',
+        controllerAs: 'main',
+
+        resolve: {
+
+            "currentAuth": ["authFactory", function(authFactory) {
+                var auth = authFactory.auth();
+                return auth.$requireAuth();
+            }]
+        }
+
+    }),
+
+    $routeProvider
+      .when('/animals', {
+        templateUrl: 'app/components/animalGame/animalMemo.html',
         controller: 'MainController',
         controllerAs: 'main',
 

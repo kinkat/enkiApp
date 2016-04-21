@@ -9,37 +9,37 @@
   function memoAnimalCards() {
     var animalDeck = [
       {
-        'title': 'czeresnia',
-        'frontPic': 'czeresnia.jpg'
+        'title': 'pies',
+        'frontPic': 'pies.jpg'
       },
       {
-        'title': 'pomarancz',
-        'frontPic': 'pomarancz.jpg'
+        'title': 'grumpy',
+        'frontPic': 'grumpy.jpg'
       },
       {
-        'title': 'truskawka',
-        'frontPic': 'truskawka.jpg'
+        'title': 'mops',
+        'frontPic': 'mops.jpg'
       },
       {
-        'title': 'winogrona',
-        'frontPic': 'winogrona.jpg'
+        'title': 'kot',
+        'frontPic': 'kot.jpg'
       },
       {
-        'title': 'czeresnia',
-        'frontPic': 'czeresnia.jpg'
+        'title': 'pies',
+        'frontPic': 'pies.jpg'
       },
       {
-        'title': 'pomarancz',
-        'frontPic': 'pomarancz.jpg'
+        'title': 'grumpy',
+        'frontPic': 'grumpy.jpg'
       },
       {
-        'title': 'truskawka',
-        'frontPic': 'truskawka.jpg'
+        'title': 'mops',
+        'frontPic': 'mops.jpg'
 
       },
       {
-        'title': 'winogrona',
-        'frontPic': 'winogrona.jpg'
+        'title': 'kot',
+        'frontPic': 'kot.jpg'
       }
     ];
 
@@ -50,7 +50,7 @@
         return {
           title: item.title,
           frontPic: item.frontPic,
-          backPic: "angular.png",
+          backPic: "yeoman.png",
           class: "card-size",
           blocked: false,
           selected: false

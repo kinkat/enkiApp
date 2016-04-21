@@ -5,9 +5,9 @@
         <div class="col-md-3" ng-if="main.showUserInfo">
 
             <div class = "box-shadow">
-                <p class = " list-group-item user-greeting-text"> Witaj <span class="italic"> {{main.userNameFromDataBase}}</span>  </p>
-                <p class = " list-group-item user-greeting-text">Twój email: <span class="italic">{{main.emailFromDataBase}} </span></p>
-                <p class = " list-group-item user-greeting-text">Twoje punkty: <span class="italic"> {{main.pointsFromDataBase}} </span> </p>
+                <p class = " list-group-item user-greeting-text"> Hello <span class="italic"> {{main.userNameFromDataBase}}</span>  </p>
+                <p class = " list-group-item user-greeting-text">Your email: <span class="italic">{{main.emailFromDataBase}} </span></p>
+                <p class = " list-group-item user-greeting-text">Your points: <span class="italic"> {{main.pointsFromDataBase}} </span> </p>
 
             </div>
             <div class = "leaderbord-shadow">
@@ -15,12 +15,11 @@
             </div>
 
             <div class = "category-shadow">
-                <p class="category-text">Wybierz grę</p>
+                <p class="category-text">Games</p>
 
                     <div class="category-shadow">
-                        <a href="#" class="list-group-item user-greeting-text">Warzywa</a>
-<!--                         <a href="#" class="list-group-item user-greeting-text">Owoce</a> -->
-                        <a href="#" class="list-group-item user-greeting-text">Zwierzęta</a>
+                        <button class="list-group-item user-greeting-text" ng-click ="main.showCards()">Fruits</button>
+                        <button class="list-group-item user-greeting-text" ng-click ="main.showAnimalCards()">Hello kitty</button>
                     </div>
             </div>
 
@@ -34,7 +33,7 @@
 
             <div class="jumbotron my-jumbotron">
 
-                <p id = "press-button-p"> Press the button to start the game. Good luck! </p>
+                <p id = "press-button-p"> Wanna fruit salat? Good luck! </p>
 
                 <div class="container">
                 <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allCards"  ng-click="main.clickCard(card)">

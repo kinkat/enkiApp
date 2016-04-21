@@ -1,0 +1,71 @@
+.user-greeting-text {
+  color: black;
+  font-size: 18px;
+  margin: 5px 5px 5px 5px;
+}
+
+.category-text {
+  color: white;
+  font-size: 18px;
+  margin: 5px 5px 5px 20px;
+}
+
+.leaderboard {
+  color: red;
+  font-size: 18px;
+}
+
+.box-shadow {
+
+border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 1px solid #000000;
+background-color: #FFC300;
+box-sizing: border-box;
+
+}
+
+.leaderbord-shadow {
+
+border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 1px solid #000000;
+background-color: #C70039;
+box-sizing: border-box;
+margin: 15px 5px 5px 5px;
+}
+
+.category-shadow {
+
+border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 1px solid #000000;
+background-color: #581845;
+box-sizing: border-box;
+margin: 15px 5px 5px 5px;
+color: #FFC300;
+}
+
+.clicks-shadow {
+
+border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 1px solid #000000;
+background-color: #DAF7A6;
+box-sizing: border-box;
+margin: 15px 5px 5px 5px;
+}
+
+.my-jumbotron {
+  border-radius: 10px;
+  border: solid;
+  background-color: white;
+
+}
+.italic {
+  font-style: italic;
+}

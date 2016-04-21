@@ -45,7 +45,7 @@
 
     this.showCards = showCards;
 
-    function memoCards() {
+    function showCards() {
       return deck.map(function (item) {
         return {
           title: item.title,

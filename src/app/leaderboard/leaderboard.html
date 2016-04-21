@@ -4,13 +4,13 @@
             <div>
         <acme-navbar></acme-navbar>
     </div>
-            <table class = "table table-striped my-table-size">
-                <tr>
+            <table class="table-style table table-striped my-table-size leaderbord-shadow">
+                <tr class="user-greeting-text">
                     <th>Name</th>
                     <th>Points</th>
                 </tr>
 
-                <tr ng-repeat="user in main.filteredUsers">
+                <tr class="user-greeting-text" ng-repeat="user in main.filteredUsers">
                     <td> {{ user.name }}</td>
                     <td> {{user.points}}</td>
 
