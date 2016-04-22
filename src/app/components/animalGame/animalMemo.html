@@ -10,7 +10,7 @@
 
         </div>
         <div class = "leaderbord-shadow">
-            <a href="#/test" class="list-group-item user-greeting-text">Leaderboard</a>
+            <a href="#/leaderboard" class="list-group-item user-greeting-text">Leaderboard</a>
         </div>
 
         <div class = "category-shadow">
@@ -32,7 +32,7 @@
 
         <div class="jumbotron my-jumbotron">
 
-            <p id = "press-button-p"> Catch them all! Good luck! </p>
+            <p id = "press-button-p"> Catch them all! Good luck! Press play to start game </p>
 
             <div class="container">
             <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in main.allAnimalCards"  ng-click="main.clickCard(card)">

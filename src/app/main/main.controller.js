@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, memoCards, memoAnimalCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory) {
+  function MainController($timeout, $route, $location, webDevTec, memoCards, memoAnimalCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory) {
     var vm = this;
 
 
@@ -34,10 +34,8 @@
     vm.playAnimalGame = playAnimalGame;
     vm.counter = 0;
     vm.playing = false;
-    vm.logOut = logOut;
-    // vm.rankPoints = rankPoints;
-    // vm.rank = 0;
-
+    vm.rankPoints = 0;
+    vm.countRankPoints = vm.countRankPoints;
 
 
     //USER
@@ -48,6 +46,7 @@
     vm.password = "";
     vm.signUp = signUp;
     vm.showUserInfo = cacheUserFactory.readCacheFlag();
+    vm.showLogoutButton = cacheUserFactory.readLogoutFlag();
 
     vm.submitForm = submitForm;
     vm.loginName = "";
@@ -66,6 +65,7 @@
     vm.leaderName = [];
     vm.leaderPoints = [];
     vm.getUserData = getUserData;
+    vm.logOut = logOut;
 
     vm.toggleGameValue = true;
     vm.toggleAnimalGameValue = false;
@@ -77,8 +77,6 @@
 
     var firebaseRef  = new Firebase(FBMSG);
     vm.users = $firebaseArray(firebaseRef);
-    var query = firebaseRef.orderByChild("points");
-    vm.filteredUsers = $firebaseArray(query);
 
     activate();
     showCards();
@@ -158,9 +156,10 @@
 
     function gameOver () {
         console.log("game over");
-        toastr.info("Congrats! You're the guy!");
+        // toastr.info("Congrats! You're the guy!");
         vm.playing = false;
         console.log(vm.counter);
+        showRankPoints();
         updatePoints();
     }
 
@@ -184,9 +183,10 @@
             console.log("game blocked!");
             return;
         }
-        vm.counter ++;
+       vm.counter ++;
         card.backPic = card.frontPic;
         card.selected = true;
+        card.blocked = true;
         checkCards(card);
     }
 
@@ -202,6 +202,7 @@
                 vm.oldCards.forEach(function(item){
                     item.backPic = 'yeoman.png';
                     item.selected = false;
+                    item.blocked = false;
                 })
             }
             vm.oldCards.length = 0;
@@ -210,7 +211,6 @@
         } else if (cardget.title === vm.selectedCards[0].title)  {
                 if(vm.doneCards.length === vm.allCards.length - 2) {
                     gameOver();
-
                 }
                 vm.doneCards.push(cardget);
                 vm.doneCards.push(vm.selectedCards[0]);
@@ -240,7 +240,6 @@
 
     function submitLoginForm(isValid) {
         if (isValid) {
-            alert("jest valid");
             logUser();
         }
     }
@@ -259,7 +258,7 @@
 
         }, function(error) {
             console.log("Error creating user:", error);
-        })
+        });
     }
 
     function logUser(){
@@ -267,6 +266,7 @@
         result.then(function(authData){
             vm.authData = authData;
             getUserData(authData.uid);
+            showRegisterForm();
             console.log("Authenticated successfully with payload:", authData.uid);
 
         }, function(error) {
@@ -275,8 +275,9 @@
     }
 
     function logOut(){
-
         firebaseRef.unauth();
+        // $route.reload();
+        $location.path("/");
     }
 
     function getUserData(id) {
@@ -300,9 +301,37 @@
     function updatePoints() {
         vm.userURL = new Firebase(FBMSG + vm.authData.uid);
         vm.userURL.update({
-            "points" : vm.pointsFromDataBase + vm.counter
+            "points" : vm.pointsFromDataBase + vm.rankPoints
+
         });
 
+        setTimeout(function(){
+           $route.reload();
+       }, 3000);
+
+    }
+
+    function showRankPoints(){
+        if (vm.counter < 11) {
+            vm.rankPoints = 5;
+        }
+
+        else if ( 11 < vm.counter < 15) {
+            vm.rankPoints = 4;
+        }
+
+        else if (15 <  vm.counter < 19) {
+            vm.rankPoints = 3;
+        }
+
+        else if ( 19 < vm.counter < 23) {
+            vm.rankPoints = 2;
+
+        } else {
+            vm.rankPoints = 1;
+        }
+        toastr.info("Congrats! You've earned: " + vm.rankPoints + " rank points");
+        return vm.rankPoints;
     }
 
     function checkStatus(authData) {
@@ -310,9 +339,11 @@
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             vm.authData = authData;
             vm.showUserInfo = true;
+            vm.showLogoutButton = true;
             cacheUserFactory.cachingUserFlag(vm.showUserInfo);
             getUserData(authData.uid);
         } else {
+            vm.showUserInfo = false;
             console.log("User is logged out");
         }
     }

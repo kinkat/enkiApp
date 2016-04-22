@@ -9,11 +9,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
       <ul class="nav navbar-nav">
         <li class="active"><a ng-href="http://localhost:3000/#/">Home</a></li>
-<!--    <li><a ng-href="#">About</a></li>
-        <li><a ng-href="#">Contact</a></li> -->
       </ul>
       <button type="button" class="btn btn-primary sign-button" ng-click="main.showRegisterForm()">Login/Sign up</button>
-        <button type="button" class="btn btn-primary sign-button" ng-click="main.logOut()">Logout</button>
+        <button type="button" class="btn btn-primary sign-button" ng-click="main.logOut()" ng-if="main.showLogoutButton">Logout</button>
     <!--   <ul class="nav navbar-nav navbar-right acme-navbar-text">
         <li>Application was created {{ vm.relativeDate }}.</li>
       </ul> -->
