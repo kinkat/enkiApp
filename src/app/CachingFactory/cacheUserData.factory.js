@@ -12,14 +12,16 @@
 
         var cacheUserInfoFlag = false;
         var cacheLogoutFlag = false;
+        var cacheUserId;
 
         //Initialize FirebaseAuth
         var factory = {
             cachingUserFlag: cachingUserFlag,
             readCacheFlag: readCacheFlag,
             cachingLogoutFlag: cachingLogoutFlag,
-            readLogoutFlag: readLogoutFlag
-
+            readLogoutFlag: readLogoutFlag,
+            cachingUserId: cachingUserId,
+            readCacheUserId: readCacheUserId
         };
 
         return factory;
@@ -39,6 +41,16 @@
         function readLogoutFlag() {
             return cacheLogoutFlag;
         }
+
+        function cachingUserId(id) {
+            cacheUserId = id;
+        }
+
+        function readCacheUserId() {
+            return cacheUserId;
+        }
+
+
 
     }
 })();

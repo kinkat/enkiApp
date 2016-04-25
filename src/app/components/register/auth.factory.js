@@ -44,6 +44,16 @@
             });
         };
 
+        // function newUser (email, name, points) {
+
+        // }
+
+        //         firebaseRef.child(userData.uid).set({
+        //         email:email,
+        //         name: name,
+        //         points: points
+        //     });
+
         function newDatabase () {
             var myDataRef = new Firebase(FBMSG);
             return myDataRef;

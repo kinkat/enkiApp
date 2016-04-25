@@ -1,19 +1,17 @@
 <div class="container">
 
     <div>
-        <acme-navbar creation-date="main.creationDate"></acme-navbar>
+        <acme-navbar></acme-navbar>
     </div>
 
     <div>
         <enki-register></enki-register>
     </div>
 
-    <div ng-show=main.toggleGameValue>
+    <div ng-show=memoCtrl.toggleGameValue>
         <memory-game ></memory-game>
     </div>
-    <div ng-show=main.toggleAnimalGameValue>
-        <memory-animal-game></memory-animal-game>
-    </div>
+</div>
 
 
   <!-- <div class="row">

@@ -6,37 +6,14 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, $route, $location, webDevTec, memoCards, memoAnimalCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory) {
+  function MainController($timeout, $route, $location, memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory) {
     var vm = this;
-
-
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1460369567036;
+ var i = cacheUserFactory.readCacheUserId();
+ console.log(i);
     vm.showToastr = showToastr;
 
     vm.showRegisterVal = false;
     vm.showRegisterForm = showRegisterForm;
-
-    //GAME
-
-    vm.allCards = [];
-    vm.allAnimalCards = [];
-
-    vm.clickCard = clickCard;
-
-    vm.selectedCards = [];
-    vm.firstCard;
-    vm.secondCard;
-    vm.oldCards = [];
-    vm.doneCards = [];
-    vm.playGame = playGame;
-    vm.playAnimalGame = playAnimalGame;
-    vm.counter = 0;
-    vm.playing = false;
-    vm.rankPoints = 0;
-    vm.countRankPoints = vm.countRankPoints;
-
 
     //USER
     vm.users = [];
@@ -47,6 +24,8 @@
     vm.signUp = signUp;
     vm.showUserInfo = cacheUserFactory.readCacheFlag();
     vm.showLogoutButton = cacheUserFactory.readLogoutFlag();
+    // vm.getUserId = cacheUserFactory.cachingUserId();
+    // vm.shuffleCards;
 
     vm.submitForm = submitForm;
     vm.loginName = "";
@@ -57,7 +36,6 @@
     vm.points = 0;
     vm.checkStatus = checkStatus;
 
-    vm.updatePoints = updatePoints;
     vm.userNameFromDataBase;
     vm.pointsFromDataBase;
     vm.emailFromDataBase;
@@ -67,19 +45,10 @@
     vm.getUserData = getUserData;
     vm.logOut = logOut;
 
-    vm.toggleGameValue = true;
-    vm.toggleAnimalGameValue = false;
-
-    vm.showAnimalCards = showAnimalCards;
-    vm.showCards = showCards;
-
     vm.showLeaderBoard = showLeaderBoard;
 
     var firebaseRef  = new Firebase(FBMSG);
     vm.users = $firebaseArray(firebaseRef);
-
-    activate();
-    showCards();
 
     firebaseRef.onAuth(checkStatus);
 
@@ -89,24 +58,9 @@
         vm.showRegisterVal = !vm.showRegisterVal;
     }
 
-    function activate() {
-        getWebDevTec();
-        $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-        }, 4000);
-    }
-
     function showToastr() {
       toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
       vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
     }
 
     function showLeaderBoard() {
@@ -118,118 +72,7 @@
         });
     }
 
-//GAME FUNCTIONS
 
-   function showCards(){
-        vm.playing = false;
-        vm.toggleGameValue = true;
-        vm.toggleAnimalGameValue = false;
-        vm.allCards = memoCards.showCards();
-        shuffle(vm.allCards);
-    }
-
-    function showAnimalCards(){
-        vm.playing = false;
-        vm.toggleGameValue = false;
-        vm.toggleAnimalGameValue = true;
-        vm.allAnimalCards = memoAnimalCards.showAnimalCards();
-        shuffle(vm.allAnimalCards);
-    }
-
-    function playGame(){
-        vm.doneCards = [];
-        vm.counter = 0;
-        showCards();
-        vm.playing = true;
-    }
-
-    function playAnimalGame(){
-        vm.doneCards = [];
-        vm.counter = 0;
-        showAnimalCards();
-        vm.playing = true;
-    }
-
-    function isPlaying() {
-        return vm.playing;
-    }
-
-    function gameOver () {
-        console.log("game over");
-        // toastr.info("Congrats! You're the guy!");
-        vm.playing = false;
-        console.log(vm.counter);
-        showRankPoints();
-        updatePoints();
-    }
-
-    function shuffle(array) {
-        var currentIndex = array.length, tempValue, randomIndex;
-
-        while (0 !== currentIndex) {
-
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            tempValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = tempValue;
-        }
-        return array;
-    }
-
-    function clickCard(card) {
-        if (!isPlaying() || card.blocked) {
-            console.log("game blocked!");
-            return;
-        }
-       vm.counter ++;
-        card.backPic = card.frontPic;
-        card.selected = true;
-        card.blocked = true;
-        checkCards(card);
-    }
-
-    function checkCards(cardget){
-
-        //cardget - aktualnie kliknieta karta
-        //doneCards - wszystkie dobrane w pray
-        //selectedCards - tablica 1 lub 2 odwrconych kart, nie wiadomo czy pasuja, czy nie
-        //oldcards to selectedcards ktore przechodza do kolejnej tury i znikaja po klieknieciu karty nr 3
-
-        if (!vm.selectedCards.length) {
-            if (vm.oldCards.length > 0) {
-                vm.oldCards.forEach(function(item){
-                    item.backPic = 'yeoman.png';
-                    item.selected = false;
-                    item.blocked = false;
-                })
-            }
-            vm.oldCards.length = 0;
-            vm.selectedCards.push(cardget);
-
-        } else if (cardget.title === vm.selectedCards[0].title)  {
-                if(vm.doneCards.length === vm.allCards.length - 2) {
-                    gameOver();
-                }
-                vm.doneCards.push(cardget);
-                vm.doneCards.push(vm.selectedCards[0]);
-
-                vm.selectedCards = [];
-
-                vm.doneCards.forEach(function(item){
-                    item.blocked = true;
-                })
-
-            } else {
-                vm.firstCard = vm.selectedCards[0];
-                vm.secondCard = cardget;
-
-                vm.selectedCards = [];
-                vm.oldCards.push(vm.firstCard);
-                vm.oldCards.push(vm.secondCard);
-            }
-    }
 //FORM FUNCTIONS
 
     function submitForm(isValid) {
@@ -255,7 +98,6 @@
                 points: vm.points
             });
 
-
         }, function(error) {
             console.log("Error creating user:", error);
         });
@@ -265,9 +107,11 @@
         var result = authFactory.authUser(vm.loginEmail, vm.loginPassword);
         result.then(function(authData){
             vm.authData = authData;
+            cacheUserFactory.cachingUserId(authData.uid);
             getUserData(authData.uid);
             showRegisterForm();
             console.log("Authenticated successfully with payload:", authData.uid);
+            $location.path("/gamepanel");
 
         }, function(error) {
             console.log("Login failed:", error);
@@ -295,43 +139,6 @@
             vm.emailFromDataBase = emailSnapshot.val();
 
         });
-    }
-
-
-    function updatePoints() {
-        vm.userURL = new Firebase(FBMSG + vm.authData.uid);
-        vm.userURL.update({
-            "points" : vm.pointsFromDataBase + vm.rankPoints
-
-        });
-
-        setTimeout(function(){
-           $route.reload();
-       }, 3000);
-
-    }
-
-    function showRankPoints(){
-        if (vm.counter < 11) {
-            vm.rankPoints = 5;
-        }
-
-        else if ( 11 < vm.counter < 15) {
-            vm.rankPoints = 4;
-        }
-
-        else if (15 <  vm.counter < 19) {
-            vm.rankPoints = 3;
-        }
-
-        else if ( 19 < vm.counter < 23) {
-            vm.rankPoints = 2;
-
-        } else {
-            vm.rankPoints = 1;
-        }
-        toastr.info("Congrats! You've earned: " + vm.rankPoints + " rank points");
-        return vm.rankPoints;
     }
 
     function checkStatus(authData) {

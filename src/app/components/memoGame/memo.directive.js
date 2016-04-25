@@ -9,8 +9,9 @@
   function memoryGame() {
     var directive = {
       restrict: 'E',
-      templateUrl: 'app/components/memoGame/memo.html'
-
+      templateUrl: 'app/components/memoGame/memo.html',
+      controller: 'MemoController',
+      controllerAs: 'memoCtrl'
     };
 
     return directive;
