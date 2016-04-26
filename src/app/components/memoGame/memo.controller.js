@@ -8,7 +8,7 @@
   /** @ngInject */
   function MemoController($timeout, $route, $location,
     memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory) {
-console.log(cacheUserFactory);
+
     var memoVm = this;
 
     memoVm.showToastr = showToastr;
@@ -41,8 +41,6 @@ console.log(cacheUserFactory);
     memoVm.isPlaying = isPlaying;
 
     memoVm.getUserId = cacheUserFactory.readCacheUserId();
-    console.log(memoVm.getUserId);
-
 
     var firebaseRef  = new Firebase(FBMSG);
     memoVm.users = $firebaseArray(firebaseRef);
@@ -64,27 +62,12 @@ console.log(cacheUserFactory);
         memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards);
     }
 
-    // function showAnimalCards(){
-    //     memoVm.playing = false;
-    //     memoVm.toggleGameValue = false;
-    //     memoVm.toggleAnimalGameValue = true;
-    //     memoVm.allAnimalCards = memoAnimalCards.showAnimalCards();
-    //     memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards);
-    // }
-
     function playGame(){
         memoVm.doneCards = [];
         memoVm.counter = 0;
         showCards();
         memoVm.playing = true;
     }
-
-    // function playAnimalGame(){
-    //     memoVm.doneCards = [];
-    //     memoVm.counter = 0;
-    //     showAnimalCards();
-    //     memoVm.playing = true;
-    // }
 
     function isPlaying() {
         return memoVm.playing;
@@ -154,6 +137,7 @@ console.log(cacheUserFactory);
 
     function updatePoints() {
         memoVm.userURL = new Firebase(FBMSG + memoVm.getUserId);
+        console.log(memoVm.userURL);
         memoVm.userURL.update({
             "points" : memoVm.pointsFromDataBase + memoVm.rankPoints
 

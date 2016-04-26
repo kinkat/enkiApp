@@ -17,9 +17,6 @@
 
         .when('/gamepanel',{
         templateUrl: 'app/components/memoGame/gamePanel.html',
-        controller: 'MainController',
-        controllerAs: 'main',
-
         resolve: {
 
             "currentAuth": ["authFactory", function(authFactory) {

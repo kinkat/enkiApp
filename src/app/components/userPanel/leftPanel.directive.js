@@ -9,7 +9,9 @@
   function leftPanel() {
     var directive = {
       restrict: 'EA',
-      templateUrl: 'app/components/userPanel/leftPanel.html'
+      templateUrl: 'app/components/userPanel/leftPanel.html',
+      controller: 'LeftPanelController',
+      controllerAs: 'LeftPanelCtrl'
     };
 
     return directive;
