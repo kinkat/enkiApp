@@ -12,7 +12,7 @@
         <th>Points</th>
     </tr>
 
-    <tr class="user-greeting-text" ng-repeat="user in main.users | orderBy: '-points'">
+    <tr class="user-greeting-text" ng-repeat="user in LeftPanelCtrl.users | orderBy: '-points'">
         <td> {{ user.name }}</td>
         <td> {{user.points}}</td>
     </tr>

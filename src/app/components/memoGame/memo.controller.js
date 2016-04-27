@@ -34,18 +34,29 @@
     memoVm.updatePoints = updatePoints;
 
     memoVm.toggleGameValue = true;
-    memoVm.toggleAnimalGameValue = false;
-
 
     memoVm.showCards = showCards;
     memoVm.isPlaying = isPlaying;
 
-    memoVm.getUserId = cacheUserFactory.readCacheUserId();
+
+    cacheUserFactory.readCacheUserId()
+        .then(function(userId){
+            memoVm.getUserId = userId;
+        });
+
 
     var firebaseRef  = new Firebase(FBMSG);
     memoVm.users = $firebaseArray(firebaseRef);
 
     showCards();
+    firebaseRef.onAuth(authFactory.checkStatus);
+
+
+    // authFactory.getUserData()
+    //     .then(function(UserDataObj){
+    //             memoVm.pointsFromDataBase = UserDataObj;
+    //                 console.log(memoVm.pointsFromDataBase);
+    //             });
 
     function showToastr() {
       toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
@@ -137,11 +148,15 @@
 
     function updatePoints() {
         memoVm.userURL = new Firebase(FBMSG + memoVm.getUserId);
-        console.log(memoVm.userURL);
-        memoVm.userURL.update({
-            "points" : memoVm.pointsFromDataBase + memoVm.rankPoints
+            authFactory.getUserData(memoVm.getUserId)
+                .then(function(UserDataObj){
+                    memoVm.pointsFromDataBase = UserDataObj.pointsFromDataBase;
+                    memoVm.userURL.update({
+                        "points" : memoVm.pointsFromDataBase + memoVm.rankPoints
+                    });
+                });
+        console.log(memoVm.getUserId);
 
-        });
 
         setTimeout(function(){
            $route.reload();
@@ -167,7 +182,7 @@
         } else {
             memoVm.rankPoints = 1;
         }
-        toastr.info("Congrats! You've earned: " + memoVm.rankPoints + " rank points");
+
         return memoVm.rankPoints;
     }
 

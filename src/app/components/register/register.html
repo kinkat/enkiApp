@@ -1,4 +1,4 @@
-<div class="top-content" ng-show="main.showRegisterVal">
+<div class="top-content" ng-show="RegisterCtrl.flag.val">
 
     <div class="inner-bg">
         <div class="container">
@@ -15,18 +15,18 @@
 
                         </div>
                         <div class="form-bottom">
-                            <form name="userFormLogin" ng-submit="main.submitLoginForm(userFormLogin.$valid)" novalidate>
+                            <form name="userFormLogin" ng-submit="RegisterCtrl.submitLoginForm(userFormLogin.$valid)" novalidate>
                                 <div class="form-group" ng-class="{'has-error': userFormLogin.email.$invalid && !userFormLogin.email.$pristine }">
                                     <label class="sr-only">Email</label>
                                     <input type="email" name="email" placeholder="Email..." class="form-email form-control"
-                                  ng-model="main.loginEmail" required>
+                                  ng-model="RegisterCtrl.loginEmail" required>
                                     <p ng-show="userFormLogin.email.$invalid && !userFormLogin.email.$pristine" class="help-block"> Enter your email</p>
                                 </div>
 
                                 <div class="form-group" ng-class="{'has-error': userFormLogin.password.$invalid && !userFormLogin.password.$pristine }">
                                     <label class="sr-only">Password</label>
                                     <input type="{{showpassword ? 'text' : 'password'}}" name="password" placeholder="Password..." class="form-last-name form-control"
-                                    ng-model="main.loginPassword" ng-minlength="5" required>
+                                    ng-model="RegisterCtrl.loginPassword" ng-minlength="5" required>
                                     <p ng-show="userFormLogin.password.$invalid && !userFormLogin.password.$pristine" class="help-block"> Enter your password (min. 5 letters)</p>
                                 </div>
                                 <button type="submit" class="btn"  ng-disabled="userFormLogin.$invalid">Sign in!</button>
@@ -50,30 +50,30 @@
 
                     </div>
                     <div class="form-bottom">
-                        <form name="userForm" ng-submit="main.submitForm(userForm.$valid)" novalidate>
+                        <form name="userForm" ng-submit="RegisterCtrl.submitForm(userForm.$valid)" novalidate>
 
                             <div class="form-group" ng-class="{'has-error': userForm.name.$invalid && !userForm.name.$pristine }">
                                 <label class="sr-only">Name</label>
                                     <input type="text" name="name" placeholder="Nickname..." class="form-first-name form-control"
-                                    ng-model="main.name" required>
+                                    ng-model="RegisterCtrl.name" required>
                                     <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block"> Enter your name</p>
                             </div>
 
                             <div class="form-group" ng-class="{'has-error': userForm.email.$invalid && !userForm.email.$pristine }">
                                 <label class="sr-only">Email</label>
                                 <input type="email" name="email" placeholder="Email..." class="form-email form-control"
-                                  ng-model="main.email" required>
+                                  ng-model="RegisterCtrl.email" required>
                                 <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block"> Enter your email</p>
                             </div>
 
                             <div class="form-group" ng-class="{'has-error': userForm.password.$invalid && !userForm.password.$pristine }">
                                 <label class="sr-only">Password</label>
                                 <input type="{{showpassword ? 'text' : 'password'}}" name="password" placeholder="Password..." class="form-last-name form-control"
-                                  ng-model="main.password" ng-minlength="5" required>
+                                  ng-model="RegisterCtrl.password" ng-minlength="5" required>
                                 <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block"> Enter your password (min. 5 letters)</p>
                             </div>
 
-                            <button type="submit" class="btn"  ng-disabled="userForm.$invalid" ng-click="main.showRegisterForm()">Sign me up!</button>
+                            <button type="submit" class="btn"  ng-disabled="userForm.$invalid" >Sign me up!</button>
 
                         </form>
                     </div>

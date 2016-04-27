@@ -6,16 +6,19 @@
     .factory('authFactory', authFactory);
 
     /** @ngInject */
-    authFactory.$inject = ['FBMSG', '$firebaseAuth'];
+    authFactory.$inject = ['$q', 'FBMSG', '$firebaseAuth', 'cacheUserFactory'];
 
-    function authFactory(FBMSG, $firebaseAuth) {
+    function authFactory($q, FBMSG, $firebaseAuth, cacheUserFactory) {
+        var vm = this;
+        vm.authData;
+        vm.showUserInfo = cacheUserFactory.readCacheFlag();
 
-    var UserDataObj = {},
-        userURL,
-        myDataRef,
-        email,
-        name,
-        points;
+        var UserDataObj = {},
+            userURL,
+            myDataRef,
+            email,
+            name,
+            points;
 
     //Initialize FirebaseAuth
       var authFactory = {
@@ -24,7 +27,8 @@
         auth: auth,
         newDatabase: newDatabase,
         getUserData:getUserData,
-        createRecordInDB : createRecordInDB
+        createRecordInDB : createRecordInDB,
+        checkStatus: checkStatus
 
     };
 
@@ -63,7 +67,7 @@
         };
 
         function getUserData(id) {
-
+            var defer = $q.defer();
             userURL = new Firebase(FBMSG + id);
             userURL.once("value", function(snapshot){
                 var nameSnapshot = snapshot.child("name");
@@ -73,9 +77,9 @@
                 UserDataObj['userNameFromDataBase'] = nameSnapshot.val();
                 UserDataObj['pointsFromDataBase'] = pointsSnapshot.val();
                 UserDataObj['emailFromDataBase'] = emailSnapshot.val();
-                console.log(UserDataObj);
+                defer.resolve(UserDataObj);
             });
-            return UserDataObj;
+            return defer.promise;
         }
 
         function createRecordInDB(id, email, name, points) {
@@ -89,6 +93,19 @@
 
         }
 
+        function checkStatus(authData) {
+        if (authData) {
+            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+            vm.authData = authData;
+            vm.showUserInfo = true;
+            // vm.showLogoutButton = true;
+            cacheUserFactory.cachingUserId(authData.uid);
+
+        } else {
+            vm.showUserInfo = false;
+            console.log("User is logged out");
+        }
+    }
 
     };
 

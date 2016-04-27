@@ -1,18 +1,20 @@
 <nav class="navbar navbar-static-top navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="https://github.com/kinkat/enkiApp">
-        <span class="glyphicon glyphicon-home"></span> enkiApp
-      </a>
-    </div>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="https://github.com/kinkat/enkiApp">
+                <span class="glyphicon glyphicon-home"></span> enkiApp
+            </a>
+        </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-      <ul class="nav navbar-nav">
-        <li class="active"><a ng-href="http://localhost:3000/#/gamepanel">Home</a></li>
-      </ul>
-      <button type="button" class="btn btn-primary sign-button" ng-click="main.showRegisterForm()">Login/Sign up</button>
-        <button type="button" class="btn btn-primary sign-button" ng-click="main.logOut()" ng-if="main.showLogoutButton">Logout</button>
+        <ul class="nav navbar-nav">
+            <li class="active"><a ng-href="http://localhost:3000/#/">Home</a></li>
+        </ul>
+        <button type="button" class="btn btn-primary sign-button" ng-click="NavbarCtrl.showRegisterForm()">Login/Sign up</button>
+        <button type="button" class="btn btn-primary sign-button" ng-hide="NavbarCtrl.flagBtn.val" ng-click="NavbarCtrl.logOut()">Logout</button>
 
     </div>
   </div>
 </nav>
+
+

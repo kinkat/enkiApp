@@ -8,14 +8,10 @@
   /** @ngInject */
   function acmeNavbar() {
     var directive = {
-      restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html'
-      // scope: {
-      //     creationDate: '='
-      // },
-      // controller: MainController,
-      // controllerAs: 'vm',
-      // bindToController: true
+      restrict: 'EA',
+      templateUrl: 'app/components/navbar/navbar.html',
+      controller: 'NavbarController',
+      controllerAs: 'NavbarCtrl'
     };
 
     return directive;

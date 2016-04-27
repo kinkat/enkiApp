@@ -6,12 +6,15 @@
     .factory('cacheUserFactory', cacheUserFactory);
 
     /** @ngInject */
-    cacheUserFactory.$inject = [];
+    cacheUserFactory.$inject = ['$q'];
 
-    function cacheUserFactory() {
+    function cacheUserFactory($q) {
+
+
 
         var cacheUserInfoFlag = false;
         var cacheLogoutFlag = false;
+        var cacheRegisterFormFlag = {flag:false};
         var cacheUserId;
 
         //Initialize FirebaseAuth
@@ -35,7 +38,7 @@
         }
 
         function cachingLogoutFlag(flag) {
-            cacheUserInfoFlag = flag;
+            cacheLogoutFlag = flag;
         }
 
         function readLogoutFlag() {
@@ -47,10 +50,10 @@
         }
 
         function readCacheUserId() {
-            return cacheUserId;
+            var defer = $q.defer();
+            defer.resolve(cacheUserId);
+            return defer.promise;
         }
-
-
 
     }
 })();

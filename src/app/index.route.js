@@ -15,7 +15,7 @@
 
       })
 
-        .when('/gamepanel',{
+        .when('/gamepanel', {
         templateUrl: 'app/components/memoGame/gamePanel.html',
         resolve: {
 
@@ -29,8 +29,8 @@
 
         .when('/leaderboard', {
         templateUrl: 'app/leaderboard/leaderboard.html',
-        controller: 'MainController',
-        controllerAs: 'main',
+        controller: 'LeftPanelController',
+        controllerAs: 'LeftPanelCtrl',
 
         resolve: {
 

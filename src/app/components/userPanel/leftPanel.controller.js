@@ -5,36 +5,30 @@
     .module('enkiApp')
     .controller('LeftPanelController', LeftPanelController);
 
-    LeftPanelController.$inject = ['FBMSG', 'authFactory', 'cacheUserFactory'];
+    LeftPanelController.$inject = ['FBMSG', 'authFactory', 'cacheUserFactory', '$firebaseArray'];
 
   /** @ngInject */
-  function LeftPanelController(FBMSG, authFactory, cacheUserFactory) {
-    var leftPanVm = this;
+  function LeftPanelController(FBMSG, authFactory, cacheUserFactory, $firebaseArray) {
+    var leftPanVm = this,
+        firebaseRef  = new Firebase(FBMSG);
+
+    leftPanVm.users = [];
+    leftPanVm.users = $firebaseArray(firebaseRef);
+
+    firebaseRef.onAuth(authFactory.checkStatus);
 
     leftPanVm.userInfo = {};
-
-    leftPanVm.showRegisterVal = false;
 
     leftPanVm.leaderName = [];
     leftPanVm.leaderPoints = [];
 
-    leftPanVm.showLeaderBoard = showLeaderBoard;
-
-
-    //Shows leaderboard and fill table with data from firebase
-
-    leftPanVm.userInfo = authFactory.getUserData(cacheUserFactory.readCacheUserId());
-
-    function showLeaderBoard() {
-        leftPanVm.userURL = new Firebase(FBMSG);
-        leftPanVm.userURL.orderByChild("points").on("child_added", function(snapshot) {
-            leftPanVm.leaderName = snapshot.val().name;
-            leftPanVm.leaderPoints = snapshot.val().points;
-            console.log(snapshot.val().name + " has " + snapshot.val().points + " points");
+    cacheUserFactory.readCacheUserId()
+        .then(function(userId){
+            authFactory.getUserData(userId)
+                .then(function(UserDataObj){
+                    leftPanVm.userInfo = UserDataObj;
+                });
         });
-    }
-
-
   }
 
 })();

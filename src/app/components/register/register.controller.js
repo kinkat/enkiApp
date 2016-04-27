@@ -1,0 +1,90 @@
+(function() {
+  'use strict';
+
+  angular
+    .module('enkiApp')
+    .controller('RegisterController', RegisterController);
+
+  /** @ngInject */
+  function RegisterController($route, $location, FBMSG, authFactory, cacheUserFactory, flagService) {
+    var vm = this,
+        firebaseRef = new Firebase(FBMSG);
+
+
+    vm.signUp = signUp;
+    vm.submitLoginForm = submitLoginForm;
+    vm.submitForm = submitForm;
+    vm.showLogoutButton = showLogoutButton;
+
+    vm.flag = flagService.formFlag;
+    vm.flagBtn = flagService.logoutBtnFlag;
+
+    //USER
+    vm.authData;
+    vm.newUser = {};
+    vm.name = "";
+    vm.email = "";
+    vm.points = 0;
+    vm.password = "";
+
+    vm.loginName = "";
+    vm.loginEmail ="";
+    vm.loginPassword ="";
+    vm.logUser = logUser;
+
+
+    //MAIN FUNCTIONS
+
+    function showRegisterForm() {
+        flagService.updateFlag();
+    }
+
+    function showLogoutButton() {
+        flagService.updateLogoutBtnFlag();
+
+    }
+
+    //FORM FUNCTIONS
+
+    function submitForm(isValid) {
+        if (isValid) {
+            signUp();
+        }
+    }
+
+    function submitLoginForm(isValid) {
+        if (isValid) {
+            logUser();
+        }
+    }
+
+    function signUp(){
+        var result = authFactory.addUser(vm.email, vm.password);
+        result.then(function(userData){
+            console.log(userData);
+            console.log("Successfully created user account with uid:", userData.uid);
+            authFactory.createRecordInDB(userData.uid, vm.email, vm.name, vm.points); // przy wylowaniu podac argumenty email name points, refactor!
+            showRegisterForm();
+        }, function(error) {
+            console.log("Error creating user:", error);
+        });
+    }
+
+    function logUser(){
+        var result = authFactory.authUser(vm.loginEmail, vm.loginPassword);
+        result.then(function(authData){
+            vm.authData = authData;
+            cacheUserFactory.cachingUserId(authData.uid);
+            console.log("Authenticated successfully with payload:", authData.uid);
+            showRegisterForm();
+            showLogoutButton();
+            $location.path("/gamepanel");
+
+        }, function(error) {
+            console.log("Login failed:", error);
+        })
+    }
+
+  }
+
+})();
