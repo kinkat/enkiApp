@@ -6,9 +6,9 @@
     .factory('authFactory', authFactory);
 
     /** @ngInject */
-    authFactory.$inject = ['$q', 'FBMSG', '$firebaseAuth', 'cacheUserFactory'];
+    authFactory.$inject = ['$q', 'FBMSG', '$firebaseAuth', 'cacheUserFactory', 'UBASE'];
 
-    function authFactory($q, FBMSG, $firebaseAuth, cacheUserFactory) {
+    function authFactory($q, FBMSG, $firebaseAuth, cacheUserFactory, UBASE) {
         var vm = this;
         vm.authData;
         vm.showUserInfo = cacheUserFactory.readCacheFlag();
@@ -18,7 +18,8 @@
             myDataRef,
             email,
             name,
-            points;
+            points,
+            comment;
 
     //Initialize FirebaseAuth
       var authFactory = {
@@ -28,7 +29,8 @@
         newDatabase: newDatabase,
         getUserData:getUserData,
         createRecordInDB : createRecordInDB,
-        checkStatus: checkStatus
+        checkStatus: checkStatus,
+        createCommentInDB: createCommentInDB
 
     };
 
@@ -93,12 +95,23 @@
 
         }
 
+
+        function createCommentInDB(id, email, name, comment) {
+            myDataRef = new Firebase(UBASE);
+
+            myDataRef.child(id).set({
+                email: email,
+                name: name,
+                comment: comment
+            });
+
+        }
+
         function checkStatus(authData) {
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             vm.authData = authData;
             vm.showUserInfo = true;
-            // vm.showLogoutButton = true;
             cacheUserFactory.cachingUserId(authData.uid);
 
         } else {

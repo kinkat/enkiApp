@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MemoController($timeout, $route, $location,
-    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory) {
+    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, flagService) {
 
     var memoVm = this;
 
@@ -16,10 +16,17 @@
     //GAME
 
     memoVm.allCards = [];
+    memoVm.gameVal;
+    memoVm.newCards = [];
+    memoVm.shuffleCards;
+    memoVm.cloned;
+    memoVm.cardValHtml;
 
     memoVm.clickCard = clickCard;
 
     memoVm.selectedCards = [];
+    memoVm.shuffleCards;
+    memoVm.doubleShuffleCards = [];
     memoVm.firstCard;
     memoVm.secondCard;
     memoVm.oldCards = [];
@@ -37,7 +44,7 @@
 
     memoVm.showCards = showCards;
     memoVm.isPlaying = isPlaying;
-
+    memoVm.generateDeck = generateDeck;
 
     cacheUserFactory.readCacheUserId()
         .then(function(userId){
@@ -45,18 +52,12 @@
         });
 
 
-    var firebaseRef  = new Firebase(FBMSG);
+    var firebaseRef = new Firebase(FBMSG);
     memoVm.users = $firebaseArray(firebaseRef);
 
-    showCards();
+    generateDeck();
+
     firebaseRef.onAuth(authFactory.checkStatus);
-
-
-    // authFactory.getUserData()
-    //     .then(function(UserDataObj){
-    //             memoVm.pointsFromDataBase = UserDataObj;
-    //                 console.log(memoVm.pointsFromDataBase);
-    //             });
 
     function showToastr() {
       toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
@@ -65,12 +66,33 @@
 
 //GAME FUNCTIONS
 
-    function showCards(){
+    function generateDeck(cardValHtml) {
+
+        memoVm.cardValHtml = cardValHtml;
+        if (cardValHtml === 1) {
+            memoVm.allCards = memoCards.showCards();
+            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 6);
+        } else if (cardValHtml === 2) {
+            memoVm.allCards = memoCards.showCards();
+            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 4);
+        } else if (cardValHtml === 3) {
+            memoVm.allCards = memoCards.showCardsAnimals();
+            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 6);
+        } else {
+            memoVm.allCards = memoCards.showCardsAnimals();
+            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 4);
+        }
+
+        memoVm.cloned = angular.copy(memoVm.shuffleCards);
+        memoVm.shuffleCards = memoVm.shuffleCards.concat(memoVm.cloned);
+        return memoVm.shuffleCards;
+        showCards();
+    }
+
+    function showCards(item){
         memoVm.playing = false;
         memoVm.toggleGameValue = true;
         memoVm.toggleAnimalGameValue = false;
-        memoVm.allCards = memoCards.showCards();
-        memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards);
     }
 
     function playGame(){
@@ -115,16 +137,23 @@
         if (!memoVm.selectedCards.length) {
             if (memoVm.oldCards.length > 0) {
                 memoVm.oldCards.forEach(function(item){
-                    item.backPic = 'yeoman.png';
                     item.selected = false;
                     item.blocked = false;
+                    console.log(memoVm.cardValHtml);
+                    if (memoVm.cardValHtml === 1 || memoVm.cardValHtml === 2){
+                        item.backPic = 'yeoman.png';
+                        console.log(item.backPic);
+                    } else {
+                        item.backPic = 'angular.png';
+                        console.log(item.backPic);
+                    }
                 })
             }
             memoVm.oldCards.length = 0;
             memoVm.selectedCards.push(cardget);
 
         } else if (cardget.title === memoVm.selectedCards[0].title)  {
-                if(memoVm.doneCards.length === memoVm.allCards.length - 2) {
+                if(memoVm.doneCards.length === memoVm.shuffleCards.length - 2) {
                     gameOver();
                 }
                 memoVm.doneCards.push(cardget);
@@ -155,8 +184,6 @@
                         "points" : memoVm.pointsFromDataBase + memoVm.rankPoints
                     });
                 });
-        console.log(memoVm.getUserId);
-
 
         setTimeout(function(){
            $route.reload();

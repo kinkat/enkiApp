@@ -1,3 +1,16 @@
+<div class="col-md-3">
+    <div class="category-shadow">
+        <p class="category-text">Games</p>
+        <button class="list-group-item user-greeting-text" ng-click ="left.showCards()">Fruits</button>
+        <button class="list-group-item user-greeting-text" ng-click = "memoCtrl.generateDeck(1)">Easy</button>
+        <button class="list-group-item user-greeting-text" ng-click = "memoCtrl.generateDeck(2)">Hard</button>
+        <button class="list-group-item user-greeting-text" ng-click ="main.showAnimalCards()">Hello kitty</button>
+        <button class="list-group-item user-greeting-text" ng-click = "memoCtrl.generateDeck(3)">Easy</button>
+        <button class="list-group-item user-greeting-text" ng-click = "memoCtrl.generateDeck(4)">Hard</button>
+        <p class="list-group-item user-greeting-text">{{memoCtrl.counter}} clicks</p>
+    </div>
+</div>
+
 <div class="col-md-9">
 
     <div class="jumbotron my-jumbotron">
@@ -5,10 +18,9 @@
         <p id = "press-button-p"> Wanna fruits salat? Good luck! Press play to start game </p>
 
             <div class="container">
-                <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.allCards"  ng-click="memoCtrl.clickCard(card)">
+                <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.shuffleCards track by $index"  ng-click="memoCtrl.clickCard(card)">
 
                 <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="memoCtrl.playGame()">
             </div>
     </div>
 </div>
-

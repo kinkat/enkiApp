@@ -17,21 +17,16 @@
 
         return factory;
 
-        function shuffle(array) {
-            var currentIndex = array.length, tempValue, randomIndex;
-
-            while (0 !== currentIndex) {
-
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-
-                tempValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = tempValue;
-            }
-        return array;
+        function shuffle(arr, count) {
+            var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+                while (i-- > min) {
+                    index = Math.floor((i + 1) * Math.random());
+                    temp = shuffled[index];
+                    shuffled[index] = shuffled[i];
+                    shuffled[i] = temp;
+                }
+            return shuffled.slice(0,min);
         }
-
     }
 })();
 
