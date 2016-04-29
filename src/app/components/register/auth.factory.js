@@ -15,11 +15,7 @@
 
         var UserDataObj = {},
             userURL,
-            myDataRef,
-            email,
-            name,
-            points,
-            comment;
+            myDataRef;
 
     //Initialize FirebaseAuth
       var authFactory = {
@@ -120,7 +116,7 @@
         }
     }
 
-    };
+    }
 
 })();
 

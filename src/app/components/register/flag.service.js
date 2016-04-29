@@ -15,7 +15,7 @@
         flagVm.updateLogoutBtnFlag = updateLogoutBtnFlag;
         flagVm.updateCommentFlag = updateCommentFlag;
 
-        flagVm.formFlag = {val:false};
+        flagVm.formFlag = {val:true};
         flagVm.logoutBtnFlag = {val:false};
         flagVm.commentFlag = {val:false};
 

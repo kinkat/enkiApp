@@ -33,7 +33,7 @@
         function logOut(){
             firebaseRef.unauth();
             showLogoutButton();
-            $location.path("/");
+            $location.path("/start");
 
         }
 

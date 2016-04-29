@@ -9,12 +9,8 @@
     cacheUserFactory.$inject = ['$q'];
 
     function cacheUserFactory($q) {
-
-
-
         var cacheUserInfoFlag = false;
         var cacheLogoutFlag = false;
-        var cacheRegisterFormFlag = {flag:false};
         var cacheUserId;
 
         //Initialize FirebaseAuth

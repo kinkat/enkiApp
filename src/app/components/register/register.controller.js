@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function RegisterController($route, $location, FBMSG, authFactory, cacheUserFactory, flagService) {
-    var vm = this,
-        firebaseRef = new Firebase(FBMSG);
+    var vm = this;
+
 
 
     vm.signUp = signUp;
@@ -41,7 +41,6 @@
 
     function showLogoutButton() {
         flagService.updateLogoutBtnFlag();
-
     }
 
     //FORM FUNCTIONS

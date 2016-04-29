@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MemoController($timeout, $route, $location,
-    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, flagService) {
+    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory) {
 
     var memoVm = this;
 
@@ -18,14 +18,14 @@
     memoVm.allCards = [];
     memoVm.gameVal;
     memoVm.newCards = [];
-    memoVm.shuffleCards;
+    memoVm.shuffledCards;
     memoVm.cloned;
     memoVm.cardValHtml;
 
     memoVm.clickCard = clickCard;
 
     memoVm.selectedCards = [];
-    memoVm.shuffleCards;
+    memoVm.shuffledCards;
     memoVm.doubleShuffleCards = [];
     memoVm.firstCard;
     memoVm.secondCard;
@@ -67,30 +67,31 @@
 //GAME FUNCTIONS
 
     function generateDeck(cardValHtml) {
+        memoVm.playing = false;
 
         memoVm.cardValHtml = cardValHtml;
         if (cardValHtml === 1) {
             memoVm.allCards = memoCards.showCards();
-            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 6);
+            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 6);
         } else if (cardValHtml === 2) {
             memoVm.allCards = memoCards.showCards();
-            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 4);
+            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
         } else if (cardValHtml === 3) {
             memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 6);
+            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 6);
         } else {
             memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffleCards = helpersFactory.shuffle(memoVm.allCards, 4);
+            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
         }
 
-        memoVm.cloned = angular.copy(memoVm.shuffleCards);
-        memoVm.shuffleCards = memoVm.shuffleCards.concat(memoVm.cloned);
-        return memoVm.shuffleCards;
+        memoVm.cloned = angular.copy(memoVm.shuffledCards);
+        memoVm.shuffledCards = memoVm.shuffledCards.concat(memoVm.cloned);
+        return memoVm.shuffledCards;
         showCards();
     }
 
     function showCards(item){
-        memoVm.playing = false;
+        // memoVm.playing = false;
         memoVm.toggleGameValue = true;
         memoVm.toggleAnimalGameValue = false;
     }
@@ -98,7 +99,7 @@
     function playGame(){
         memoVm.doneCards = [];
         memoVm.counter = 0;
-        showCards();
+        generateDeck(memoVm.cardValHtml);
         memoVm.playing = true;
     }
 
@@ -139,13 +140,13 @@
                 memoVm.oldCards.forEach(function(item){
                     item.selected = false;
                     item.blocked = false;
-                    console.log(memoVm.cardValHtml);
+
                     if (memoVm.cardValHtml === 1 || memoVm.cardValHtml === 2){
                         item.backPic = 'yeoman.png';
-                        console.log(item.backPic);
+
                     } else {
                         item.backPic = 'angular.png';
-                        console.log(item.backPic);
+
                     }
                 })
             }
@@ -153,7 +154,7 @@
             memoVm.selectedCards.push(cardget);
 
         } else if (cardget.title === memoVm.selectedCards[0].title)  {
-                if(memoVm.doneCards.length === memoVm.shuffleCards.length - 2) {
+                if(memoVm.doneCards.length === memoVm.shuffledCards.length - 2) {
                     gameOver();
                 }
                 memoVm.doneCards.push(cardget);
@@ -187,7 +188,7 @@
 
         setTimeout(function(){
            $route.reload();
-       }, 3000);
+       }, 2000);
     }
 
     function showRankPoints(){

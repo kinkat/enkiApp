@@ -5,13 +5,20 @@
     .module('enkiApp')
     .config(routeConfig);
 
-  function routeConfig($routeProvider, $locationProvider) {
+  function routeConfig($routeProvider) {
 
     $routeProvider
         .when('/', {
         templateUrl: 'app/main/main.html',
         controller: 'MainController',
         controllerAs: 'main'
+
+      })
+
+        .when('/login', {
+        templateUrl: 'app/components/register/register.html',
+        controller: 'RegisterController',
+        controllerAs: 'RegisterCtrl'
 
       })
 
@@ -27,20 +34,20 @@
 
         })
 
-        .when('/leaderboard', {
-        templateUrl: 'app/leaderboard/leaderboard.html',
-        controller: 'LeftPanelController',
-        controllerAs: 'LeftPanelCtrl',
+        // .when('/leaderboard', {
+        // templateUrl: 'app/leaderboard/leaderboard.html',
+        // controller: 'LeftPanelController',
+        // controllerAs: 'LeftPanelCtrl',
 
-        resolve: {
+        // resolve: {
 
-            "currentAuth": ["authFactory", function(authFactory) {
-                var auth = authFactory.auth();
-                return auth.$requireAuth();
-            }]
-        }
+        //     "currentAuth": ["authFactory", function(authFactory) {
+        //         var auth = authFactory.auth();
+        //         return auth.$requireAuth();
+        //     }]
+        // }
 
-        })
+        // })
 
 
         .otherwise({

@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController(FBMSG, authFactory, cacheUserFactory) {
+  function MainController(FBMSG, authFactory) {
     var vm = this,
         firebaseRef = new Firebase(FBMSG);
 

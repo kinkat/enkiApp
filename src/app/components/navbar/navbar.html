@@ -10,9 +10,8 @@
         <ul class="nav navbar-nav">
             <li class="active"><a ng-href="http://localhost:3000/#/">Home</a></li>
         </ul>
-        <button type="button" class="btn btn-primary sign-button" ng-click="NavbarCtrl.showRegisterForm()">Login/Sign up</button>
-        <button type="button" class="btn btn-primary sign-button" ng-hide="NavbarCtrl.flagBtn.val" ng-click="NavbarCtrl.logOut()">Logout</button>
-
+        <a class="btn btn-primary sign-button" href="#/login" type="button" class="btn btn-primary sign-button">Login/Sign up</a>
+        <button type="button" class="btn btn-primary sign-button" ng-show="NavbarCtrl.flagBtn" ng-click="NavbarCtrl.logOut()">Logout</button>
     </div>
   </div>
 </nav>

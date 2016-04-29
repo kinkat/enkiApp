@@ -5,15 +5,12 @@
     .module('enkiApp')
     .controller('LeftPanelController', LeftPanelController);
 
-    LeftPanelController.$inject = ['FBMSG', 'authFactory', 'cacheUserFactory', '$firebaseArray', 'memoCards', '$route'];
+    LeftPanelController.$inject = ['FBMSG', 'authFactory', 'cacheUserFactory', '$firebaseArray'];
 
   /** @ngInject */
-  function LeftPanelController(FBMSG, authFactory, cacheUserFactory, $firebaseArray, memoCards, $route) {
+  function LeftPanelController(FBMSG, authFactory, cacheUserFactory, $firebaseArray) {
     var leftPanVm = this,
         firebaseRef  = new Firebase(FBMSG);
-
-        leftPanVm.showclickedValue = showclickedValue;
-        leftPanVm.gameVal;
 
     leftPanVm.users = [];
     leftPanVm.users = $firebaseArray(firebaseRef);
@@ -24,10 +21,6 @@
 
     leftPanVm.leaderName = [];
     leftPanVm.leaderPoints = [];
-
-    function showclickedValue(cardValHtml) {
-        memoCards.generateDeck(cardValHtml);
-    }
 
      cacheUserFactory.readCacheUserId()
         .then(function(userId){

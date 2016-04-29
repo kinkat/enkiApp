@@ -1,50 +1,61 @@
-<div class="top-content">
-
+<!-- <div class="top-content">
     <div class="inner-bg">
-        <div class="container">
-
+        <div class="container"> -->
             <div class="row">
-            <div class="col-sm-1 middle-border"></div>
-            <div class="col-sm-1"></div>
-
-            <div class="col-sm-5">
-
-                <div class="form-box">
-                    <div class="form-top">
-                        <div class="form-top-left">
-                            <h3>Left us comment</h3>
+            <nav class="navbar navbar-default col-md-12" >
+                <div class="col-md-6">
+                    <div class="form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>Give us your comment</h3>
+                            </div>
                         </div>
 
-                    </div>
-                    <div class="form-bottom">
-                        <form name="commentForm" ng-submit="comPanelCtrl.submitCommentForm(commentForm.$valid)" novalidate>
+                        <div class="form-bottom">
+                            <form name="commentForm" ng-submit="comPanelCtrl.submitCommentForm(commentForm.$valid)" novalidate>
 
-                            <div class="form-group" ng-class="{'has-error': commentForm.name.$invalid && !commentForm.name.$pristine }">
-                                <label class="sr-only">Name</label>
+                                <div class="form-group" ng-class="{'has-error': commentForm.name.$invalid && !commentForm.name.$pristine }">
+                                    <label class="sr-only">Name</label>
                                     <input type="text" name="name" placeholder="Nickname..." class="form-first-name form-control"
                                     ng-model="comPanelCtrl.name" required>
                                     <p ng-show="commentForm.name.$invalid && !commentForm.name.$pristine" class="help-block"> Enter your name</p>
-                            </div>
+                                </div>
 
-                            <div class="form-group" ng-class="{'has-error': commentForm.email.$invalid && !commentForm.email.$pristine }">
-                                <label class="sr-only">Email</label>
-                                <input type="email" name="email" placeholder="Email..." class="form-email form-control"
+                                <div class="form-group" ng-class="{'has-error': commentForm.email.$invalid && !commentForm.email.$pristine }">
+                                    <label class="sr-only">Email</label>
+                                    <input type="email" name="email" placeholder="Email..." class="form-email form-control"
                                   ng-model="comPanelCtrl.email" required>
-                                <p ng-show="commentForm.email.$invalid && !commentForm.email.$pristine" class="help-block"> Enter your email</p>
-                            </div>
+                                    <p ng-show="commentForm.email.$invalid && !commentForm.email.$pristine" class="help-block"> Enter your email</p>
+                                </div>
 
-                            <textarea  name="comment" ng-model="comPanelCtrl.comment" placeholder="Comment...">
-                            </textarea>
-        <!--                         <label class="sr-only">Comment</label>
-                                <input type="{{showpassword ? 'text' : 'password'}}" name="password" placeholder="Password..." class="form-last-name form-control"
-                                  ng-model="comPanelCtrl.password" ng-minlength="5" required>
-                                <p ng-show="commentForm.password.$invalid && !commentForm.password.$pristine" class="help-block"> Enter your password (min. 5 letters)</p> -->
+                                <textarea  style="width: 555px; height: 150px;" name="comment" ng-model="comPanelCtrl.comment" placeholder="Comment...">
+                                </textarea>
+                                <button type="submit" class="btn"  ng-disabled="commentForm.$invalid">Submit!</button>
 
-
-                            <button type="submit" class="btn"  ng-disabled="commentForm.$invalid" >Sign me up!</button>
-
-                        </form>
+                            </form>
+                        </div>
                     </div>
+            </div>
+
+    <div class="col-md-6">
+    <div class="form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>Comments</h3>
+                            </div>
+                        </div>
+        <table class="table-style table table-bordered my-table-size">
+            <tr class="user-greeting-text">
+                 <th>Name</th>
+                 <th>Comment</th>
+            </tr>
+
+            <tr class="user-greeting-text" ng-repeat="comment in comPanelCtrl.comments ">
+                 <td> {{ comment.email }}</td>
+                <td> {{comment.comment}}</td>
+            </tr>
+
+        </table>
                 </div>
 
             </div>

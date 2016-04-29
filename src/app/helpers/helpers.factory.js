@@ -9,7 +9,6 @@
     helpersFactory.$inject = [];
 
     function helpersFactory() {
-        var array = [];
 
         var factory = {
             shuffle: shuffle

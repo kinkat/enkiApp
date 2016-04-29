@@ -6,11 +6,9 @@
       .service('memoCards', memoCards);
 
   /** @ngInject */
-  function memoCards(helpersFactory) {
+  function memoCards() {
     var vm = this;
         vm.allCards;
-        // vm.shuffleCards;
-        // vm.cloned;
 
     var deck = [
       {

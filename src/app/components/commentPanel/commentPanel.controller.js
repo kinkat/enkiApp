@@ -5,11 +5,11 @@
     .module('enkiApp')
     .controller('comPanelController', comPanelController);
 
-    comPanelController.$inject = ['authFactory', 'flagService', 'UBASE', '$location', 'cacheUserFactory'];
+    comPanelController.$inject = ['authFactory', 'flagService', 'UBASE', '$location', 'cacheUserFactory', '$firebaseArray'];
 
   /** @ngInject */
 
-    function comPanelController(authFactory, flagService, UBASE, $location, cacheUserFactory ) {
+    function comPanelController(authFactory, flagService, UBASE, $location, cacheUserFactory, $firebaseArray ) {
 
         var comPanelVm = this,
             firebaseRef = new Firebase(UBASE);
@@ -17,6 +17,7 @@
             comPanelVm.email = "";
             comPanelVm.comment = '';
             comPanelVm.uniqueId = uniqueId;
+            comPanelVm.comments = [];
 
             var userId;
 
@@ -25,10 +26,6 @@
             comPanelVm.showCommentButton = showCommentButton;
             comPanelVm.sendComment = sendComment;
 
-
-        function showCommentForm() {
-            flagService.updateCommentFlag();
-        }
 
         function showCommentButton() {
         flagService.updateLogoutBtnFlag();
@@ -51,11 +48,12 @@
             authFactory.createCommentInDB(userId, comPanelVm.name, comPanelVm.email, comPanelVm.comment);
         }
 
-         // cacheUserFactory.readCacheUserId()
-         // .then(function(id) {
-         //    userId = id;
-         //    comPanelVm.sendComment();
-         // });
+        firebaseRef.on("value", function(snapshot) {
+            comPanelVm.comments = $firebaseArray(firebaseRef);
+        }, function (errorObject) {
+                console.log("The read failed: " + errorObject.code);
+        });
+
     }
 
 })();
