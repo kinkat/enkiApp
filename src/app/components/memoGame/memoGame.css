@@ -81,7 +81,8 @@ p.user-click-text {
 p.gameType {
   font-size:18px;
   text-align: center;
-  color: #fff;
+  color: black;
+  margin-top:20px;
 }
 
 #gameContainer {

@@ -4,19 +4,19 @@
             <div class="col-md-6">
             <p class="gameType">Fruits</p>
                 <div class="col-md-6">
-                    <button class="btn btn-warning" ng-click = "memoCtrl.generateDeck(1)">Easy</button>
+                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(1)">Easy</button>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-danger" ng-click = "memoCtrl.generateDeck(2)">Hard</button>
+                    <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(2)">Hard</button>
                 </div>
             </div>
         <div class="col-md-6">
         <p class="gameType">Animals</p>
             <div class="col-md-6">
-                <button class="btn btn-warning" ng-click = "memoCtrl.generateDeck(3)">Easy</button>
+                <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(3)">Easy</button>
             </div>
             <div class="col-md-6">
-                <button class="btn btn-danger" ng-click = "memoCtrl.generateDeck(4)">Hard</button>
+                <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(4)">Hard</button>
             </div>
         </div>
         <p class= "clicksCounter" >{{memoCtrl.counter}} clicks</p>
@@ -28,7 +28,7 @@
 
     <div class="jumbotron my-jumbotron">
 
-        <p id = "press-button-p"> Good luck! Press <img width="20px" ng-src="assets/images/play.png"> to start game! </p>
+        <p id = "press-button-p"> Good luck! Press <img width="20px" ng-src="assets/images/play.png"> to replay! </p>
 
             <div class="container">
                 <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.shuffledCards track by $index" ng-click="memoCtrl.clickCard(card)">

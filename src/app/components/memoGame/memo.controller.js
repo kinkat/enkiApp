@@ -67,7 +67,7 @@
 //GAME FUNCTIONS
 
     function generateDeck(cardValHtml) {
-        memoVm.playing = false;
+        memoVm.playing = true;
 
         memoVm.cardValHtml = cardValHtml;
         if (cardValHtml === 1) {
@@ -91,7 +91,7 @@
     }
 
     function showCards(item){
-        // memoVm.playing = false;
+
         memoVm.toggleGameValue = true;
         memoVm.toggleAnimalGameValue = false;
     }

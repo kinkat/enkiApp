@@ -34,22 +34,6 @@
 
         })
 
-        // .when('/leaderboard', {
-        // templateUrl: 'app/leaderboard/leaderboard.html',
-        // controller: 'LeftPanelController',
-        // controllerAs: 'LeftPanelCtrl',
-
-        // resolve: {
-
-        //     "currentAuth": ["authFactory", function(authFactory) {
-        //         var auth = authFactory.auth();
-        //         return auth.$requireAuth();
-        //     }]
-        // }
-
-        // })
-
-
         .otherwise({
         redirectTo: '/'
       });
