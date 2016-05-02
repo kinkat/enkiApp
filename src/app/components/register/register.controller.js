@@ -31,12 +31,16 @@
     vm.loginEmail ="";
     vm.loginPassword ="";
     vm.logUser = logUser;
+    vm.setToPristine = setToPristine;
 
 
     //MAIN FUNCTIONS
 
     function showRegisterForm() {
         flagService.updateFlag();
+    }
+    function setToPristine(form) {
+      authFactory.resetForm(form);
     }
 
     function showLogoutButton() {
@@ -61,7 +65,10 @@
         var result = authFactory.addUser(vm.email, vm.password);
         result.then(function(userData){
             console.log("Successfully created user account with uid:", userData.uid);
-            authFactory.createRecordInDB(userData.uid, vm.email, vm.name, vm.points); // przy wylowaniu podac argumenty email name points, refactor!
+            authFactory.createRecordInDB(userData.uid, vm.email, vm.name, vm.points);
+            vm.email ="";
+            vm.name = "";
+            vm.password = "";
             showRegisterForm();
         }, function(error) {
             console.log("Error creating user:", error);

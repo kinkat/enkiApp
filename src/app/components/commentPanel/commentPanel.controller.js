@@ -25,12 +25,19 @@
             comPanelVm.submitCommentForm = submitCommentForm;
             comPanelVm.showCommentButton = showCommentButton;
             comPanelVm.sendComment = sendComment;
+            comPanelVm.setToPristine = setToPristine;
 
 
         function showCommentButton() {
-        flagService.updateLogoutBtnFlag();
+            flagService.updateLogoutBtnFlag();
 
         }
+
+        function setToPristine(form) {
+            authFactory.resetForm(form);
+            console.log("hej");
+        }
+
 
         function uniqueId() {
             console.log('id-' + Math.random().toString(36).substr(2, 16));
@@ -46,6 +53,9 @@
         function sendComment() {
             userId = comPanelVm.uniqueId();
             authFactory.createCommentInDB(userId, comPanelVm.name, comPanelVm.email, comPanelVm.comment);
+            comPanelVm.name = "";
+            comPanelVm.email = "";
+            comPanelVm.comment = "";
         }
 
         firebaseRef.on("value", function(snapshot) {

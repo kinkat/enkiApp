@@ -26,7 +26,8 @@
         getUserData:getUserData,
         createRecordInDB : createRecordInDB,
         checkStatus: checkStatus,
-        createCommentInDB: createCommentInDB
+        createCommentInDB: createCommentInDB,
+        resetForm: resetForm
 
     };
 
@@ -52,7 +53,7 @@
                 email    : email,
                 password : password
             });
-        };
+        }
 
 
         function newDatabase () {
@@ -62,7 +63,12 @@
 
         function auth() {
             return auth;
-        };
+        }
+
+        function resetForm(form){
+            form.$setPristine();
+            console.log
+        }
 
         function getUserData(id) {
             var defer = $q.defer();
@@ -82,7 +88,6 @@
 
         function createRecordInDB(id, email, name, points) {
             myDataRef = new Firebase(FBMSG);
-            console.log(myDataRef.child(id));
             myDataRef.child(id).set({
                 email: email,
                 name: name,

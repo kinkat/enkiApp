@@ -19,7 +19,7 @@
 
                         </div>
                         <div class="form-bottom">
-                            <form name="userFormLogin" ng-submit="RegisterCtrl.submitLoginForm(userFormLogin.$valid)" novalidate>
+                            <form name="userFormLogin" ng-submit="RegisterCtrl.submitLoginForm(userFormLogin.$valid)" novalidate >
                                 <div class="form-group" ng-class="{'has-error': userFormLogin.email.$invalid && !userFormLogin.email.$pristine }">
                                     <label class="sr-only">Email</label>
                                     <input type="email" name="email" placeholder="Email..." class="form-email form-control"
@@ -33,7 +33,7 @@
                                     ng-model="RegisterCtrl.loginPassword" ng-minlength="5" required>
                                     <p ng-show="userFormLogin.password.$invalid && !userFormLogin.password.$pristine" class="help-block"> Enter your password (min. 5 letters)</p>
                                 </div>
-                                <button type="submit" class="btn"  ng-disabled="userFormLogin.$invalid">Sign in!</button>
+                                <button type="submit" class="btn"  ng-disabled="userFormLogin.$invalid" ng-click = "RegisterCtrl.setToPristine(userFormLogin)">Sign in!</button>
                             </form>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                                 <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block"> Enter your password (min. 5 letters)</p>
                             </div>
 
-                            <button type="submit" class="btn"  ng-disabled="userForm.$invalid" >Sign me up!</button>
+                            <button type="submit" class="btn"  ng-disabled="userForm.$invalid" ng-click = "RegisterCtrl.setToPristine(userForm)">Sign me up!</button>
 
                         </form>
                     </div>

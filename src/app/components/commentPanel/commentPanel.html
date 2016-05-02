@@ -30,7 +30,7 @@
 
                                 <textarea  style="width: 555px; height: 150px;" name="comment" ng-model="comPanelCtrl.comment" placeholder="Comment...">
                                 </textarea>
-                                <button type="submit" class="btn"  ng-disabled="commentForm.$invalid">Submit!</button>
+                                <button type="submit" class="btn"  ng-disabled="commentForm.$invalid" ng-click = "comPanelCtrl.setToPristine(commentForm)">Submit!</button>
 
                             </form>
                         </div>
