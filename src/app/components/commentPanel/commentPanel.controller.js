@@ -47,7 +47,7 @@
 
         //stores data in firebase
         function sendComment() {
-            comPanelVm.data = (new Date()).toString();
+            comPanelVm.data = Date.now();
             userId = comPanelVm.uniqueId();
             authFactory.createCommentInDB(userId, comPanelVm.name, comPanelVm.email, comPanelVm.comment, comPanelVm.data);
             comPanelVm.name = "";

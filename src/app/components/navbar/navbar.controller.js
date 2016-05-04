@@ -22,7 +22,6 @@
         navbarVm.showLogoutButton = showLogoutButton;
 
         navbarVm.flag = flagService.formFlag.val;
-        console.log(flagService.logoutBtnFlag.val);
         navbarVm.flagBtn = flagService.logoutBtnFlag.val;
 
         function showLogoutButton() {

@@ -20,7 +20,7 @@
 
 
         function cachingGameId(cardValHtml) {
-            gameCacheVm.gameId["val"] = cardValHtml;
+            gameCacheVm.gameId.val = cardValHtml;
 
         }
 

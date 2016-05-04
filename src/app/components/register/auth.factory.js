@@ -15,6 +15,8 @@
         vm.showUserInfo = cacheUserFactory.readCacheFlag();
         vm.showLogoutButton = flagService.updateLogoutBtnFlag();
         vm.GameIdFromService = gameCacheService.readingGameId();
+        vm.gameId = gameCacheService.gameId.val;
+        console.log(vm.gameId);
 
 
         var UserDataObj = {},
@@ -102,7 +104,8 @@
 
         //creates comment record in database, basic points are set to 0
         function createCommentInDB(id, email, name, comment, date) {
-            myDataRef = new Firebase(UBASE + "/game" + vm.GameIdFromService.val);
+            myDataRef = new Firebase(UBASE + "/game" + vm.gameId );
+            console.log(vm.GameIdFromService.val);
             myDataRef.child(id).set({
                 email: email,
                 name: name,
