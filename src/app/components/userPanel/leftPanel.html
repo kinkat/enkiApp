@@ -1,22 +1,22 @@
-     <div class = "box-shadow">
-        <p class = " list-group-item user-greeting-text"> Hello <span class="italic"> {{LeftPanelCtrl.userInfo.userNameFromDataBase}}</span>  </p>
-        <p class = " list-group-item user-greeting-text">Your email: <span class="italic">{{LeftPanelCtrl.userInfo.emailFromDataBase}} </span></p>
-        <p class = " list-group-item user-greeting-text">Your points: <span class="italic"> {{LeftPanelCtrl.userInfo.pointsFromDataBase}} </span> </p>
+<div class = "box-shadow">
+     <p class = " list-group-item user-greeting-text"> Hello <span class="italic"> {{LeftPanelCtrl.userInfo.userNameFromDataBase}}</span>  </p>
+    <p class = " list-group-item user-greeting-text">Your email: <span class="italic">{{LeftPanelCtrl.userInfo.emailFromDataBase}} </span></p>
+    <p class = " list-group-item user-greeting-text">Your points: <span class="italic"> {{LeftPanelCtrl.userInfo.pointsFromDataBase}} </span> </p>
 
-    </div>
-    <div class = "leaderbord-shadow">
-        <a href="#/leaderboard" class="list-group-item user-greeting-text">Leaderboard</a>
-        <table class="table-style table table-striped my-table-size leaderbord-shadow">
-    <tr class="user-greeting-text">
-        <th>Name</th>
-        <th>Points</th>
-    </tr>
+</div>
+<div class = "leaderbord-shadow">
+    <p class="list-group-item user-greeting-text">Leaderboard</p>
+    <table class="table-style table table-striped my-table-size leaderbord-shadow">
+        <tr class="user-greeting-text">
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
 
-    <tr class="user-greeting-text" ng-repeat="user in LeftPanelCtrl.users | orderBy: '-points'">
-        <td> {{ user.name }}</td>
-        <td> {{user.points}}</td>
-    </tr>
+        <tr class="user-greeting-text" ng-repeat="user in LeftPanelCtrl.users | orderBy: '-points' | limitTo:10">
+            <td> {{ user.name }}</td>
+            <td> {{user.points}}</td>
+        </tr>
 
-</table>
-    </div>
+    </table>
+</div>
 

@@ -1,3 +1,4 @@
+//stores functions to register and login user
 (function() {
   'use strict';
 
@@ -6,18 +7,17 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($route, $location, FBMSG, authFactory, cacheUserFactory, flagService) {
+  RegisterController.$inject = ["$route", "$location", "FBMSG", "authFactory", "cacheUserFactory", "flagService", "toastr", "errorService"]
+
+  function RegisterController($route, $location, FBMSG, authFactory, cacheUserFactory, flagService, toastr, errorService) {
     var vm = this;
-
-
 
     vm.signUp = signUp;
     vm.submitLoginForm = submitLoginForm;
     vm.submitForm = submitForm;
-    vm.showLogoutButton = showLogoutButton;
 
     vm.flag = flagService.formFlag;
-    vm.flagBtn = flagService.logoutBtnFlag;
+    // vm.flagBtn = flagService.logoutBtnFlag;
 
     //USER
     vm.authData;
@@ -40,11 +40,7 @@
         flagService.updateFlag();
     }
     function setToPristine(form) {
-      authFactory.resetForm(form);
-    }
-
-    function showLogoutButton() {
-        flagService.updateLogoutBtnFlag();
+        authFactory.resetForm(form);
     }
 
     //FORM FUNCTIONS
@@ -64,14 +60,14 @@
     function signUp(){
         var result = authFactory.addUser(vm.email, vm.password);
         result.then(function(userData){
-            console.log("Successfully created user account with uid:", userData.uid);
+            toastr.success("Successfully created user account");
             authFactory.createRecordInDB(userData.uid, vm.email, vm.name, vm.points);
             vm.email ="";
             vm.name = "";
             vm.password = "";
             showRegisterForm();
         }, function(error) {
-            console.log("Error creating user:", error);
+            errorService.checkRegisterError(error);
         });
     }
 
@@ -81,11 +77,11 @@
             vm.authData = authData;
             cacheUserFactory.cachingUserId(authData.uid);
             console.log("Authenticated successfully with payload:", authData.uid);
-            showLogoutButton();
             $location.path("/gamepanel");
 
         }, function(error) {
-            console.log("Login failed:", error);
+            errorService.checkLoginError(error);
+
         })
     }
 

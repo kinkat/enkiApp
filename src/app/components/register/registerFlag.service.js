@@ -1,3 +1,4 @@
+//sets logout button flag
 (function() {
   'use strict';
 

@@ -1,3 +1,5 @@
+//stores info about 2 cards decks
+
 (function() {
   'use strict';
 

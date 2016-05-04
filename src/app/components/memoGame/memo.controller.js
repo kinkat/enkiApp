@@ -7,11 +7,9 @@
 
   /** @ngInject */
   function MemoController($timeout, $route, $location,
-    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory) {
+    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, gameCacheService) {
 
     var memoVm = this;
-
-    memoVm.showToastr = showToastr;
 
     //GAME
 
@@ -59,29 +57,26 @@
 
     firebaseRef.onAuth(authFactory.checkStatus);
 
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      memoVm.classAnimation = '';
-    }
-
 //GAME FUNCTIONS
 
+    //generate cards deck based on clicked button
     function generateDeck(cardValHtml) {
         memoVm.playing = true;
+        gameCacheService.cachingGameId(cardValHtml);
 
         memoVm.cardValHtml = cardValHtml;
-        if (cardValHtml === 1) {
-            memoVm.allCards = memoCards.showCards();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 6);
-        } else if (cardValHtml === 2) {
+        if (cardValHtml === 2) {
             memoVm.allCards = memoCards.showCards();
             memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
         } else if (cardValHtml === 3) {
-            memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 6);
-        } else {
+            memoVm.allCards = memoCards.showCards();
+            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
+        } else if (cardValHtml === 4) {
             memoVm.allCards = memoCards.showCardsAnimals();
             memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+        } else {
+            memoVm.allCards = memoCards.showCardsAnimals();
+            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
         }
 
         memoVm.cloned = angular.copy(memoVm.shuffledCards);
@@ -95,7 +90,7 @@
         memoVm.toggleGameValue = true;
         memoVm.toggleAnimalGameValue = false;
     }
-
+    //fired on playbutton click in gamepanel
     function playGame(){
         memoVm.doneCards = [];
         memoVm.counter = 0;
@@ -111,14 +106,12 @@
         console.log("game over");
         toastr.info("Congrats! You're the guy!");
         memoVm.playing = false;
-        console.log(memoVm.counter);
         showRankPoints();
         updatePoints();
     }
 
     function clickCard(card) {
         if (!isPlaying() || card.blocked) {
-            console.log("game blocked!");
             return;
         }
        memoVm.counter ++;
@@ -128,6 +121,7 @@
         checkCards(card);
     }
 
+    //main function responsible for game mechanics
     function checkCards(cardget){
 
         //cardget - aktualnie kliknieta karta
@@ -175,7 +169,7 @@
                 memoVm.oldCards.push(memoVm.secondCard);
             }
     }
-
+    //update userpoints in database
     function updatePoints() {
         memoVm.userURL = new Firebase(FBMSG + memoVm.getUserId);
             authFactory.getUserData(memoVm.getUserId)
@@ -190,8 +184,8 @@
            $route.reload();
        }, 2000);
     }
-
-    function showRankPoints(){
+    // based on clicks number return rank points
+    function showRankPoints() {
         if (memoVm.counter < 11) {
             memoVm.rankPoints = 5;
         }

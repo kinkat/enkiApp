@@ -1,3 +1,5 @@
+
+
 (function() {
   'use strict';
 
@@ -9,7 +11,7 @@
 
   /** @ngInject */
 
-    function NavbarController(authFactory, flagService, FBMSG, $location ) {
+    function NavbarController(authFactory, flagService, FBMSG, $location) {
 
         var navbarVm = this,
             firebaseRef = new Firebase(FBMSG);
@@ -20,6 +22,7 @@
         navbarVm.showLogoutButton = showLogoutButton;
 
         navbarVm.flag = flagService.formFlag.val;
+        console.log(flagService.logoutBtnFlag.val);
         navbarVm.flagBtn = flagService.logoutBtnFlag.val;
 
         function showLogoutButton() {

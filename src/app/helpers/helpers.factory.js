@@ -1,3 +1,5 @@
+//shuffle cards in deck
+
 (function() {
   'use strict';
 

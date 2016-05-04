@@ -1,3 +1,5 @@
+//stores function to render logged user view with data from firebase
+
 (function() {
   'use strict';
 

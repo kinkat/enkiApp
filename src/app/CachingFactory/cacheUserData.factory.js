@@ -1,3 +1,5 @@
+// factory holds user login status flags, needed to show/hide data in user panel
+
 (function() {
   'use strict';
 
@@ -9,6 +11,7 @@
     cacheUserFactory.$inject = ['$q'];
 
     function cacheUserFactory($q) {
+        var vm = this;
         var cacheUserInfoFlag = false;
         var cacheLogoutFlag = false;
         var cacheUserId;
@@ -21,6 +24,7 @@
             readLogoutFlag: readLogoutFlag,
             cachingUserId: cachingUserId,
             readCacheUserId: readCacheUserId
+
         };
 
         return factory;
