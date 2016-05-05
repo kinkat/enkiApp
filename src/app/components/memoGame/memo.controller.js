@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MemoController($timeout, $route, $location,
-    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, gameCacheService) {
+    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, gameCacheService, memoQuiz) {
 
     var memoVm = this;
 
@@ -19,6 +19,7 @@
     memoVm.shuffledCards;
     memoVm.cloned;
     memoVm.cardValHtml;
+    memoVm.itIsNotQuizGame = true;
 
     memoVm.clickCard = clickCard;
 
@@ -63,20 +64,43 @@
     function generateDeck(cardValHtml) {
         memoVm.playing = true;
         gameCacheService.cachingGameId(cardValHtml);
-
         memoVm.cardValHtml = cardValHtml;
-        if (cardValHtml === 2) {
-            memoVm.allCards = memoCards.showCards();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-        } else if (cardValHtml === 3) {
-            memoVm.allCards = memoCards.showCards();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
-        } else if (cardValHtml === 4) {
-            memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-        } else {
-            memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
+        console.log(cardValHtml);
+
+        switch(cardValHtml){
+            case 1:
+                memoVm.itIsNotQuizGame = true;
+                memoVm.allCards = memoCards.showCards();
+                memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
+                break;
+            case 2:
+                memoVm.itIsNotQuizGame = true;
+                memoVm.allCards = memoCards.showCards();
+                memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+                break;
+            case 3:
+                memoVm.itIsNotQuizGame = true;
+                memoVm.allCards = memoCards.showCardsAnimals();
+                memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
+                break;
+            case 4:
+                memoVm.itIsNotQuizGame = true;
+                memoVm.allCards = memoCards.showCardsAnimals();
+                memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+                break;
+            case 5:
+                memoVm.itIsNotQuizGame = false;
+                memoVm.allCards = memoQuiz.showQuiz();
+                break;
+            case 6:
+                memoVm.itIsNotQuizGame = false;
+                memoVm.allCards = memoQuiz.showQuiz();
+                break;
+            default:
+                memoVm.itIsNotQuizGame = true;
+                memoVm.allCards = memoCards.showCards();
+                memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+
         }
 
         memoVm.cloned = angular.copy(memoVm.shuffledCards);
