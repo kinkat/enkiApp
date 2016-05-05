@@ -9,17 +9,29 @@
                 <div class="col-md-6">
                     <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(2)">Hard</button>
                 </div>
+               
             </div>
         <div class="col-md-6">
-        <p class="gameType">Animals</p>
-            <div class="col-md-6">
-                <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(3)">Easy</button>
+            <p class="gameType">Animals</p>
+                <div class="col-md-6">
+                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(3)">Easy</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(4)">Hard</button>
+                </div>
+
+            <p class="gameType">Quiz</p>
+                <div class="col-md-6">
+                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(5)">Easy</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(6)">Hard</button>
+                </div>
             </div>
-            <div class="col-md-6">
-                <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(4)">Hard</button>
-            </div>
-        </div>
         <p class= "clicksCounter"> {{memoCtrl.counter}} clicks</p>
+
+        </div>
+{{memoCtrl.itIsNotQuizGame}}
     </div>
 
 </div>
@@ -30,11 +42,12 @@
 
         <p id = "press-button-p"> Good luck! Press <img width="20px" ng-src="assets/images/play.png"> to replay! </p>
 
-            <div class="container">
+            <div ng-if="memoCtrl.itIsNotQuizGame" class="container">
                 <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.shuffledCards track by $index" ng-click="memoCtrl.clickCard(card)">
 
                 <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="memoCtrl.playGame()">
             </div>
+            <quiz-directive></quiz-directive>
     </div>
 </div>
 
