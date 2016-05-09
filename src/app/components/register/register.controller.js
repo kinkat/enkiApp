@@ -52,6 +52,7 @@
     }
 
     function submitLoginForm(isValid) {
+
         if (isValid) {
             logUser();
         }

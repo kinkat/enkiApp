@@ -19,7 +19,7 @@
     memoVm.shuffledCards;
     memoVm.cloned;
     memoVm.cardValHtml;
-    memoVm.itIsNotQuizGame = true;
+    memoVm.itIsQuizGame = false;
 
     memoVm.clickCard = clickCard;
 
@@ -65,39 +65,38 @@
         memoVm.playing = true;
         gameCacheService.cachingGameId(cardValHtml);
         memoVm.cardValHtml = cardValHtml;
-        console.log(cardValHtml);
 
         switch(cardValHtml){
             case 1:
-                memoVm.itIsNotQuizGame = true;
+                memoVm.itIsQuizGame = false;
                 memoVm.allCards = memoCards.showCards();
                 memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
                 break;
             case 2:
-                memoVm.itIsNotQuizGame = true;
+                memoVm.itIsQuizGame = false;
                 memoVm.allCards = memoCards.showCards();
                 memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
                 break;
             case 3:
-                memoVm.itIsNotQuizGame = true;
+                memoVm.itIsQuizGame = false;
                 memoVm.allCards = memoCards.showCardsAnimals();
                 memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
                 break;
             case 4:
-                memoVm.itIsNotQuizGame = true;
+                memoVm.itIsQuizGame = false;
                 memoVm.allCards = memoCards.showCardsAnimals();
                 memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
                 break;
             case 5:
-                memoVm.itIsNotQuizGame = false;
-                memoVm.allCards = memoQuiz.showQuiz();
+                memoVm.itIsQuizGame = true;
                 break;
             case 6:
-                memoVm.itIsNotQuizGame = false;
-                memoVm.allCards = memoQuiz.showQuiz();
+                memoVm.itIsQuizGame = true;
+            console.log(authFactory.isAdmin);
+                
                 break;
             default:
-                memoVm.itIsNotQuizGame = true;
+                memoVm.itIsQuizGame = false;
                 memoVm.allCards = memoCards.showCards();
                 memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
 

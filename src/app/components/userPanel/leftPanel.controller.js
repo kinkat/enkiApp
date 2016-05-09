@@ -7,10 +7,10 @@
     .module('enkiApp')
     .controller('LeftPanelController', LeftPanelController);
 
-    LeftPanelController.$inject = ['FBMSG', 'authFactory', 'cacheUserFactory', '$firebaseArray'];
+    LeftPanelController.$inject = ['FBMSG', 'authFactory', 'cacheUserFactory', '$firebaseArray', '$location'];
 
   /** @ngInject */
-  function LeftPanelController(FBMSG, authFactory, cacheUserFactory, $firebaseArray) {
+  function LeftPanelController(FBMSG, authFactory, cacheUserFactory, $firebaseArray, $location) {
     var leftPanVm = this,
         firebaseRef  = new Firebase(FBMSG);
 
@@ -28,7 +28,7 @@
         .then(function(userId){
             authFactory.getUserData(userId)
                 .then(function(UserDataObj){
-                    leftPanVm.userInfo = UserDataObj;
+                  leftPanVm.userInfo = UserDataObj;
                 });
         });
   }

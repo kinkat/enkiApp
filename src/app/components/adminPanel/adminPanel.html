@@ -1,0 +1,74 @@
+<div class="container">
+    <div>
+<acme-navbar></acme-navbar>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-box">
+                <div class="form-top">
+                    <div class="form-top-left">
+                     <h3>Add new question</h3>
+                    </div>
+                </div>
+
+                <div class="form-bottom">
+                    <form name="questionForm" ng-submit="AdminCtrl.sendQuestion(questionForm.$valid)" novalidate>
+
+                        <div class="form-group" ng-class="{'has-error': questionForm.question.$invalid && !questionForm.question.$pristine }">
+                            <label class="sr-only">Question</label>
+                            <input type="text" name="question" placeholder="Question..." class="form-first-name form-control"
+                            ng-model="AdminCtrl.question" required>
+                            <p ng-show="questionForm.question.$invalid && !questionForm.question.$pristine" class="help-block"> Enter your question</p>
+
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': questionForm.option0.$invalid && !questionForm.option0.$pristine }">
+                            <label class="sr-only">Options 0</label>
+                            <input type="text" name="option0" placeholder="option0" class="form-first-name form-control"
+                            ng-model="AdminCtrl.option0" required>
+                            <input type="radio" ng-model="AdminCtrl.answer" name="answer" value="0" required> True
+                            <p ng-show="questionForm.option0.$invalid && !questionForm.option0.$pristine" class="help-block"> Enter options0</p>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': questionForm.option1.$invalid && !questionForm.option1.$pristine }">
+                            <label class="sr-only">Options 1</label>
+                            <input type="text" name="option1" placeholder="option1" class="form-first-name form-control"
+                            ng-model="AdminCtrl.option1" required>
+                            <input type="radio" ng-model="AdminCtrl.answer" name="answer" value="1" required> True
+                            <p ng-show="questionForm.option1.$invalid && !questionForm.option1.$pristine" class="help-block"> Enter options1</p>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': questionForm.option2.$invalid && !questionForm.option2.$pristine }">
+                            <label class="sr-only">Options 2</label>
+                            <input type="text" name="option2" placeholder="option2" class="form-first-name form-control"
+                            ng-model="AdminCtrl.option2" required>
+                            <input type="radio" ng-model="AdminCtrl.answer" name="answer" value="2" required> True
+                            <p ng-show="questionForm.option2.$invalid && !questionForm.option2.$pristine" class="help-block"> Enter options2</p>
+
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': questionForm.option3.$invalid && !questionForm.option3.$pristine }">
+                            <label class="sr-only">Options 3</label>
+                            <input type="text" name="option3" placeholder="option3" class="form-first-name form-control"
+                            ng-model="AdminCtrl.option3" required>
+                            <input type="radio" ng-model="AdminCtrl.answer" name="answer" value="3" required> True
+                            <p ng-show="questionForm.option3.$invalid && !questionForm.option3.$pristine" class="help-block"> Enter options3</p>
+
+                        </div>
+                    <button type="submit" class="btn" ng-disabled="questionForm.$invalid" >Submit!</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-6">
+        <div ng-repeat="oneQuestion in AdminCtrl.questionsArray">
+            <div class='list-group-item'> {{oneQuestion.question}} <div>
+                <button class="btn btn-danger" ng-click="AdminCtrl.deleteQuestion(oneQuestion)"> X </button></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</div>
