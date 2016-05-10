@@ -11,13 +11,8 @@
             restrict: 'E',
             scope:{},
             templateUrl: 'app/components/adminPanel/adminPanel.html',
-            require: '^memoryGame',
-            link: function(scope, elem, attrs, memoCtrl){
-                scope.addNewQuestion = function(){
+            require: '^memoryGame'
 
-                };
-
-            }
         };
     return directive;
     }

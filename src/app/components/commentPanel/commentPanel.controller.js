@@ -35,7 +35,6 @@
 
         //generete comment ID
         function uniqueId() {
-            console.log('id-' + Math.random().toString(36).substr(2, 16));
             return 'id-' + Math.random().toString(36).substr(2, 16);
         };
 

@@ -53,7 +53,6 @@
 
     var firebaseRef = new Firebase(FBMSG);
     memoVm.users = $firebaseArray(firebaseRef);
-
     generateDeck();
 
     firebaseRef.onAuth(authFactory.checkStatus);
@@ -91,9 +90,7 @@
                 memoVm.itIsQuizGame = true;
                 break;
             case 6:
-                memoVm.itIsQuizGame = true;
-            console.log(authFactory.isAdmin);
-                
+                memoVm.itIsQuizGame = true;                
                 break;
             default:
                 memoVm.itIsQuizGame = false;

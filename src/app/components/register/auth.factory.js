@@ -7,9 +7,9 @@
     .factory('authFactory', authFactory);
 
     /** @ngInject */
-    authFactory.$inject = ['$q', 'FBMSG', '$firebaseAuth', 'cacheUserFactory', 'UBASE', 'toastr', 'flagService', 'gameCacheService'];
+    authFactory.$inject = ['$q', 'FBMSG', '$firebaseAuth', 'cacheUserFactory', 'UBASE', 'toastr', 'flagService', 'gameCacheService','$location'];
 
-    function authFactory($q, FBMSG, $firebaseAuth, cacheUserFactory, UBASE, toastr, flagService, gameCacheService) {
+    function authFactory($q, FBMSG, $firebaseAuth, cacheUserFactory, UBASE, toastr, flagService, gameCacheService, $location) {
         var vm = this;
         vm.authData;
         vm.showUserInfo = cacheUserFactory.readCacheFlag();
@@ -33,7 +33,8 @@
         createRecordInDB : createRecordInDB,
         checkStatus: checkStatus,
         createCommentInDB: createCommentInDB,
-        resetForm: resetForm
+        resetForm: resetForm,
+        areYouAdmin: areYouAdmin
     };
 
     var auth = $firebaseAuth(newDatabase());
@@ -136,9 +137,28 @@
             toastr.error("User is logged out");
         }
     }
+
+        function areYouAdmin($location){
+            var firebaseRef = new Firebase(FBMSG),
+                check = $q.defer();
+
+            firebaseRef.onAuth(authFactory.checkStatus);
+            cacheUserFactory.readCacheUserId()
+                .then(function(userId){
+                authFactory.getUserData(userId)
+                .then(function(UserDataObj){
+                    if(UserDataObj.isAdmin){
+                        check.resolve();
+                    } else {
+                        toastr.error("You don't have permission to access" );
+                        check.reject();
+                    }
+                });
+            });
+            return check.promise;
+        }
+
+
     }
 
 })();
-
-
-
