@@ -38,7 +38,7 @@
                 <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.shuffledCards track by $index" ng-click="memoCtrl.clickCard(card)">
                 <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="memoCtrl.playGame()">
             </div>
-            <quiz-directive ng-show="memoCtrl.itIsQuizGame"></quiz-directive>{{memoCtrl.rankPoints}}
+            <quiz-directive ng-show="memoCtrl.itIsQuizGame"></quiz-directive>
     </div>
 </div>
 

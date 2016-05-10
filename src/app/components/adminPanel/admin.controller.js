@@ -7,11 +7,11 @@
     .module('enkiApp')
     .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['authFactory', 'flagService', 'QBASE', '$location', 'cacheUserFactory', '$firebaseArray','toastr'];
+    AdminController.$inject = ['authFactory', 'flagService', 'QBASE', '$location', 'cacheUserFactory', '$firebaseArray','toastr', 'FBMSG'];
 
   /** @ngInject */
 
-    function AdminController(authFactory, flagService, QBASE, $location, cacheUserFactory, $firebaseArray, toastr, memoQuiz) {
+    function AdminController(authFactory, flagService, QBASE, $location, cacheUserFactory, $firebaseArray, toastr, memoQuiz, FBMSG) {
         var vm = this,
             firebaseQuestions  = new Firebase(QBASE);
 
@@ -28,6 +28,12 @@
         vm.getQuestionsFromDB = getQuestionsFromDB;
         vm.uniqueId = uniqueId;
         vm.deleteQuestion = deleteQuestion;
+
+        init()
+
+        function init(){
+            getQuestionsFromDB();
+        }
 
         function createQuestionInDB(question, option0, option1, option2, option3, answer) {
             var id = uniqueId();
@@ -62,7 +68,6 @@
 
         function getQuestionsFromDB() {
             firebaseQuestions.on("value", function(snapshot) {
-              console.log(snapshot.val());
               vm.questionsArray = snapshot.val();
             }, function (errorObject) {
               console.log("The read failed: " + errorObject.code);
@@ -70,9 +75,7 @@
         }
 
         function deleteQuestion(question) {
-            console.log(QBASE);
             var questionIdToDelete = question.id;
-            console.log(questionIdToDelete);
             var refFirebase = new Firebase(QBASE + questionIdToDelete);
             refFirebase.remove();
 

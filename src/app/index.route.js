@@ -37,28 +37,14 @@
         .when('/admin', {
         templateUrl: 'app/components/adminPanel/adminPanel.html',
         resolve: {
-            //           "currentAuth": ["authFactory", function(authFactory) {
-            //     var auth = authFactory.auth();
-            //     return auth.$requireAuth();
-            // }]
-          "areYouAdmin" : function($q, authFactory, cacheUserFactory,$location, toastr){
-            var check = $q.defer();
-            cacheUserFactory.readCacheUserId()
-              .then(function(userId){
-                  authFactory.getUserData(userId)
-                      .then(function(UserDataObj){
-                        if(UserDataObj.isAdmin){
-                          check.resolve();
-                        }else{
-                          toastr.error("You don't have permission to access" );
-                          check.reject();
-                          $location.path( "/login" );
-                        }
-                      });
-                    return check.promise;
-                });
-
-          }
+            areYouAdmin: function(authFactory, $location){
+                var promise = authFactory.areYouAdmin();
+                promise.then(function(success) {
+                        //success
+                    }, function(reason) {
+                        $location.path('/login');
+                    });
+            }
         },
         controller: 'AdminController',
         controllerAs: 'AdminCtrl'
