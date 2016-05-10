@@ -35,7 +35,7 @@
         })
 
         .when('/admin', {
-        templateUrl: 'app/components/adminPanel/adminPanel.html',
+        templateUrl: 'app/components/adminPanel/question.html',
         resolve: {
             areYouAdmin: function(authFactory, $location){
                 var promise = authFactory.areYouAdmin();

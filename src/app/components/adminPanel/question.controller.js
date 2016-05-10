@@ -7,11 +7,11 @@
     .module('enkiApp')
     .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['authFactory', 'flagService', 'QBASE', '$location', 'cacheUserFactory', '$firebaseArray','toastr', 'FBMSG'];
+    AdminController.$inject = ['authFactory', 'flagService', 'QBASE', '$location', 'cacheUserFactory', '$firebaseArray','toastr', 'FBMSG', '$uibModal', '$scope'];
 
   /** @ngInject */
 
-    function AdminController(authFactory, flagService, QBASE, $location, cacheUserFactory, $firebaseArray, toastr, memoQuiz, FBMSG) {
+    function AdminController(authFactory, flagService, QBASE, $location, cacheUserFactory, $firebaseArray, toastr, FBMSG, $uibModal, $scope) {
         var vm = this,
             firebaseQuestions  = new Firebase(QBASE);
 
@@ -29,10 +29,11 @@
         vm.uniqueId = uniqueId;
         vm.deleteQuestion = deleteQuestion;
 
-        init()
+        init();
 
         function init(){
             getQuestionsFromDB();
+            
         }
 
         function createQuestionInDB(question, option0, option1, option2, option3, answer) {

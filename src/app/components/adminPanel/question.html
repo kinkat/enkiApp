@@ -61,13 +61,22 @@
                 </div>
             </div>
         </div>
-    <div class="col-md-6">
-        <div ng-repeat="oneQuestion in AdminCtrl.questionsArray">
-            <div class='list-group-item'> {{oneQuestion.question}} <div>
-                <button class="btn btn-danger" ng-click="AdminCtrl.deleteQuestion(oneQuestion)"> X </button></div>
+        
+        <div class="col-md-6">
+            <div ng-repeat="oneQuestion in AdminCtrl.questionsArray">
+                <div class='list-group-item'> 
+                    <div>
+                    Q: {{oneQuestion.question}} 
+                    A: {{oneQuestion.answer}} 
+                    0: {{oneQuestion.option0}}
+                    1: {{oneQuestion.option1}}
+                    2: {{oneQuestion.option2}}
+                    3: {{oneQuestion.option3}}
+                    </div>
+                    <button class="btn btn-danger" ng-click="AdminCtrl.deleteQuestion(oneQuestion)"> X </button>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
 
