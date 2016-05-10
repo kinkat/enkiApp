@@ -22,32 +22,23 @@
 
             <p class="gameType">Quiz</p>
                 <div class="col-md-6">
-                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(5)">Easy</button>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(6)">Hard</button>
+                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(5)">Quiz</button>
                 </div>
             </div>
         <p class= "clicksCounter"> {{memoCtrl.counter}} clicks</p>
-
         </div>
-{{memoCtrl.itIsNotQuizGame}}
     </div>
 
 </div>
 
   <div class="col-md-12" id="gameContainer">
-
     <div class="jumbotron my-jumbotron">
-
         <p id = "press-button-p"> Good luck! Press <img width="20px" ng-src="assets/images/play.png"> to replay! </p>
-
-            <div ng-if="memoCtrl.itIsNotQuizGame" class="container">
+            <div ng-if="!memoCtrl.itIsQuizGame" class="container">
                 <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.shuffledCards track by $index" ng-click="memoCtrl.clickCard(card)">
-
                 <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="memoCtrl.playGame()">
             </div>
-            <quiz-directive></quiz-directive>
+            <quiz-directive ng-show="memoCtrl.itIsQuizGame"></quiz-directive>{{memoCtrl.rankPoints}}
     </div>
 </div>
 

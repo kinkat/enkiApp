@@ -16,7 +16,7 @@
         vm.showLogoutButton = flagService.updateLogoutBtnFlag();
         vm.GameIdFromService = gameCacheService.readingGameId();
         vm.gameId = gameCacheService.gameId.val;
-        console.log(vm.gameId);
+        vm.isAdmin = false;
 
 
         var UserDataObj = {},
@@ -83,9 +83,15 @@
                 var pointsSnapshot = snapshot.child("points");
                 var emailSnapshot = snapshot.child("email");
 
+                if(!!snapshot.child("admin").val()) {
+                    vm.isAdmin = true;
+                }
+                
                 UserDataObj['userNameFromDataBase'] = nameSnapshot.val();
                 UserDataObj['pointsFromDataBase'] = pointsSnapshot.val();
                 UserDataObj['emailFromDataBase'] = emailSnapshot.val();
+                UserDataObj['isAdmin'] = vm.isAdmin;
+
                 defer.resolve(UserDataObj);
             });
             return defer.promise;
@@ -126,6 +132,7 @@
         } else {
             vm.showUserInfo = false;
             flagService.logoutBtnFlag.val = false;
+            vm.isAdmin = false;
             toastr.error("User is logged out");
         }
     }

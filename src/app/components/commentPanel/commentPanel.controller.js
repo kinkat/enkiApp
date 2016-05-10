@@ -60,7 +60,7 @@
         firebaseRef.on("value", function(snapshot) {
             comPanelVm.comments = $firebaseArray(firebaseRef);
         }, function (errorObject) {
-                console.log("The read failed: " + errorObjkiect.code);
+                console.log("The read failed: " + errorObject.code);
         });
 
     }
