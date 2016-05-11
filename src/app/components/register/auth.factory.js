@@ -119,6 +119,7 @@
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             vm.authData = authData;
+            console.log(vm.authData);
             vm.showUserInfo = true;
             flagService.logoutBtnFlag.val = true;
             cacheUserFactory.cachingUserId(authData.uid);
