@@ -28,7 +28,7 @@
         .then(function(userId){
             authFactory.getUserData(userId)
                 .then(function(UserDataObj){
-                    leftPanVm.userInfo = UserDataObj;
+                  leftPanVm.userInfo = UserDataObj;
                 });
         });
   }

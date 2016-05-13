@@ -16,7 +16,7 @@
         vm.showLogoutButton = flagService.updateLogoutBtnFlag();
         vm.GameIdFromService = gameCacheService.readingGameId();
         vm.gameId = gameCacheService.gameId.val;
-        console.log(vm.gameId);
+        vm.isAdmin = false;
 
 
         var UserDataObj = {},
@@ -33,7 +33,8 @@
         createRecordInDB : createRecordInDB,
         checkStatus: checkStatus,
         createCommentInDB: createCommentInDB,
-        resetForm: resetForm
+        resetForm: resetForm,
+        areYouAdmin: areYouAdmin
     };
 
     var auth = $firebaseAuth(newDatabase());
@@ -83,9 +84,15 @@
                 var pointsSnapshot = snapshot.child("points");
                 var emailSnapshot = snapshot.child("email");
 
+                if(!!snapshot.child("admin").val()) {
+                    vm.isAdmin = true;
+                }
+
                 UserDataObj['userNameFromDataBase'] = nameSnapshot.val();
                 UserDataObj['pointsFromDataBase'] = pointsSnapshot.val();
                 UserDataObj['emailFromDataBase'] = emailSnapshot.val();
+                UserDataObj['isAdmin'] = vm.isAdmin;
+
                 defer.resolve(UserDataObj);
             });
             return defer.promise;
@@ -119,7 +126,6 @@
         if (authData) {
             console.log("User " + authData.uid + " is logged in with " + authData.provider);
             vm.authData = authData;
-            console.log(vm.authData);
             vm.showUserInfo = true;
             flagService.logoutBtnFlag.val = true;
             cacheUserFactory.cachingUserId(authData.uid);
@@ -127,12 +133,32 @@
         } else {
             vm.showUserInfo = false;
             flagService.logoutBtnFlag.val = false;
+            vm.isAdmin = false;
             toastr.error("User is logged out");
         }
     }
+
+        function areYouAdmin($location){
+            var firebaseRef = new Firebase(FBMSG),
+                check = $q.defer();
+
+            firebaseRef.onAuth(authFactory.checkStatus);
+            cacheUserFactory.readCacheUserId()
+                .then(function(userId){
+                authFactory.getUserData(userId)
+                .then(function(UserDataObj){
+                    if(UserDataObj.isAdmin){
+                        check.resolve();
+                    } else {
+                        toastr.error("You don't have permission to access" );
+                        check.reject();
+                    }
+                });
+            });
+            return check.promise;
+        }
+
+
     }
 
 })();
-
-
-

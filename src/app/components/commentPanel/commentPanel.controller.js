@@ -35,9 +35,8 @@
 
         //generete comment ID
         function uniqueId() {
-            console.log('id-' + Math.random().toString(36).substr(2, 16));
             return 'id-' + Math.random().toString(36).substr(2, 16);
-        };
+        }
 
         function submitCommentForm(isValid) {
             if (isValid) {
@@ -60,7 +59,7 @@
         firebaseRef.on("value", function(snapshot) {
             comPanelVm.comments = $firebaseArray(firebaseRef);
         }, function (errorObject) {
-                console.log("The read failed: " + errorObjkiect.code);
+                console.log("The read failed: " + errorObject.code);
         });
 
     }

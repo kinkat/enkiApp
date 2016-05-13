@@ -17,7 +17,6 @@
     vm.submitForm = submitForm;
 
     vm.flag = flagService.formFlag;
-    // vm.flagBtn = flagService.logoutBtnFlag;
 
     //USER
     vm.authData;
@@ -52,6 +51,7 @@
     }
 
     function submitLoginForm(isValid) {
+
         if (isValid) {
             logUser();
         }

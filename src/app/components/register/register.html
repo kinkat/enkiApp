@@ -33,7 +33,7 @@
                                     ng-model="RegisterCtrl.loginPassword" ng-minlength="5" required>
                                     <p ng-show="userFormLogin.password.$invalid && !userFormLogin.password.$pristine" class="help-block"> Enter your password (min. 5 letters)</p>
                                 </div>
-                                <button type="submit" class="btn"  ng-disabled="userFormLogin.$invalid" ng-click = "RegisterCtrl.setToPristine(userFormLogin)">Sign in!</button>
+                                <button id = "submit-button" type="submit" class="btn"  ng-disabled="userFormLogin.$invalid" ng-click = "RegisterCtrl.setToPristine(userFormLogin)">Sign in!</button>
                             </form>
                         </div>
                     </div>

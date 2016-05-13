@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MemoController($timeout, $route, $location,
-    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, gameCacheService) {
+    memoCards, toastr, FBMSG, authFactory, $firebaseArray, cacheUserFactory, helpersFactory, gameCacheService, memoQuiz) {
 
     var memoVm = this;
 
@@ -19,6 +19,7 @@
     memoVm.shuffledCards;
     memoVm.cloned;
     memoVm.cardValHtml;
+    memoVm.itIsQuizGame = false;
 
     memoVm.clickCard = clickCard;
 
@@ -35,12 +36,14 @@
     memoVm.playing = false;
     memoVm.rankPoints = 0;
     memoVm.countRankPoints = memoVm.countRankPoints;
+    memoVm.chooseGame = chooseGame;
+    memoVm.chooseDeck = chooseDeck;
+    memoVm.chooseGameLevel = chooseGameLevel;
 
     memoVm.updatePoints = updatePoints;
 
     memoVm.toggleGameValue = true;
 
-    memoVm.showCards = showCards;
     memoVm.isPlaying = isPlaying;
     memoVm.generateDeck = generateDeck;
 
@@ -52,7 +55,6 @@
 
     var firebaseRef = new Firebase(FBMSG);
     memoVm.users = $firebaseArray(firebaseRef);
-
     generateDeck();
 
     firebaseRef.onAuth(authFactory.checkStatus);
@@ -60,38 +62,81 @@
 //GAME FUNCTIONS
 
     //generate cards deck based on clicked button
+    function chooseGame(cardValHtml) {
+        if (cardValHtml === 5 || cardValHtml === 6 ) {
+            memoVm.itIsQuizGame = true;
+        } else {
+            memoVm.itIsQuizGame = false;
+        }
+        return memoVm.itIsQuizGame;
+    }
+
+    function chooseDeck(cardValHtml) {
+        if (cardValHtml === 1 || cardValHtml === 2) {
+            memoVm.allCards = memoCards.showCards();
+        } else {
+            memoVm.allCards = memoCards.showCardsAnimals();
+        }
+        return memoVm.allCards;
+    }
+
+    function chooseGameLevel(cardValHtml, allCards) {
+        if (cardValHtml === 1 || cardValHtml === 3) {
+            memoVm.shuffledCards = helpersFactory.shuffle(allCards, 5);
+        } else {
+            memoVm.shuffledCards = helpersFactory.shuffle(allCards, 4);
+        }
+        return memoVm.shuffledCards;
+    }
+
     function generateDeck(cardValHtml) {
         memoVm.playing = true;
         gameCacheService.cachingGameId(cardValHtml);
-
         memoVm.cardValHtml = cardValHtml;
-        if (cardValHtml === 2) {
-            memoVm.allCards = memoCards.showCards();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-        } else if (cardValHtml === 3) {
-            memoVm.allCards = memoCards.showCards();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
-        } else if (cardValHtml === 4) {
-            memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-        } else {
-            memoVm.allCards = memoCards.showCardsAnimals();
-            memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
-        }
 
+
+        // switch(cardValHtml){
+        //     case 1:
+        //         memoVm.itIsQuizGame = false;
+        //         memoVm.allCards = memoCards.showCards();
+        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
+        //         break;
+        //     case 2:
+        //         memoVm.itIsQuizGame = false;
+        //         memoVm.allCards = memoCards.showCards();
+        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+        //         break;
+        //     case 3:
+        //         memoVm.itIsQuizGame = false;
+        //         memoVm.allCards = memoCards.showCardsAnimals();
+        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
+        //         break;
+        //     case 4:
+        //         memoVm.itIsQuizGame = false;
+        //         memoVm.allCards = memoCards.showCardsAnimals();
+        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+        //         break;
+        //     case 5:
+        //         memoVm.itIsQuizGame = true;
+        //         break;
+        //     case 6:
+        //         memoVm.itIsQuizGame = true;
+        //         break;
+        //     default:
+        //         memoVm.itIsQuizGame = false;
+        //         memoVm.allCards = memoCards.showCardsAnimals();
+        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
+
+        // }
         memoVm.cloned = angular.copy(memoVm.shuffledCards);
         memoVm.shuffledCards = memoVm.shuffledCards.concat(memoVm.cloned);
         return memoVm.shuffledCards;
-        showCards();
+
     }
 
-    function showCards(item){
-
-        memoVm.toggleGameValue = true;
-        memoVm.toggleAnimalGameValue = false;
-    }
     //fired on playbutton click in gamepanel
     function playGame(){
+        chooseGame(cardValHtml);
         memoVm.doneCards = [];
         memoVm.counter = 0;
         generateDeck(memoVm.cardValHtml);
@@ -102,12 +147,11 @@
         return memoVm.playing;
     }
 
-    function gameOver () {
-        console.log("game over");
+    function gameOver() {
         toastr.info("Congrats! You're the guy!");
         memoVm.playing = false;
-        showRankPoints();
-        updatePoints();
+        memoVm.rankPoints = helpersFactory.showRankPoints(memoVm.counter);
+        updatePoints(memoVm.rankPoints);
     }
 
     function clickCard(card) {
@@ -131,31 +175,27 @@
 
         if (!memoVm.selectedCards.length) {
             if (memoVm.oldCards.length > 0) {
-                memoVm.oldCards.forEach(function(item){
+                memoVm.oldCards.forEach(function(item) {
                     item.selected = false;
                     item.blocked = false;
 
                     if (memoVm.cardValHtml === 1 || memoVm.cardValHtml === 2){
                         item.backPic = 'yeoman.png';
-
                     } else {
                         item.backPic = 'angular.png';
-
                     }
                 })
             }
             memoVm.oldCards.length = 0;
             memoVm.selectedCards.push(cardget);
 
-        } else if (cardget.title === memoVm.selectedCards[0].title)  {
-                if(memoVm.doneCards.length === memoVm.shuffledCards.length - 2) {
+        } else if (cardget.title === memoVm.selectedCards[0].title) {
+            if (memoVm.doneCards.length === memoVm.shuffledCards.length - 2) {
                     gameOver();
                 }
                 memoVm.doneCards.push(cardget);
                 memoVm.doneCards.push(memoVm.selectedCards[0]);
-
                 memoVm.selectedCards = [];
-
                 memoVm.doneCards.forEach(function(item){
                     item.blocked = true;
                 })
@@ -163,49 +203,25 @@
             } else {
                 memoVm.firstCard = memoVm.selectedCards[0];
                 memoVm.secondCard = cardget;
-
                 memoVm.selectedCards = [];
                 memoVm.oldCards.push(memoVm.firstCard);
                 memoVm.oldCards.push(memoVm.secondCard);
             }
     }
     //update userpoints in database
-    function updatePoints() {
+    function updatePoints(rankPoints) {
         memoVm.userURL = new Firebase(FBMSG + memoVm.getUserId);
             authFactory.getUserData(memoVm.getUserId)
                 .then(function(UserDataObj){
                     memoVm.pointsFromDataBase = UserDataObj.pointsFromDataBase;
                     memoVm.userURL.update({
-                        "points" : memoVm.pointsFromDataBase + memoVm.rankPoints
+                        "points" : memoVm.pointsFromDataBase + rankPoints
                     });
                 });
 
         setTimeout(function(){
            $route.reload();
        }, 2000);
-    }
-    // based on clicks number return rank points
-    function showRankPoints() {
-        if (memoVm.counter < 11) {
-            memoVm.rankPoints = 5;
-        }
-
-        else if ( 11 < memoVm.counter < 15) {
-            memoVm.rankPoints = 4;
-        }
-
-        else if (15 <  memoVm.counter < 19) {
-            memoVm.rankPoints = 3;
-        }
-
-        else if ( 19 < memoVm.counter < 23) {
-            memoVm.rankPoints = 2;
-
-        } else {
-            memoVm.rankPoints = 1;
-        }
-
-        return memoVm.rankPoints;
     }
 
 }

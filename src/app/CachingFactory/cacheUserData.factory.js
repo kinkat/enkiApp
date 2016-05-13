@@ -11,7 +11,6 @@
     cacheUserFactory.$inject = ['$q'];
 
     function cacheUserFactory($q) {
-        var vm = this;
         var cacheUserInfoFlag = false;
         var cacheLogoutFlag = false;
         var cacheUserId;

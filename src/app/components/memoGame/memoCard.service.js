@@ -85,7 +85,6 @@
     vm.showCards = showCards;
     vm.showCardsAnimals = showCardsAnimals;
 
-
     function showCards() {
       return deck.map(function (item) {
         return {
@@ -112,6 +111,6 @@
       });
     }
 
-}
+  }
 
 })();

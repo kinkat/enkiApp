@@ -34,6 +34,23 @@
 
         })
 
+        .when('/admin', {
+        templateUrl: 'app/components/adminPanel/question.html',
+        resolve: {
+            areYouAdmin: function(authFactory, $location){
+                var promise = authFactory.areYouAdmin();
+                promise.then(function(success) {
+                        //success
+                    }, function(reason) {
+                        $location.path('/login');
+                    });
+            }
+        },
+        controller: 'AdminController',
+        controllerAs: 'AdminCtrl'
+
+      })
+
         .otherwise({
         redirectTo: '/'
       });

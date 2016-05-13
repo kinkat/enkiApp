@@ -13,7 +13,8 @@
     function helpersFactory() {
 
         var factory = {
-            shuffle: shuffle
+            shuffle: shuffle,
+            showRankPoints: showRankPoints
         };
 
         return factory;
@@ -27,6 +28,22 @@
                     shuffled[i] = temp;
                 }
             return shuffled.slice(0,min);
+        }
+
+        function showRankPoints(counter) {
+            var rankPoints;
+            if (counter < 11) {
+                rankPoints = 5;
+            } else if (11 < counter < 15) {
+                rankPoints = 4;
+            } else if (15 <  counter < 19) {
+                rankPoints = 3;
+            } else if (19 < counter < 23) {
+                rankPoints = 2;
+            } else {
+                rankPoints = 1;
+            }
+            return rankPoints;
         }
     }
 })();
