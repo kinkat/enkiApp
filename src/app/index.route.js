@@ -22,7 +22,7 @@
 
       })
 
-        .when('/gamepanel', {
+        .when('/gamepanel/:id', {
         templateUrl: 'app/components/memoGame/gamePanel.html',
         resolve: {
 

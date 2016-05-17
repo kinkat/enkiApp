@@ -1,5 +1,5 @@
 <div class = "box-shadow">
-     <p class = " list-group-item user-greeting-text"> Hello <span class="italic"> {{LeftPanelCtrl.userInfo.userNameFromDataBase}}</span>  </p>
+    <p class = " list-group-item user-greeting-text"> Hello <span class="italic"> {{LeftPanelCtrl.userInfo.userNameFromDataBase}}</span>  </p>
     <p class = " list-group-item user-greeting-text">Your email: <span class="italic">{{LeftPanelCtrl.userInfo.emailFromDataBase}} </span></p>
     <p class = " list-group-item user-greeting-text">Your points: <span class="italic"> {{LeftPanelCtrl.userInfo.pointsFromDataBase}} </span> </p>
 
@@ -11,9 +11,8 @@
             <th>Name</th>
             <th>Points</th>
         </tr>
-
         <tr class="user-greeting-text" ng-repeat="user in LeftPanelCtrl.users | orderBy: '-points' | limitTo:10">
-            <td> {{ user.name }}</td>
+            <td> {{user.name }}</td>
             <td> {{user.points}}</td>
         </tr>
 

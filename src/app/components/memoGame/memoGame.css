@@ -45,7 +45,6 @@ border-radius: 10px 10px 10px 10px;
 -webkit-border-radius: 10px 10px 10px 10px;
 border: 1px solid #000000;
 background-color: #9ACD32;
-/* box-sizing: border-box; */
 color: #FFC300;
 }
 
@@ -60,11 +59,6 @@ box-sizing: border-box;
 margin: 15px 5px 5px 5px;
 }
 
-.clicksCounter {
-  text-align: center;
-  padding: 0 10px;
-  color: red;
-}
 .my-jumbotron {
   border-radius: 10px;
   border: solid;
@@ -88,6 +82,7 @@ p.gameType {
 #gameContainer {
   margin-top:30px;
   float:right;
+
 }
 
 .btn-warning {
@@ -98,3 +93,4 @@ p.gameType {
     margin: 0 auto;
     display: block;
 }
+

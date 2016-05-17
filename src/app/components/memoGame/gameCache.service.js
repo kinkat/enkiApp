@@ -12,25 +12,17 @@
     function gameCacheService() {
 
         var gameCacheVm = this;
-
-        gameCacheVm.gameId = {val: 1};
-
+        gameCacheVm.gameId = {};
         gameCacheVm.cachingGameId = cachingGameId;
         gameCacheVm.readingGameId = readingGameId;
 
-
         function cachingGameId(cardValHtml) {
             gameCacheVm.gameId.val = cardValHtml;
-
         }
 
         function readingGameId() {
             return gameCacheVm.gameId;
-
         }
-
-
-
     }
 
 })();

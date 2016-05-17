@@ -15,9 +15,7 @@
         vm.showUserInfo = cacheUserFactory.readCacheFlag();
         vm.showLogoutButton = flagService.updateLogoutBtnFlag();
         vm.GameIdFromService = gameCacheService.readingGameId();
-        vm.gameId = gameCacheService.gameId.val;
         vm.isAdmin = false;
-
 
         var UserDataObj = {},
             userURL,
@@ -32,7 +30,6 @@
         getUserData:getUserData,
         createRecordInDB : createRecordInDB,
         checkStatus: checkStatus,
-        createCommentInDB: createCommentInDB,
         resetForm: resetForm,
         areYouAdmin: areYouAdmin
     };
@@ -44,23 +41,20 @@
     // Create user account
 
         function addUser(email, password) {
-
             return auth.$createUser({
-                email    : email,
-                password : password
-            });
-        };
-
-    //User authentication
-
-        function authUser(email, password) {
-
-            return auth.$authWithPassword({
                 email    : email,
                 password : password
             });
         }
 
+    //User authentication
+
+        function authUser(email, password) {
+            return auth.$authWithPassword({
+                email    : email,
+                password : password
+            });
+        }
 
         function newDatabase () {
             myDataRef = new Firebase(FBMSG);
@@ -105,21 +99,6 @@
                 name: name,
                 points: points
             });
-
-        }
-
-
-        //creates comment record in database, basic points are set to 0
-        function createCommentInDB(id, email, name, comment, date) {
-            myDataRef = new Firebase(UBASE + "/game" + vm.gameId );
-            console.log(vm.GameIdFromService.val);
-            myDataRef.child(id).set({
-                email: email,
-                name: name,
-                comment: comment,
-                date: date
-            });
-
         }
 
         function checkStatus(authData) {

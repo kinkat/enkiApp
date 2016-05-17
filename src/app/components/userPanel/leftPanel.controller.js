@@ -15,16 +15,15 @@
         firebaseRef  = new Firebase(FBMSG);
 
     leftPanVm.users = [];
+    leftPanVm.leaderName = [];
+    leftPanVm.leaderPoints = [];
+    leftPanVm.userInfo = {};
+
     leftPanVm.users = $firebaseArray(firebaseRef);
 
     firebaseRef.onAuth(authFactory.checkStatus);
 
-    leftPanVm.userInfo = {};
-
-    leftPanVm.leaderName = [];
-    leftPanVm.leaderPoints = [];
-
-     cacheUserFactory.readCacheUserId()
+    cacheUserFactory.readCacheUserId()
         .then(function(userId){
             authFactory.getUserData(userId)
                 .then(function(UserDataObj){

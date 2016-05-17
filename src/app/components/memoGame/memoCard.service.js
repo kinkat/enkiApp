@@ -86,7 +86,7 @@
     vm.showCardsAnimals = showCardsAnimals;
 
     function showCards() {
-      return deck.map(function (item) {
+      return deck.map(function(item) {
         return {
           title: item.title,
           frontPic: item.frontPic,
@@ -99,7 +99,7 @@
     }
 
     function showCardsAnimals() {
-      return deckAnimals.map(function (item) {
+      return deckAnimals.map(function(item) {
         return {
           title: item.title,
           frontPic: item.frontPic,

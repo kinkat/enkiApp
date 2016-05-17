@@ -7,35 +7,28 @@
     .module('enkiApp')
     .controller('comPanelController', comPanelController);
 
-    comPanelController.$inject = ['authFactory', 'flagService', 'UBASE', '$location', 'cacheUserFactory', '$firebaseArray'];
+    comPanelController.$inject = ['authFactory', 'flagService', 'UBASE', '$location', 'cacheUserFactory', '$firebaseArray', 'commentFactory', 'helpersFactory', 'gameCacheService'];
 
   /** @ngInject */
 
-    function comPanelController(authFactory, flagService, UBASE, $location, cacheUserFactory, $firebaseArray) {
+    function comPanelController(authFactory, flagService, UBASE, $location, cacheUserFactory, $firebaseArray, commentFactory, helpersFactory, gameCacheService) {
 
-        var comPanelVm = this,
-            firebaseRef = new Firebase(UBASE);
+        var comPanelVm = this;
+
             comPanelVm.name = "";
             comPanelVm.email = "";
             comPanelVm.comment = '';
             comPanelVm.data;
-            comPanelVm.uniqueId = uniqueId;
             comPanelVm.comments = [];
-
-            var userId;
-
             comPanelVm.submitCommentForm = submitCommentForm;
             comPanelVm.sendComment = sendComment;
             comPanelVm.setToPristine = setToPristine;
 
+            comPanelVm.GameIdFromService = gameCacheService.readingGameId();
+            comPanelVm.comments = commentFactory.getCommentFromDB();
 
         function setToPristine(form) {
             authFactory.resetForm(form);
-        }
-
-        //generete comment ID
-        function uniqueId() {
-            return 'id-' + Math.random().toString(36).substr(2, 16);
         }
 
         function submitCommentForm(isValid) {
@@ -44,24 +37,21 @@
             }
         }
 
-        //stores data in firebase
+        // stores data in firebase
         function sendComment() {
+            var commentId;
             comPanelVm.data = Date.now();
-            userId = comPanelVm.uniqueId();
-            authFactory.createCommentInDB(userId, comPanelVm.name, comPanelVm.email, comPanelVm.comment, comPanelVm.data);
+            commentId = helpersFactory.generateUniqueId();
+            commentFactory.createCommentInDB(commentId, comPanelVm.name, comPanelVm.email, comPanelVm.comment, comPanelVm.data);
             comPanelVm.name = "";
             comPanelVm.email = "";
             comPanelVm.comment = "";
         }
 
-
-        //get commnents list from Firebase
-        firebaseRef.on("value", function(snapshot) {
-            comPanelVm.comments = $firebaseArray(firebaseRef);
-        }, function (errorObject) {
-                console.log("The read failed: " + errorObject.code);
-        });
-
+        commentFactory.getCommentFromDB(comPanelVm.GameIdFromService.val)
+            .then(function(commentsDB){
+                comPanelVm.comments = commentsDB;
+            });
     }
 
 })();

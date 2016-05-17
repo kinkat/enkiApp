@@ -7,11 +7,11 @@
     .module('enkiApp')
     .controller('AdminController', AdminController);
 
-    AdminController.$inject = ['authFactory', 'flagService', 'QBASE', '$location', 'cacheUserFactory', '$firebaseArray','toastr'];
+    AdminController.$inject = ['authFactory', 'flagService', 'QBASE', '$location', 'cacheUserFactory', '$firebaseArray','toastr', 'helpersFactory'];
 
   /** @ngInject */
 
-    function AdminController(authFactory, flagService, QBASE, $location, cacheUserFactory, $firebaseArray, toastr) {
+    function AdminController(authFactory, flagService, QBASE, $location, cacheUserFactory, $firebaseArray, toastr, helpersFactory) {
         var vm = this,
             firebaseQuestions  = new Firebase(QBASE);
 
@@ -26,18 +26,16 @@
         vm.createQuestionInDB = createQuestionInDB;
         vm.sendQuestion = sendQuestion;
         vm.getQuestionsFromDB = getQuestionsFromDB;
-        vm.uniqueId = uniqueId;
         vm.deleteQuestion = deleteQuestion;
 
         init();
 
         function init(){
             getQuestionsFromDB();
-
         }
 
         function createQuestionInDB(question, option0, option1, option2, option3, answer) {
-            var id = uniqueId();
+            var id = helpersFactory.generateUniqueId()();
             var myDataRef = new Firebase(QBASE);
             myDataRef.child(id).set({
                 id: id,
@@ -48,15 +46,13 @@
                 option3: option3,
                 answer: answer
             });
-
         }
 
-
         function sendQuestion() {
-            if(vm.answer === -1){
-                toastr.error("Good answer isn't checked! ");
+            if (vm.answer === -1) {
+                toastr.error("Good answer isn't checked!");
                 return;
-            }else{
+            } else {
                 createQuestionInDB(vm.question, vm.option0, vm.option1, vm.option2, vm.option3, vm.answer);
                 vm.question = "";
                 vm.option0 = "";
@@ -79,13 +75,7 @@
             var questionIdToDelete = question.id;
             var refFirebase = new Firebase(QBASE + questionIdToDelete);
             refFirebase.remove();
-
         }
-
-        function uniqueId() {
-            return 'id-' + Math.random().toString(36).substr(2, 16);
-        }
-
 
     }
 

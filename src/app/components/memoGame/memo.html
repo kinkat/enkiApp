@@ -1,45 +1,42 @@
 
 <div class="col-md-12">
-    <div class="category-shadow">
-            <div class="col-md-6">
+    <div class="category-shadow .clicks-shadow">
+        <div class="col-md-4">
             <p class="gameType">Fruits</p>
-                <div class="col-md-6">
-                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(1)" id="submitDeck1">Easy</button>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(2)">Hard</button>
-                </div>
-
+            <div class="col-md-6">
+                <a ng href="#/gamepanel/game1" ng-click = "memoCtrl.generateDeck(1)" type="button" class="btn btn-warning">Easy</a>
             </div>
-        <div class="col-md-6">
-            <p class="gameType">Animals</p>
-                <div class="col-md-6">
-                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(3)">Easy</button>
-                </div>
-                <div class="col-md-6">
-                    <button class="btn-lg btn-danger" ng-click = "memoCtrl.generateDeck(4)">Hard</button>
-                </div>
-
-            <p class="gameType">Quiz</p>
-                <div class="col-md-6">
-                    <button class="btn-lg btn-warning" ng-click = "memoCtrl.generateDeck(5)">Quiz</button>
-                </div>
+            <div class="col-md-6">
+                <a ng href="#/gamepanel/game2" ng-click = "memoCtrl.generateDeck(2)" type="button" class="btn btn-danger">Easy</a>
             </div>
-        <p class= "clicksCounter"> {{memoCtrl.counter}} clicks</p>
         </div>
+        <div class="col-md-4">
+            <p class="gameType">Animals</p>
+            <div class="col-md-6">
+                <a ng href="#/gamepanel/game3" ng-click = "memoCtrl.generateDeck(3)" type="button" class="btn btn-warning">Easy</a>
+            </div>
+            <div class="col-md-6">
+                <a ng href="#/gamepanel/game4" ng-click = "memoCtrl.generateDeck(4)" type="button" class="btn btn-danger">Hard</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+             <p class="gameType">Quiz</p>
+                <div class="col-md-6">
+                    <a ng href="#/gamepanel/game5" ng-click = "memoCtrl.generateDeck(5)" type="button" class="btn btn-primary">Quiz</a>
+                </div>
+        </div>
+<!--     <p class= "clicksCounter"> {{memoCtrl.counter}}</p> -->
     </div>
 
 </div>
 
-  <div class="col-md-12" id="gameContainer">
+<div class="col-md-12" id="gameContainer">
     <div class="jumbotron my-jumbotron">
         <p id = "press-button-p"> Good luck! Press <img width="20px" ng-src="assets/images/play.png"> to replay! </p>
             <div ng-if="!memoCtrl.itIsQuizGame" class="container">
                 <img width="100px" ng-src="assets/images/{{ card.backPic}}" alt="{{ card.title }}" class="{{ card.class }}" ng-repeat="card in memoCtrl.shuffledCards track by $index" ng-click="memoCtrl.clickCard(card)">
-                <img width="50px" ng-src="assets/images/play.png" class = "play-position" ng-click="memoCtrl.playGame()">
+                <img width="50px" ng-src="assets/images/play.png" class="play-position" ng-click="memoCtrl.playGame()">
             </div>
             <quiz-directive ng-show="memoCtrl.itIsQuizGame"></quiz-directive>
     </div>
 </div>
-
-<!-- </div> -->

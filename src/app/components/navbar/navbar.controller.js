@@ -20,6 +20,7 @@
 
         navbarVm.showRegisterForm = showRegisterForm;
         navbarVm.showLogoutButton = showLogoutButton;
+        navbarVm.showAdminPanel = showAdminPanel;
 
         navbarVm.flag = flagService.formFlag.val;
         navbarVm.flagBtn = flagService.logoutBtnFlag.val;
@@ -36,8 +37,12 @@
             firebaseRef.unauth();
             showLogoutButton();
             $location.path("/start");
-
         }
+
+        function showAdminPanel() {
+            $location.path('/admin');
+        }
+
 
     }
 

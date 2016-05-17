@@ -18,7 +18,7 @@
     memoVm.newCards = [];
     memoVm.shuffledCards;
     memoVm.cloned;
-    memoVm.cardValHtml;
+    memoVm.cardValHtml = gameCacheService.gameId.val;
     memoVm.itIsQuizGame = false;
 
     memoVm.clickCard = clickCard;
@@ -36,6 +36,7 @@
     memoVm.playing = false;
     memoVm.rankPoints = 0;
     memoVm.countRankPoints = memoVm.countRankPoints;
+
     memoVm.chooseGame = chooseGame;
     memoVm.chooseDeck = chooseDeck;
     memoVm.chooseGameLevel = chooseGameLevel;
@@ -46,97 +47,82 @@
 
     memoVm.isPlaying = isPlaying;
     memoVm.generateDeck = generateDeck;
+    memoVm.init = init;
+
+    init();
 
     cacheUserFactory.readCacheUserId()
         .then(function(userId){
             memoVm.getUserId = userId;
         });
 
-
     var firebaseRef = new Firebase(FBMSG);
     memoVm.users = $firebaseArray(firebaseRef);
-    generateDeck();
+
+    function init(){
+        if (memoVm.cardValHtml === undefined) {
+            memoVm.cardValHtml = 1;
+            $location.url('/gamepanel/game1');
+        } else {
+            memoVm.cardValHtml = gameCacheService.gameId.val;
+        }
+        generateDeck(memoVm.cardValHtml);
+    }
 
     firebaseRef.onAuth(authFactory.checkStatus);
 
 //GAME FUNCTIONS
 
-    //generate cards deck based on clicked button
+    // generate cards deck based on clicked buttond
+
     function chooseGame(cardValHtml) {
+        var quizId;
         if (cardValHtml === 5 || cardValHtml === 6 ) {
-            memoVm.itIsQuizGame = true;
+            quizId = true;
         } else {
-            memoVm.itIsQuizGame = false;
+            quizId = false;
         }
-        return memoVm.itIsQuizGame;
+        return quizId;
     }
 
     function chooseDeck(cardValHtml) {
+        var deck = [];
         if (cardValHtml === 1 || cardValHtml === 2) {
-            memoVm.allCards = memoCards.showCards();
+            deck = memoCards.showCards();
         } else {
-            memoVm.allCards = memoCards.showCardsAnimals();
+            deck = memoCards.showCardsAnimals();
         }
-        return memoVm.allCards;
+        return deck;
     }
 
-    function chooseGameLevel(cardValHtml, allCards) {
+    function chooseGameLevel(cardValHtml, deck) {
+        var shuffledDeck = [], tempArray = [];
         if (cardValHtml === 1 || cardValHtml === 3) {
-            memoVm.shuffledCards = helpersFactory.shuffle(allCards, 5);
+            tempArray = helpersFactory.shuffle(deck);
+            shuffledDeck = tempArray.slice(0, 4);
         } else {
-            memoVm.shuffledCards = helpersFactory.shuffle(allCards, 4);
+            tempArray = helpersFactory.shuffle(deck);
+            shuffledDeck = tempArray.slice(0, 6);
         }
-        return memoVm.shuffledCards;
+        return shuffledDeck;
     }
 
     function generateDeck(cardValHtml) {
+        var tempArray = [];
         memoVm.playing = true;
         gameCacheService.cachingGameId(cardValHtml);
-        memoVm.cardValHtml = cardValHtml;
-
-
-        // switch(cardValHtml){
-        //     case 1:
-        //         memoVm.itIsQuizGame = false;
-        //         memoVm.allCards = memoCards.showCards();
-        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
-        //         break;
-        //     case 2:
-        //         memoVm.itIsQuizGame = false;
-        //         memoVm.allCards = memoCards.showCards();
-        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-        //         break;
-        //     case 3:
-        //         memoVm.itIsQuizGame = false;
-        //         memoVm.allCards = memoCards.showCardsAnimals();
-        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 5);
-        //         break;
-        //     case 4:
-        //         memoVm.itIsQuizGame = false;
-        //         memoVm.allCards = memoCards.showCardsAnimals();
-        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-        //         break;
-        //     case 5:
-        //         memoVm.itIsQuizGame = true;
-        //         break;
-        //     case 6:
-        //         memoVm.itIsQuizGame = true;
-        //         break;
-        //     default:
-        //         memoVm.itIsQuizGame = false;
-        //         memoVm.allCards = memoCards.showCardsAnimals();
-        //         memoVm.shuffledCards = helpersFactory.shuffle(memoVm.allCards, 4);
-
-        // }
+        memoVm.cardValHtml = gameCacheService.gameId.val;
+        memoVm.itIsQuizGame = chooseGame(memoVm.cardValHtml);
+        memoVm.allCards = chooseDeck(memoVm.cardValHtml);
+        memoVm.shuffledCards = chooseGameLevel(memoVm.cardValHtml, memoVm.allCards);
         memoVm.cloned = angular.copy(memoVm.shuffledCards);
-        memoVm.shuffledCards = memoVm.shuffledCards.concat(memoVm.cloned);
+        tempArray = memoVm.shuffledCards.concat(memoVm.cloned);
+        memoVm.shuffledCards = helpersFactory.shuffle(tempArray);
         return memoVm.shuffledCards;
-
     }
 
     //fired on playbutton click in gamepanel
-    function playGame(){
-        chooseGame(cardValHtml);
+    function playGame() {
         memoVm.doneCards = [];
         memoVm.counter = 0;
         generateDeck(memoVm.cardValHtml);
@@ -219,9 +205,9 @@
                     });
                 });
 
-        setTimeout(function(){
-           $route.reload();
-       }, 2000);
+       //  setTimeout(function(){
+       //     $route.reload();
+       // }, 2000);
     }
 
 }
